@@ -7,7 +7,7 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
+  <script src="jquery-3.7.1.min.js"></script>
 </head>
 <body>
 
@@ -17,60 +17,73 @@
       <div class="row mx-auto align-items-center justify-content-center d-flex">
   
         <div class="col-lg-6">
-          <h1>Bienvenido!</h1>
-          <p>Ahora necesitamos que nos cuentes un poco de ti :)</p>
+          <h1>¡Bienvenido!</h1>
+          <p class="fs-4 text">Ahora necesitamos que nos cuentes un poco de ti :)</p>
         </div>
     
         <div class="col-lg-6">
           <form class="row g-3 needs-validation" novalidate>
             <div class="col-md-4">
-              <label for="validationCustom01" class="form-label">First name</label>
-              <input type="text" class="form-control" id="validationCustom01" value="Mark" required>
+              <label for="validationCustom01" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="validationCustom01" required>
               <div class="valid-feedback">
                 Looks good!
               </div>
             </div>
             <div class="col-md-4">
-              <label for="validationCustom02" class="form-label">Last name</label>
-              <input type="text" class="form-control" id="validationCustom02" value="Otto" required>
+              <label for="validationCustom02" class="form-label">Apellido</label>
+              <input type="text" class="form-control" id="validationCustom02" required>
               <div class="valid-feedback">
                 Looks good!
               </div>
             </div>
             <div class="col-md-4">
-              <label for="validationCustomUsername" class="form-label">Username</label>
-              <div class="input-group has-validation">
-                <span class="input-group-text" id="inputGroupPrepend">@</span>
-                <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
-                <div class="invalid-feedback">
-                  Please choose a username.
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <label for="validationCustom03" class="form-label">City</label>
-              <input type="text" class="form-control" id="validationCustom03" required>
-              <div class="invalid-feedback">
-                Please provide a valid city.
-              </div>
-            </div>
-            <div class="col-md-3">
-              <label for="validationCustom04" class="form-label">State</label>
+              <label for="validationCustom04" class="form-label">¿Qué eres?</label>
               <select class="form-select" id="validationCustom04" required>
+                <option selected disabled value=""> Mujer</option>
+                <option>Hombre</option>
+                <option>Prefiero no decirlo</option>
+              </select>
+              <div class="invalid-feedback">
+                Selecciona tu género.
+              </div>
+            </div>
+           
+            <div class="col-md-6">
+              <label for="validationCustom04" class="form-label">¿Qué eres?</label>
+              <select class="form-select" id="validationCustom05" required>
                 <option selected disabled value=""> Estudiante</option>
                 <option>Instructor</option>
               </select>
               <div class="invalid-feedback">
-                Please select a valid state.
+                Selecciona tu rol.
               </div>
             </div>
-            <div class="col-md-3">
-              <label for="validationCustom05" class="form-label">Zip</label>
-              <input type="text" class="form-control" id="validationCustom05" required>
+            <div class="col-md-6">
+              <label for="validationCustom05" class="form-label">Fecha de Nacimiento</label>
+              <input type="date" class="form-control" id="validationCustom06" required>
               <div class="invalid-feedback">
-                Please provide a valid zip.
+                Ingresa tu fecha de nacimiento
               </div>
             </div>
+            <div class="col-md-12">
+              <label for="validationCustom03" class="form-label">Correo Electronico</label>
+              <input type="email" class="form-control" id="validationCustom07" required>
+              <div class="invalid-feedback">
+                Ingresa una dirección de correo válida.
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <label for="inputPassword5" class="form-label">Contraseña</label>
+              <input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock" required>
+              <div id="passwordHelpBlock" class="form-text">
+                Tu contraseña debe de tener más de 8 caracteres, minimo una mayúscula, un caracter especial y un número
+              </div>
+            </div>
+
+            
+            
             <div class="col-12">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
@@ -82,8 +95,9 @@
                 </div>
               </div>
             </div>
-            <div class="col-12">
-              <button class="btn btn-primary" type="submit">Submit form</button>
+            
+            <div class="col-12 align-items-center justify-content-center d-flex">
+              <button class="btn btn-primary fs-4 text" type="submit" id="CrearCuenta">Empieza a aprender!</button>
             </div>
           </form>
         </div>
@@ -96,6 +110,7 @@
   
 
   <script>
+
     (() => {
   'use strict'
 
@@ -114,6 +129,45 @@
     }, false)
   })
 })()
+
+const submitButton = $("#CrearCuenta"); // Corrected selector based on feedback
+const passwordInput = $("#inputPassword5");
+const passwordValue = passwordInput.val();
+
+
+submitButton.click(function(event) {
+  event.preventDefault(); // Prevent default form submission  aaaa
+
+  const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+  if (passwordRegex.test(passwordValue)) {
+    passwordInput.addClass("is-valid");
+    passwordInput.addClass("was-validated");
+  } else {
+    passwordInput.addClass("is-invalid");
+    passwordInput.removeClass("was-validated");
+
+    // Optionally, display an error message:
+    alert("Please enter a strong password that meets the requirements.");
+  }
+});
+
+
+
+
+  
+  /*function checkPass( passToCheck ){
+    const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+
+    if (regex.test(passToCheck)){
+       inputPass.addClass("was-validated")
+    }
+    else{
+      inputPass.removeClass("was-validated")
+    }
+
+  }*/
+
   </script>
   
 </body>
