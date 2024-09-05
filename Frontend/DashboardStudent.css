@@ -36,3 +36,14 @@
     width: 100%;              /* Asegurar que ocupe todo el ancho disponible */
     display: block;           /* Asegurar que se aplique correctamente */
 }
+
+.card-link {
+    text-decoration: none; /* Elimina el subrayado del enlace */
+    color: inherit;        /* Hereda el color del texto de la tarjeta */
+}
+
+.card-link:hover .card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más fuerte en hover */
+    transform: scale(1.02); /* Ligera escala en hover */
+    transition: transform 0.3s, box-shadow 0.3s; /* Suave transición */
+}
