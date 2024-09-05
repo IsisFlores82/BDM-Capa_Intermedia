@@ -1,0 +1,38 @@
+#categoriesCarousel .carousel-item {
+    background-color: #cff4fc;
+    color: #052c65;
+}
+#categoriesCarousel .carousel-inner {
+    padding: 1em;
+}
+#categoriesCarousel .carousel-control-prev,
+#categoriesCarousel .carousel-control-next {
+    background-color: #e1e1e1;
+    width: 5vh;
+    height: 5vh;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.card {
+    max-width: 100%;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.course-image {
+    width: 100%;           /* Imagen ocupa el 100% del ancho de la tarjeta */
+    height: auto;          /* La altura se ajusta de manera proporcional */
+    aspect-ratio: 16 / 9;  /* Relación de aspecto 16:9 (rectangular) */
+    object-fit: cover;     /* Asegura que la imagen cubra completamente el espacio sin deformarse */
+    border-radius: 5px;    /* Bordes redondeados opcional */
+}
+
+.card-title {
+    white-space: nowrap;      /* No permitir múltiples líneas */
+    overflow: hidden;         /* Ocultar el texto que excede el tamaño */
+    text-overflow: ellipsis;  /* Mostrar puntos suspensivos (...) */
+    width: 100%;              /* Asegurar que ocupe todo el ancho disponible */
+    display: block;           /* Asegurar que se aplique correctamente */
+}
