@@ -47,3 +47,7 @@
     transform: scale(1.02); /* Ligera escala en hover */
     transition: transform 0.3s, box-shadow 0.3s; /* Suave transición */
 }
+
+.modal-body {
+    padding: 2rem;
+}
