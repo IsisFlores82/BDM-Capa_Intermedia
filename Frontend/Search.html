@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miku Academy - Resultados de Búsqueda</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="DashboardStudent.js"></script>
+    <link rel="stylesheet" href="DashboardStudent.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="d-flex justify-content-between align-items-center py-3">
+        <div class="dropdown">
+            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-bars"></i> Categorías
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item" href="#">Desarrollo Web</a></li>
+                <li><a class="dropdown-item" href="#">Bases de Datos</a></li>
+                <li><a class="dropdown-item" href="#">Marketing</a></li>
+                <li><a class="dropdown-item" href="#">Diseño</a></li>
+                <li><a class="dropdown-item" href="#">Unreal</a></li>
+            </ul>
+        </div>
+        <div class="input-group w-75">
+            <input type="text" class="form-control" placeholder="Busca tu curso deseado">
+            <a href="Search.html" class="btn"><i class="fas fa-search"></i></a>
+            <button class="btn" data-bs-toggle="modal" data-bs-target="#searchModal">
+                <i class="fas fa-filter"></i> Filtro Avanzado
+            </button>
+        </div>
+        <div class="d-flex align-items-center">
+            <a href="Carrito.html" class="btn"><i class="fas fa-shopping-cart me-3"></i></a>
+            <button class="btn"><img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Perfil" class="rounded-circle" width="40" height="40"></button>
+        </div>
+    </header>
+
+    <!-- Lista de resultados de búsqueda -->
+    <div class="container">
+        <main>
+            <h1 class="mt-4">Resultados de Búsqueda</h1>
+            
+            <!-- Sección de cursos buscados -->
+            <section class="my-4">
+                <h2 class="h5 mb-3">Cursos Encontrados</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <a href="DashboardStudent.html" class="card-link">
+                        <div class="card">
+                            <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Curso" class="img-fluid course-image">
+                            <div class="card-body">
+                                <h5 class="card-title">Curso de Canto</h5>
+                                <p class="card-text">Autor: Hatsune Miku</p>
+                                <p class="card-text">Precio: 999$</p>
+                                <div class="text-warning">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="DashboardStudent.html" class="card-link">
+                        <div class="card">
+                            <img src="https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png" alt="Curso" class="img-fluid course-image">
+                            <div class="card-body">
+                                <h5 class="card-title">Base de Datos</h5>
+                                <p class="card-text">Autor: Villatrue</p>
+                                <p class="card-text">Precio: 850$</p>
+                                <div class="text-warning">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="DashboardStudent.html" class="card-link">
+                        <div class="card">
+                            <img src="https://keystoneacademic-res.cloudinary.com/image/upload/f_auto/q_auto/g_auto/c_fill/w_1280/element/17/172834_default-meta-image-v2.png" alt="Curso" class="img-fluid course-image">
+                            <div class="card-body">
+                                <h5 class="card-title">Curso de Marketing</h5>
+                                <p class="card-text">Autor: John Doe</p>
+                                <p class="card-text">Precio: 1200$</p>
+                                <div class="text-warning">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="DashboardStudent.html" class="card-link">
+                        <div class="card">
+                            <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Curso" class="img-fluid course-image">
+                            <div class="card-body">
+                                <h5 class="card-title">Curso de Canto</h5>
+                                <p class="card-text">Autor: Hatsune Miku</p>
+                                <p class="card-text">Precio: 999$</p>
+                                <div class="text-warning">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        
+                        </div>
+                    </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="DashboardStudent.html" class="card-link">
+                        <div class="card">
+                            <img src="https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png" alt="Curso" class="img-fluid course-image">
+                            <div class="card-body">
+                                <h5 class="card-title">Base de Datos</h5>
+                                <p class="card-text">Autor: Villatrue</p>
+                                <p class="card-text">Precio: 850$</p>
+                                <div class="text-warning">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="DashboardStudent.html" class="card-link">
+                        <div class="card">
+                            <img src="https://keystoneacademic-res.cloudinary.com/image/upload/f_auto/q_auto/g_auto/c_fill/w_1280/element/17/172834_default-meta-image-v2.png" alt="Curso" class="img-fluid course-image">
+                            <div class="card-body">
+                                <h5 class="card-title">Curso de Marketing</h5>
+                                <p class="card-text">Autor: John Doe</p>
+                                <p class="card-text">Precio: 1200$</p>
+                                <div class="text-warning">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+</body>
+</html>
