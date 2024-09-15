@@ -162,15 +162,15 @@
         <div class="modal-body">
           <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Nombre del titular</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Hatsune Miku">
+            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="" required>
           </div>
           <div class="mb-3">
             <label for="exampleFormControlInput2" class="form-label">Número de Tarjeta</label>
-            <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="">
+            <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="" required>
           </div>
-          <div class="mb-3"> 
-            <div class="">
-              <label for="validationCustomUsername" class="form-label">Username</label>
+          <div class="mb-3 row"> 
+            <div class="col-6">
+              <label for="validationCustomUsername" class="form-label">Fecha Vencimiento</label>
               <div class="input-group has-validation">
                 <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
                 <span class="input-group-text" id="inputGroupPrepend">/</span>
@@ -179,13 +179,20 @@
                   Please choose a username.
                 </div>
               </div>
-            </div>           
+            </div>    
+            <div class="col-6">
+              <label for="validationCustomUsername" class="form-label">CVV</label>
+              <div class="input-group has-validation">
+                <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+                
+              </div>
+            </div>       
               
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="submit" class="btn btn-primary">Realizar Pago</button>
         </div>
       </div>
     </div>
