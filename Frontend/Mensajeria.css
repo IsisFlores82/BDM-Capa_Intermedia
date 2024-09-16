@@ -1,0 +1,30 @@
+.chat-container {
+  display: flex;
+  flex-direction: column-reverse; /* Invertir el flujo de los elementos */
+  height: 82vh;
+  overflow-y: scroll;
+  scrollbar-width: 0;
+  border: none;
+  padding: 30px;
+}
+
+.message {  
+  margin-bottom: 5px;
+}
+
+.max-widh{
+  max-width: 60%;
+}
+
+.hacer-mensaje{
+  padding: 10px;
+}
+
+textarea {
+  resize: none;
+  max-height: 80px;
+  border: none;
+}
+textarea:focus {
+  outline: none;
+}
