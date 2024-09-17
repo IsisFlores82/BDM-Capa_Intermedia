@@ -1,3 +1,6 @@
+body {
+    background-color: #f8f9fa;
+}
 #categoriesCarousel .carousel-item {
     background-color: #cff4fc;
     color: #052c65;

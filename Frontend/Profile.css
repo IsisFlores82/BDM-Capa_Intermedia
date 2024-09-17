@@ -1,0 +1,78 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.sidebar {
+    background-color: #fff;
+    padding: 20px;
+    height: 100vh;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h4 {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.sidebar .active {
+    font-weight: bold;
+    color: #000;
+}
+
+.profile-container, .courses-contaioner {
+    background-color: #fff;
+    padding: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.profile-container h2,.courses-contaioner h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.form-label {
+    font-size: 14px;
+    color: #333;
+}
+
+.form-control {
+    font-size: 14px;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+}
+
+.btn-save {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+    width: 100%;
+}
+
+.profile-img {
+    background-color: #6c757d;
+    color: #fff;
+    font-size: 24px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
