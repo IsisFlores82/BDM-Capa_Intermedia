@@ -12,18 +12,19 @@
 </head>
 
 <body>
-    <!-- Header -->
     <header class="d-flex justify-content-between align-items-center py-3">
         <div class="dropdown">
             <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fas fa-bars"></i> Categorías
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="#">Desarrollo Web</a></li>
-                <li><a class="dropdown-item" href="#">Bases de Datos</a></li>
-                <li><a class="dropdown-item" href="#">Marketing</a></li>
-                <li><a class="dropdown-item" href="#">Diseño</a></li>
-                <li><a class="dropdown-item" href="#">Unreal</a></li>
+                <li><a class="dropdown-item" href="Search.html">Desarrollo Web</a></li>
+                <li><a class="dropdown-item" href="Search.html">Bases de Datos</a></li>
+                <li><a class="dropdown-item" href="Search.html">Marketing</a></li>
+                <li><a class="dropdown-item" href="Search.html">Diseño</a></li>
+                <li><a class="dropdown-item" href="Search.html">Unreal</a></li>
+
+                <!-- Agrega más categorías según sea necesario -->
             </ul>
         </div>
         <div class="input-group w-75">
@@ -34,10 +35,22 @@
             </button>
         </div>
         <div class="d-flex align-items-center">
-            <a href="Carrito.html" class="btn"><i class="fas fa-shopping-cart me-3"></i></a>
-            <button class="btn"><img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Perfil" class="rounded-circle" width="40" height="40"></button>
+            <a href="Carrito.html" class="btn"> 
+                <i class="fas fa-shopping-cart me-3"></i> 
+            </a>            
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Perfil" class="rounded-circle" width="40" height="40">
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                    <li><a class="dropdown-item" href="Kardex.html">Kardex</a></li>
+                    <li><a class="dropdown-item" href="Mensajeria.html">Mensajes</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="SignUp.html">Cerrar Sesión</a></li>
+                </ul>
+            </div>
         </div>
-                    <!-- Ventana Modal -->
+            <!-- Ventana Modal -->
 <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
@@ -93,9 +106,9 @@
                         <div class="card">
                             <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Curso" class="img-fluid course-image">
                             <div class="card-body">
-                                <h5 class="card-title">Curso de Canto</h5>
-                                <p class="card-text">Autor: Hatsune Miku</p>
-                                <p class="card-text">Precio: 999$</p>
+                                <h5 class="card-title">Como ser cantante profesional</h5>
+                                <p class="card-text">Hatsune Miku</p>
+                                <p class="card-text">999$</p>
                                 <div class="text-warning">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
@@ -112,9 +125,9 @@
                         <div class="card">
                             <img src="https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png" alt="Curso" class="img-fluid course-image">
                             <div class="card-body">
-                                <h5 class="card-title">Base de Datos</h5>
-                                <p class="card-text">Autor: Villatrue</p>
-                                <p class="card-text">Precio: 850$</p>
+                                <h5 class="card-title">Como hacer una base de datos mamastrosa</h5>
+                                <p class="card-text">Villatrue</p>
+                                <p class="card-text">850$</p>
                                 <div class="text-warning">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
@@ -132,8 +145,8 @@
                             <img src="https://keystoneacademic-res.cloudinary.com/image/upload/f_auto/q_auto/g_auto/c_fill/w_1280/element/17/172834_default-meta-image-v2.png" alt="Curso" class="img-fluid course-image">
                             <div class="card-body">
                                 <h5 class="card-title">Curso de Marketing</h5>
-                                <p class="card-text">Autor: John Doe</p>
-                                <p class="card-text">Precio: 1200$</p>
+                                <p class="card-text">John Doe</p>
+                                <p class="card-text">1200$</p>
                                 <div class="text-warning">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
@@ -150,9 +163,9 @@
                         <div class="card">
                             <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Curso" class="img-fluid course-image">
                             <div class="card-body">
-                                <h5 class="card-title">Curso de Canto</h5>
-                                <p class="card-text">Autor: Hatsune Miku</p>
-                                <p class="card-text">Precio: 999$</p>
+                                <h5 class="card-title">Como ser cantante profesional</h5>
+                                <p class="card-text">Hatsune Miku</p>
+                                <p class="card-text">999$</p>
                                 <div class="text-warning">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
@@ -170,9 +183,9 @@
                         <div class="card">
                             <img src="https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png" alt="Curso" class="img-fluid course-image">
                             <div class="card-body">
-                                <h5 class="card-title">Base de Datos</h5>
-                                <p class="card-text">Autor: Villatrue</p>
-                                <p class="card-text">Precio: 850$</p>
+                                <h5 class="card-title">Como hacer una base de datos mamastrosa</h5>
+                                <p class="card-text">Villatrue</p>
+                                <p class="card-text">850$</p>
                                 <div class="text-warning">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
@@ -190,8 +203,8 @@
                             <img src="https://keystoneacademic-res.cloudinary.com/image/upload/f_auto/q_auto/g_auto/c_fill/w_1280/element/17/172834_default-meta-image-v2.png" alt="Curso" class="img-fluid course-image">
                             <div class="card-body">
                                 <h5 class="card-title">Curso de Marketing</h5>
-                                <p class="card-text">Autor: John Doe</p>
-                                <p class="card-text">Precio: 1200$</p>
+                                <p class="card-text">John Doe</p>
+                                <p class="card-text">1200$</p>
                                 <div class="text-warning">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>

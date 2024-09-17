@@ -19,11 +19,11 @@
                 <i class="fas fa-bars"></i> Categorías
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="#">Desarrollo Web</a></li>
-                <li><a class="dropdown-item" href="#">Bases de Datos</a></li>
-                <li><a class="dropdown-item" href="#">Marketing</a></li>
-                <li><a class="dropdown-item" href="#">Diseño</a></li>
-                <li><a class="dropdown-item" href="#">Unreal</a></li>
+                <li><a class="dropdown-item" href="Search.html">Desarrollo Web</a></li>
+                <li><a class="dropdown-item" href="Search.html">Bases de Datos</a></li>
+                <li><a class="dropdown-item" href="Search.html">Marketing</a></li>
+                <li><a class="dropdown-item" href="Search.html">Diseño</a></li>
+                <li><a class="dropdown-item" href="Search.html">Unreal</a></li>
 
                 <!-- Agrega más categorías según sea necesario -->
             </ul>
@@ -36,8 +36,20 @@
             </button>
         </div>
         <div class="d-flex align-items-center">
-            <a href="Carrito.html" class="btn"> <i class="fas fa-shopping-cart me-3"></i> </a>            
-            <button class="btn"><img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Perfil" class="rounded-circle" width="40" height="40"></button>
+            <a href="Carrito.html" class="btn"> 
+                <i class="fas fa-shopping-cart me-3"></i> 
+            </a>            
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Perfil" class="rounded-circle" width="40" height="40">
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                    <li><a class="dropdown-item" href="Kardex.html">Kardex</a></li>
+                    <li><a class="dropdown-item" href="Mensajeria.html">Mensajes</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="SignUp.html">Cerrar Sesión</a></li>
+                </ul>
+            </div>
         </div>
             <!-- Ventana Modal -->
 <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
