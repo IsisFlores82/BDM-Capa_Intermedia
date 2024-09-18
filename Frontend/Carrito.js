@@ -45,20 +45,15 @@ document.getElementById("submitPayment").addEventListener("click", function (e) 
   });
 
   document.addEventListener('DOMContentLoaded', () => {
-    // Selecciona todos los botones de eliminar
     const deleteButtons = document.querySelectorAll('.delete-btn');
     
-    // Añade un event listener a cada botón
+
     deleteButtons.forEach(button => {
       button.addEventListener('click', (event) => {
-        // Previene la acción por defecto del botón
         event.preventDefault();
-        
         // Muestra el mensaje de confirmación
         if (confirm('¿Estás seguro de que quieres eliminar este elemento del carrito?')) {
-          // Si el usuario confirma, muestra el mensaje de eliminación
           alert('El elemento ha sido borrado.');
-          // Aquí puedes añadir el código para eliminar el elemento del DOM o realizar una acción adicional
           button.closest('.car-item').remove();
         }
       });
