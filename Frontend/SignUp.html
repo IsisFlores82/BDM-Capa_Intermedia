@@ -28,9 +28,9 @@
     
         <div class="col-lg-6">
           
-          <form class="row g-3 needs-validation" novalidate>
+          <form class="row g-3 needs-validation" id="loginForm">
             <div class="col-md-12">
-              <label for="validationCustom03" class="form-label">Correo Electronico</label>
+              <label for="validationCustom07" class="form-label">Correo Electronico</label>
               <input type="email" class="form-control" id="validationCustom07" required>
               <div class="invalid-feedback">
                 Ingresa una dirección de correo válida.
@@ -93,16 +93,20 @@
 })()
 
       
-$(document).ready(function() {
-    
-    const submitButton = $("#CrearCuenta"); // Corrected selector based on feedback
-    const passwordInput = $("#inputPassword5");
-  
-  });
+document.getElementById("loginForm").addEventListener("submit", function (e) {
+    e.preventDefault();
 
-  document.getElementById("CrearCuenta").addEventListener("click", function() {
-    window.location.href = "DashboardStudent.html";
+    const email = document.getElementById("validationCustom07").value.trim();
+    const password = document.getElementById("inputPassword5").value.trim();
+    
+    if (email === "" || password === "") {
+        alert("Por favor, ingresa tu correo y contraseña.");
+    } else {
+        // Si todo está bien, redirige manualmente
+        window.location.href = "DashboardStudent.html";
+    }
 });
+
 
   </script>
   

@@ -108,77 +108,69 @@
    <div class="row">   
     <!--parte izquierda, donde van los productos-->
     <h2 class=""> Tu carrito de compra</h2>
-      <div class="col-md-8 each-side">
-        
-        <div class="row car-item border-bottom border-secondary-subtle">
-          <div class="col-lg-4">
-            <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Curso" class="img-fluid course-image">
-          </div>
-          <div class="col-lg-8">
-
-            <div class="row">
-              <div class="col-lg-11">
-                <h3>Como ser cantante profesional</h3>       
+    <div class="col-md-8 each-side">
+      <!-- Course Item -->
+      <div class="row car-item border-bottom border-secondary-subtle position-relative">
+        <div class="col-lg-4">
+          <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Curso" class="img-fluid course-image">
+        </div>
+        <div class="col-lg-8">
+          <div class="d-flex flex-column h-100">
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <h3>Como ser cantante profesional</h3>
                 <h5>Hatsune Miku</h5>
               </div>
-
-              <div class="col-lg-1">
-                <p class="text-end "> <i class="fa-solid fa-trash text-secondary"></i> </p> 
-              </div>
-            </div>  
-
-            <p class="text-end price">Mx $999</p> 
-            
+              <button class="btn btn-link p-0 position-absolute top-0 end-0 mt-2 me-2 delete-btn" aria-label="Eliminar curso">
+                <i class="fa-solid fa-trash text-secondary"></i>
+              </button>
+            </div>
+            <p class="text-end price mt-auto">$999</p>
           </div>
         </div>
-
-        <div class="row car-item border-bottom border-secondary-subtle">
-          <div class="col-lg-4">
-            <img src="https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png" alt="Curso" class="img-fluid course-image">
-          </div>
-          <div class="col-lg-8">
-            <div class="row">
-              <div class="col-lg-10">
-                <h3>Como hacer una base de datos mamastrosa</h3>            
+      </div>
+    
+      <!-- Repeat for other items -->
+      <div class="row car-item border-bottom border-secondary-subtle position-relative">
+        <div class="col-lg-4">
+          <img src="https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png" alt="Curso" class="img-fluid course-image">
+        </div>
+        <div class="col-lg-8">
+          <div class="d-flex flex-column h-100">
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <h3>Como hacer una base de datos mamastrosa</h3>
                 <h5>Villatrue</h5>
               </div>
-
-              <div class="col-lg-2">
-                <p class="text-end "> <i class="fa-solid fa-trash text-secondary"></i> </p> 
-              </div>
-            </div>  
-
-            <p class="text-end price">Mx $850</p>
-            
+              <button class="btn btn-link p-0 position-absolute top-0 end-0 mt-2 me-2 delete-btn" aria-label="Eliminar curso">
+                <i class="fa-solid fa-trash text-secondary"></i>
+              </button>
+            </div>
+            <p class="text-end price mt-auto">$850</p>
           </div>
         </div>
-
-        <div class="row car-item border-bottom border-secondary-subtle">
-          <div class="col-lg-4">
-            <img src="https://mastermetrics.com/wp-content/uploads/2024/07/meta-ai.jpg" alt="Curso" class="img-fluid course-image">
-          </div>
-          <div class="col-lg-8">
-            <div class="row">
-              <div class="col-lg-11">
-                <h3>Como hacer que Meta AI no trolee</h3>            
+      </div>
+    
+      <div class="row car-item border-bottom border-secondary-subtle position-relative">
+        <div class="col-lg-4">
+          <img src="https://mastermetrics.com/wp-content/uploads/2024/07/meta-ai.jpg" alt="Curso" class="img-fluid course-image">
+        </div>
+        <div class="col-lg-8">
+          <div class="d-flex flex-column h-100">
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <h3>Como hacer que Meta AI no trolee</h3>
                 <h5>Dream Team</h5>
               </div>
-
-              <div class="col-lg-1">
-                <p class="text-end "> <i class="fa-solid fa-trash text-secondary"></i> </p> 
-              </div>
-            </div>          
-           
-           
-            <br>
-            <p class="text-end price">Mx $500</p>
+              <button class="btn btn-link p-0 position-absolute top-0 end-0 mt-2 me-2 delete-btn" aria-label="Eliminar curso">
+                <i class="fa-solid fa-trash text-secondary"></i>
+              </button>
+            </div>
+            <p class="text-end price mt-auto">$500</p>
           </div>
-        </div>         
-
-
-        
+        </div>
       </div>
-
+    </div>
     <!--parte derecha, donde va el total de los productos--> 
       <div class="col-md-3  each-side right-side">
        
@@ -207,56 +199,54 @@
     </div>   
   </div>
 
-  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+ <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Datos de pago</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Nombre del titular</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="" required>
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Datos de pago</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="mb-3">
-            <label for="exampleFormControlInput2" class="form-label">Número de Tarjeta</label>
-            <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="" required>
+          <div class="modal-body">
+              <form id="paymentForm">
+                  <div class="mb-3">
+                      <label for="cardHolderName" class="form-label">Nombre del titular</label>
+                      <input type="text" class="form-control" id="cardHolderName" placeholder="" required>
+                  </div>
+                  <div class="mb-3">
+                      <label for="cardNumber" class="form-label">Número de Tarjeta</label>
+                      <input type="text" class="form-control" id="cardNumber" placeholder="" maxlength="16" required>
+                      <div class="invalid-feedback" id="cardNumberError">Debe tener 16 dígitos.</div>
+                  </div>
+                  <div class="mb-3 row">
+                      <div class="col-6">
+                          <label for="expirationMonth" class="form-label">Fecha Vencimiento</label>
+                          <div class="input-group has-validation">
+                              <input type="text" class="form-control" id="expirationMonth" placeholder="MM" maxlength="2" required>
+                              <span class="input-group-text">/</span>
+                              <input type="text" class="form-control" id="expirationYear" placeholder="YY" maxlength="2" required>
+                          </div>
+                          <div class="invalid-feedback" id="expirationError">Mes y año deben ser de 2 dígitos.</div>
+                      </div>
+                      <div class="col-6">
+                          <label for="cvv" class="form-label">CVV</label>
+                          <div class="input-group has-validation">
+                              <input type="text" class="form-control" id="cvv" placeholder="" maxlength="3" required>
+                          </div>
+                          <div class="invalid-feedback" id="cvvError">El CVV debe tener 3 dígitos.</div>
+                      </div>
+                  </div>
+              </form>
           </div>
-          <div class="mb-3 row"> 
-            <div class="col-6">
-              <label for="validationCustomUsername" class="form-label">Fecha Vencimiento</label>
-              <div class="input-group has-validation">
-                <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
-                <span class="input-group-text" id="inputGroupPrepend">/</span>
-                <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
-                <div class="invalid-feedback">
-                  Please choose a username.
-                </div>
-              </div>
-            </div>    
-            <div class="col-6">
-              <label for="validationCustomUsername" class="form-label">CVV</label>
-              <div class="input-group has-validation">
-                <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
-                
-              </div>
-            </div>       
-              
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" id="submitPayment">Realizar Pago</button>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Realizar Pago</button>
-        </div>
       </div>
-    </div>
   </div>
+</div>
 
-
-
+  <script src="Carrito.js"></script>
   <script src="navbar.js"></script>
 </body>
 </html>
