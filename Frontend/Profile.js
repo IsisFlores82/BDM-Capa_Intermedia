@@ -41,10 +41,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to load courses
     function loadCourses() {
         const courses = [
-            { img:'https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg',title: 'Como ser cantante profesional', instructor: 'Hatsune Miku', link: 'CourseDetail.html' },
-            { img:'https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png',title: 'Como hacer una base de datos mamastrosa', instructor: 'Villatrue', link: 'CourseDetail.html' },
-            { img:'https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg',title: 'Como ser cantante profesional', instructor: 'Hatsune Miku', link: 'CourseDetail.html' },
-            { img:'https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png',title: 'Como hacer una base de datos mamastrosa', instructor: 'Villatrue', link: 'CourseDetail.html' },
+            { img:'https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg',title: 'Como ser cantante profesional', instructor: 'Hatsune Miku', link: 'CursarCurso.html' },
+            { img:'https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png',title: 'Como hacer una base de datos mamastrosa', instructor: 'Villatrue', link: 'CursarCurso.html' },
+            { img:'https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg',title: 'Como ser cantante profesional', instructor: 'Hatsune Miku', link: 'CursarCurso.html' },
+            { img:'https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png',title: 'Como hacer una base de datos mamastrosa', instructor: 'Villatrue', link: 'CursarCurso.html' },
          ];
 
         const coursesRow = document.querySelector('#coursesContent .row');

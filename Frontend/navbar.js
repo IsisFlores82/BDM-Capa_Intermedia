@@ -17,3 +17,15 @@ document.getElementById('searchForm').addEventListener('submit', function(event)
             window.location.href = "Search.html"; // Redireccionar a la página de búsqueda
         }
     });
+
+    document.getElementById("searchBtn").addEventListener("click", function (e) {
+        const input = document.getElementById("searchInput").value.trim();
+        
+        if (input === "") {
+            e.preventDefault(); // Evita que se realice la búsqueda
+            alert("Por favor, ingrese un término de búsqueda.");
+        } else {
+            // Si hay texto, redirige a Search.html
+            window.location.href = "Search.html";
+        }
+    });
