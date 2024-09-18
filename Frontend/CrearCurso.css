@@ -1,0 +1,65 @@
+.course-image {
+  width: 100%;           /* Imagen ocupa el 100% del ancho de la tarjeta */
+  height: auto;          /* La altura se ajusta de manera proporcional */
+  aspect-ratio: 16 / 9;  /* Relación de aspecto 16:9 (rectangular) */
+  object-fit: cover;     /* Asegura que la imagen cubra completamente el espacio sin deformarse */
+  border-radius: 5px;    /* Bordes redondeados opcional */
+}
+
+.course-desc{
+  border: none;
+  background-color: transparent;
+  height: 150px;
+  overflow-y: scroll;
+  resize: none;
+  border-radius: 5px;
+  
+  transition: all 0.3s;
+}
+
+.course-desc:focus{
+  outline: none;
+  background-color: #f8f9fa;
+  /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);  Sombra ligera */
+}
+
+.couse-title{
+  font-size: 30px;
+  font-weight: bold;
+  border: none;
+  background-color: transparent;
+
+  transition: all 0.3s;
+}
+
+.couse-title:focus{
+  outline: none;
+  background-color: #f8f9fa;
+  /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);  Sombra ligera */
+}
+
+.couse-prices{
+  font-weight: bold;
+  border: none;
+  background-color: transparent;
+
+  transition: all 0.3s;
+}
+
+
+.level-title{
+  font-size: 20px;
+  font-weight: bold;
+  max-width: 250px;
+  border: none;
+  background-color: transparent;
+  margin-right: 10px;
+
+  transition: all 0.3s;
+}
+
+.level-title:focus{
+  outline: none;
+  background-color: #f8f9fa;
+  /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);  Sombra ligera */
+}

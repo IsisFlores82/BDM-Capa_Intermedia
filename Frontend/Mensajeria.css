@@ -1,3 +1,7 @@
+header{
+  padding-left: 10px;
+}
+
 body {
   background-color: #f8f9fa;
 }
@@ -52,3 +56,4 @@ textarea:focus {
   display: inline-block; /* Mantiene el tamaño del contenedor según el contenido */
   max-width: 75%;
 }
+
