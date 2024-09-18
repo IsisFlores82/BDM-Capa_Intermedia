@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
             card.innerHTML = `
                 <div class="card">
                     <div class="card-body">
-                        <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2">Eliminar</button>
+                        <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2" onclick="confirmDelete()">Eliminar</button>
                         <img src="${course.img}" alt="Curso" class="img-fluid course-image">
                         <h5 class="card-title">${course.title}</h5>
                         <a href="${course.link}" class="btn btn-primary">Ver Curso</a>
@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
             coursesRow.appendChild(card);
         });
     }
+
     function validatePassword() {
         const password = passwordField.value;
         const confirmPassword = confirmPasswordField.value;

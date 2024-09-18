@@ -146,6 +146,7 @@
                 <th>Estado</th>
                 <th>Fecha de terminación</th>
                 <th>Certificado</th> <!-- Nueva columna para descargar PDF -->
+                <th>Comentarios</th>
             </tr>
         </thead>
         <tbody>
@@ -158,6 +159,7 @@
                 <td>Activo</td>
                 <td>-</td>
                 <td>-</td> <!-- Sin certificado porque no está completado -->
+                <th>-</th>
             </tr>
             <!-- Ejemplo de curso completado -->
             <tr>
@@ -172,10 +174,56 @@
                         Descargar PDF
                     </a>
                 </td> <!-- Botón para descargar PDF porque está completado -->
+                <td>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#commentModal">
+                        Realizar Comentarios
+                    </button>
+                </td>
             </tr>
             <!-- Más cursos aquí -->
         </tbody>
     </table>
+</div>
+
+<!-- Ventana Modal para Realizar Comentarios -->
+<div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="commentModalLabel">Realizar Comentario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="commentForm">
+                    <!-- Título del comentario -->
+                    <div class="mb-3">
+                        <label for="commentTitle" class="form-label">Título del Comentario</label>
+                        <input type="text" class="form-control" id="commentTitle" placeholder="Escribe el título de tu comentario" required>
+                    </div>
+
+                    <!-- Selección de Estrellas -->
+                    <div class="mb-3">
+                        <label class="form-label">Calificación (1 a 5 estrellas)</label>
+                        <select id="rating" class="form-select">
+                            <option value="1">1 Estrella</option>
+                            <option value="2">2 Estrellas</option>
+                            <option value="3">3 Estrellas</option>
+                            <option value="4">4 Estrellas</option>
+                            <option value="5" selected>5 Estrellas</option>
+                        </select>
+                    </div>
+
+                    <!-- Descripción del comentario -->
+                    <div class="mb-3">
+                        <label for="commentDescription" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="commentDescription" rows="4" placeholder="Escribe tus comentarios aquí" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Enviar Comentario</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="navbar.js"></script>

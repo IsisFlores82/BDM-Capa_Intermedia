@@ -200,6 +200,16 @@
     </div>
 
     <script src="ProfileInstructor.js"></script>
+    <script>
+            function confirmDelete() {
+        const confirmAction = confirm("¿Estás seguro de que deseas eliminar este curso?");
+        if (confirmAction) {
+            alert("El curso ha sido dado de baja.");
+        } else {
+            alert("El curso no ha sido eliminado.");
+        }
+    }
+    </script>
    <script src="navbar.js"></script>
 </body>
 </html>
