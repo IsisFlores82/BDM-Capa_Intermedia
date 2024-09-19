@@ -4,6 +4,24 @@
    return new bootstrap.Tooltip(tooltipTriggerEl);
  });
 
+ 
+ function previewImage(event) {
+  const input = event.target;
+  const file = input.files[0];
+  
+  if (file) {
+      const reader = new FileReader();
+      
+      reader.onload = function(e) {
+          const preview = document.getElementById('imagePreview');
+          preview.src = e.target.result;
+          preview.style.display = 'block'; // Mostrar la imagen cuando se cargue
+      }
+      
+      reader.readAsDataURL(file);
+  }
+}
+
 
  $(document).ready(function() {
   $('#addElementsBtn').click(function() {

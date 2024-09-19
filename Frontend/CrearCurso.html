@@ -59,7 +59,19 @@
           <div class="row px-2">
             <!-- Añadir el input para seleccionar un archivo -->
             <label for="courseBanner" class="form-label">Banner del Curso</label>
-            <input type="file" id="courseBanner" class="form-control mb-2" accept="image/*" required>
+
+            <div class="mb-3 row justify-content-center align-items-center">              
+              <label for="courseBanner" class="col-form-label col-2 text-center">
+                  <h3 class="mb-0"><i class="bi bi-card-image"></i></h3>
+              </label>          
+              <div class="col-10 d-flex justify-content-center">
+                  <input type="file" id="courseBanner" class="form-control mb-2" accept="image/*" required onchange="previewImage(event)" style="max-width: 400px;">
+              </div>
+            </div>
+            
+
+            <img id="imagePreview" src="" alt="Vista previa" class="course-image img-fluid rounded" style="display: none;">
+
             <input type="text" class="couse-title" value="Como ser cantante profesional" placeholder="Título del curso" required>
             <h4 class="mt-1">Hatsune Miku</h4>
 
