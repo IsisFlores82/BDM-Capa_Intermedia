@@ -47,7 +47,8 @@
   <div class="container ">
     <div class="row d-flex align-items-center mb-3">
       <h2 class="col-9">Crear Curso</h2>
-      <button class="col-2 btn btn-outline-info" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"> Publicar Curso</button>
+      <button class="col-2 btn btn-outline-info" type="button" id="publishCourseBtn">Publicar Curso</button>
+
     </div>
     
     <div class="row">
@@ -56,17 +57,19 @@
           <h2 class="mb-4">Información del curso</h2>
           <hr>
           <div class="row px-2">
-            <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Curso" class="img-fluid course-image mb-2 rounded">
-            <input type="text" class="couse-title" value="Como ser cantante profesional" placeholder="Titulo del curso">
+            <!-- Añadir el input para seleccionar un archivo -->
+            <label for="courseBanner" class="form-label">Banner del Curso</label>
+            <input type="file" id="courseBanner" class="form-control mb-2" accept="image/*" required>
+            <input type="text" class="couse-title" value="Como ser cantante profesional" placeholder="Título del curso" required>
             <h4 class="mt-1">Hatsune Miku</h4>
 
             <div class="row">
-              <textarea name="" id="" class="course-desc" placeholder="Descripción del curso">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores possimus corporis, tempora placeat ratione eligendi quos cum! Ducimus, dolorem odio ad, ipsum accusantium nostrum nisi itaque ratione fugiat, odit dolore.</textarea>
+              <textarea name="" id="" class="course-desc" placeholder="Descripción del curso" required>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores possimus corporis, tempora placeat ratione eligendi quos cum! Ducimus, dolorem odio ad, ipsum accusantium nostrum nisi itaque ratione fugiat, odit dolore.</textarea>
             </div>
 
             <div class="mb-3 col-7" style="max-width: 280px;">
               <label for="category" class="form-label">Categoría</label>
-              <select id="category" class="form-select">
+              <select id="category" class="form-select" required>
                 <option value="">Selecciona una categoría</option>
                 <option value="desarrollo">Desarrollo</option>
                 <option value="base-datos">Bases de Datos</option> 
@@ -91,14 +94,14 @@
               </div>
               
             </div>
-
-            <div class="mb-3 col-5">
+    
+<!--             <div class="mb-3 col-5">
               <label for="category" class="form-label">Estado</label>
               <select id="category" class="form-select">
                 <option value="">Activo</option>
                 <option value="">Inactivo</option>
               </select>
-            </div>         
+            </div> -->
 
             </div>
             
@@ -193,7 +196,78 @@
     </div>
   </div>
 </div>
+    <script>
+// Escucha el evento click en el botón de publicar
+document.getElementById('publishCourseBtn').addEventListener('click', function () {
+    validateCourse();
+});
 
+function validateCourse() {
+    let valid = true;
+
+    // Validar el banner
+    const bannerInput = document.getElementById('courseBanner');
+    if (!bannerInput.files.length) {
+        alert("Debes seleccionar un banner para el curso.");
+        valid = false;
+    }
+
+    // Validar el título del curso
+    const courseTitle = document.querySelector('.couse-title');
+    if (courseTitle.value.trim() === "") {
+        alert("El título del curso es obligatorio.");
+        valid = false;
+    }
+
+    // Validar la descripción del curso
+    const courseDesc = document.querySelector('.course-desc');
+    if (courseDesc.value.trim() === "") {
+        alert("La descripción del curso es obligatoria.");
+        valid = false;
+    }
+
+    // Validar la categoría
+    const category = document.getElementById('category');
+    if (category.value === "") {
+        alert("Debes seleccionar una categoría.");
+        valid = false;
+    }
+
+    // Validar el precio solo si el curso no es gratuito
+    const isPaidCheckbox = document.getElementById('flexCheckChecked');
+    const priceInput = document.getElementById('couse-price');
+    if (isPaidCheckbox.checked && priceInput.value.trim() === "") {
+        alert("Debes ingresar un precio para el curso.");
+        valid = false;
+    }
+
+    // Validar los niveles
+    const levels = document.querySelectorAll('#levelsContainer .card');
+    levels.forEach((level, index) => {
+        // Validar título del nivel
+        const levelTitle = level.querySelector('.level-title');
+        if (levelTitle.value.trim() === "") {
+            alert(`El título del Nivel ${index + 1} es obligatorio.`);
+            valid = false;
+        }
+
+        // Validar video del nivel
+        const videoInput = level.querySelector('input[type="file"][accept="video/mp4"]');
+        if (!videoInput.files.length) {
+            alert(`Debes subir un video para el Nivel ${index + 1}.`);
+            valid = false;
+        }
+    });
+
+    // Si todo está validado, crear el curso (mostrar el modal)
+    if (valid) {
+        let myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+            keyboard: false
+        });
+        myModal.show();
+    }
+}
+  </script>
     <script src="CrearCurso.js"></script>
     <script src="navbar.js"></script>
 </body>
