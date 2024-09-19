@@ -28,14 +28,13 @@ body {
     color: #000;
 }
 
-.profile-container, .courses-contaioner {
+.profile-container, .courses-contaioner, .categories-container {
     background-color: #fff;
     padding: 30px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 2rem;
 }
 
-.profile-container h2,.courses-contaioner h2 {
+.profile-container h2,.courses-contaioner h2, .categories-container h2 {
     font-size: 22px;
     margin-bottom: 20px;
     text-align: center;
@@ -68,4 +67,22 @@ body {
     justify-content: center;
     align-items: center;
     padding: 1.6rem;
+}
+
+.profile-img-container {
+    width: 150px; /* Tamaño fijo para el contenedor de la imagen */
+    height: 150px; /* El mismo valor que el ancho para que sea un cuadrado */
+    margin: 0 auto; /* Centrar el contenedor */
+    overflow: hidden; /* Asegura que la imagen no se salga del contenedor */
+}
+
+.profile-img-acc {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Asegura que la imagen se recorte y mantenga la proporción dentro del contenedor */
+    border-radius: 50%; /* Fuerza la imagen a ser un círculo */
+}
+
+#contentArea{
+    margin-top: 2rem;
 }

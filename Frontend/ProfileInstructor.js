@@ -52,9 +52,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const card = document.createElement('div');
             card.className = 'col-md-4 mb-3';
             card.innerHTML = `
-                <div class="card">
+                <div class="card course-item">
                     <div class="card-body">
-                        <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2" onclick="confirmDelete()">Eliminar</button>
+                        <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 delete-btn" onclick="confirmDelete()">Baja</button>
                         <img src="${course.img}" alt="Curso" class="img-fluid course-image">
                         <h5 class="card-title">${course.title}</h5>
                         <a href="${course.link}" class="btn btn-primary">Ver Curso</a>

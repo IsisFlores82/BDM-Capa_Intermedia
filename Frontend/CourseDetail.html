@@ -159,7 +159,7 @@
     <!-- Comentario 1 -->
     <div class="card comment-card mb-3 position-relative">
         <div class="card-body">
-            <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 delete-btn">Eliminar</button>
+            <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 delete-btn" onclick="deleteComment(this)">Eliminar</button>
             <div class="d-flex align-items-start">
                 <img src="https://i.pinimg.com/736x/22/ff/8a/22ff8afb93f9341702464368314aaaa2.jpg" alt="Usuario 1" class="rounded-circle me-3" width="50" height="50">
                 <div>
@@ -174,6 +174,7 @@
     <!-- Comentario 2 -->
     <div class="card comment-card mb-3 position-relative">
         <div class="card-body">
+            <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 delete-btn" onclick="deleteComment(this)">Eliminar</button>
             <div class="d-flex align-items-start">
                 <img src="https://www.mundodeportivo.com/alfabeta/hero/2024/07/hatsune-miku-tendra-su-gran-pelicula-de-anime.jpg?width=1200&aspect_ratio=16:9" alt="Usuario 2" class="rounded-circle me-3" width="50" height="50">
                 <div>
@@ -204,6 +205,26 @@
         function addToCart() {
             alert("Agregado al carrito");
         }
+
+        function deleteComment(button) {
+    // Solicitar motivo de eliminación
+    const reason = prompt("Por favor, ingresa el motivo para eliminar este comentario:");
+    
+    // Verificar si se ingresó un motivo
+    if (reason) {
+        // Obtener el contenedor del comentario (tarjeta)
+        const commentCard = button.closest('.comment-card');
+
+        // Limpiar el contenido del comentario
+        commentCard.innerHTML = `
+            <div class="card-body">
+                <p class="card-text text-danger">Comentario eliminado, motivo: ${reason}</p>
+            </div>
+        `;
+    } else {
+        alert('No se ha proporcionado un motivo para eliminar el comentario.');
+    }
+}
     </script>
     
    <script src="navbar.js"></script>

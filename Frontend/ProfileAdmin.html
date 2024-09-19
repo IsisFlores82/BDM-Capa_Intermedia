@@ -34,31 +34,27 @@
         </div>
         
         <div class="input-group w-75">
-            <input type="text" id="searchInput" class="form-control" placeholder="Busca tu curso deseado">
+            <input type="text" id="searchInput" class="form-control" placeholder="Buscar cursos">
             <a href="#" class="btn" id="searchBtn"><i class="fas fa-search"></i></a>
             <button class="btn" data-bs-toggle="modal" data-bs-target="#searchModal">
                 <i class="fas fa-filter"></i> Filtro Avanzado
             </button>
         </div>
-        <div class="d-flex align-items-center">
-            <a href="Carrito.html" class="btn"> 
-                <i class="fas fa-shopping-cart me-3"></i> 
-            </a>            
+        <div class="d-flex align-items-center">          
             <div class="dropdown">
                 <button class="btn dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Perfil" class="rounded-circle" width="40" height="40">
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                    <li><a class="dropdown-item" href="Profile.html">Perfil</a></li>
-                    <li><a class="dropdown-item" href="Kardex.html">Kardex</a></li>
-                    <li><a class="dropdown-item" href="Mensajeria.html">Mensajes</a></li>
+                    <li><a class="dropdown-item" href="ProfileAdmin.html">Perfil</a></li>
+                    <li><a class="dropdown-item" href="ReporteUsuarios.html">Reporte</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="SignUp.html">Cerrar Sesión</a></li>
                 </ul>
             </div>
         </div>
         <!-- Ventana Modal -->
-<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
@@ -96,7 +92,7 @@
             </div>
         </div>
     </div>
-</div>
+    </div>
     </header>
     
     <div class="container-fluid">
@@ -106,8 +102,9 @@
                 <div class="profile-img "><img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Perfil" class="rounded-circle" width="50%" height="50%"></div>
                 <h4>Carlos Daniel Pinkus Martínez</h4>
                 <a href="#MiPerfil" class="active" data-section="profile">Mi perfil</a>
-                <a href="#Cursos" data-section="courses">Cursos</a>
-                <a href="Kardex.html" class="external-link">Kardex</a>
+                <a href="#Cuentas" data-section="accounts">Cuentas Bloqueadas</a>
+                <a href="#Categorias" data-section="categories">Categorias</a>
+                <a href="ReporteUsuarios.html" class="external-link">Reporte Usuarios</a>
             </div>
 
             <!-- Profile form -->
@@ -188,17 +185,83 @@
                         <button type="submit" class="btn btn-save">Guardar</button>
                     </form>
                 </div>
-                <div class="courses-container d-none" id="coursesContent">
-                    <h2>Mis Cursos</h2>
+                <div class="courses-container d-none" id="accountsContent">
+                    <h2>Cuentas Bloqueadas</h2>
                     <div class="row">
-                        <!-- Los cursos se añadirán aquí mediante JavaScript -->
                     </div>
+                </div>
+                <div class="categories-container d-none" id="categoriesContent">
+                    <h2>Categorías</h2>
+                    <form id="categoriesForm">
+                        <div id="categoryList">
+                            
+                        </div>
+                        <button type="button" class="btn btn-primary mt-3" onclick="addCategory()">Agregar Categoría</button>
+                        <button type="submit" class="btn btn-success mt-3">Guardar Cambios</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        function confirmRehabilitate() {
+    const confirmAction = confirm("¿Estás seguro de que deseas rehabilitara este usuario?");
+    if (confirmAction) {
+        alert("El usuario ha sido rehabilitado.");
+    } else {
+        alert("Rehabilitacion cancelada.");
+    }
+    }
+    
+    function addCategoryToDOM(name, description, index) {
+    const categoryList = document.getElementById('categoryList');
+    const categoryItem = document.createElement('div');
+    categoryItem.classList.add('row', 'mb-3');
+    categoryItem.setAttribute('data-index', index);
 
-    <script src="Profile.js"></script>
+    categoryItem.innerHTML = `
+        <div class="col-md-5">
+            <label class="form-label">Nombre de la Categoría</label>
+            <input type="text" class="form-control" name="categoryName" value="${name}" required>
+        </div>
+        <div class="col-md-5">
+            <label class="form-label">Descripción</label>
+            <input type="text" class="form-control" name="categoryDescription" value="${description}" required>
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="button" class="btn btn-danger" onclick="removeCategory(this)">Eliminar</button>
+        </div>
+    `;
+
+    categoryList.appendChild(categoryItem);
+}
+
+    // Función para agregar nueva categoría
+    function addCategory() {
+        addCategoryToDOM('Nueva Categoría', 'Descripción de la Categoría', document.getElementById('categoryList').children.length);
+    }
+    // Función para eliminar una categoría
+    function removeCategory(button) {
+        const categoryItem = button.closest('.row');
+        categoryItem.remove();
+    }
+    
+    function saveCategories(event) {
+    event.preventDefault(); // Previene el envío automático del formulario
+
+    const form = document.getElementById('categoriesForm');
+
+    // Verificar si el formulario es válido
+    if (form.checkValidity()) {
+        alert('Los cambios han sido guardados');
+    } else {
+        // Si no es válido, mostrar el comportamiento de validación por defecto del navegador
+        form.reportValidity();
+    }
+}
+    </script>
+   <script src="ProfileAdmin.js"></script>
    <script src="navbar.js"></script>
+
 </body>
 </html>
