@@ -212,6 +212,7 @@
                   <div class="mb-3">
                       <label for="cardHolderName" class="form-label">Nombre del titular</label>
                       <input type="text" class="form-control" id="cardHolderName" placeholder="" required>
+                      <div class="invalid-feedback" id="cardNameError">Ingrese su nombre de manera correcta.</div>
                   </div>
                   <div class="mb-3">
                       <label for="cardNumber" class="form-label">Número de Tarjeta</label>
@@ -241,6 +242,10 @@
           <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               <button type="submit" class="btn btn-primary" id="submitPayment">Realizar Pago</button>
+              <!-- Botón de PayPal -->
+              <button type="button" class="btn btn-outline-primary d-flex align-items-center" id="payWithPayPal">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/1200px-PayPal.svg.png" alt="PayPal" style="width: 80px; height: 24px; margin-right: 8px;">
+              </button>
           </div>
       </div>
   </div>
