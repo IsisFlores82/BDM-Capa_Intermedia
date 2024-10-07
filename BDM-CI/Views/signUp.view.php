@@ -10,7 +10,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="LogIn.css">
+  <link rel="stylesheet" href="Views/logIn.css">
 
   
 </head>
@@ -63,7 +63,7 @@
               </button>
             </div>
             <div class="col-12 align-items-center justify-content-center d-flex">
-              <a href="LogIn.html" class="btn btn-outline-secondary"> Crear cuenta</a>
+              <a href="/BDM-CI/logIn" class="btn btn-outline-secondary"> Crear cuenta</a>
             </div>
           </form>
         </div>s
@@ -109,7 +109,7 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
         alert("Por favor, ingresa tu correo y contraseña.");
     } else {
         // Si todo está bien, redirige manualmente
-        window.location.href = "DashboardStudent.html";
+        window.location.href = "/BDM-CI/dashboard";
     }
 });
 
