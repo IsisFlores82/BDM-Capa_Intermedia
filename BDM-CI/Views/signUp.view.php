@@ -66,7 +66,7 @@
               <a href="/BDM-CI/logIn" class="btn btn-outline-secondary"> Crear cuenta</a>
             </div>
           </form>
-        </div>s
+        </div>
   
       </div>
       

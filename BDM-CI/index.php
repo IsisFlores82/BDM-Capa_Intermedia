@@ -13,6 +13,7 @@ $routes = [
     '/signUp' => 'Controller/signUp.controller.php',
     '/logIn' => 'Controller/logIn.controller.php',
     '/dashboard' => 'Controller/dashboard.controller.php',
+    '/carrito' => 'Controller/carrito.controller.php',
 ];
 
 if(array_key_exists($uri,$routes)){

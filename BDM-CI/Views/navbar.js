@@ -14,7 +14,7 @@ document.getElementById('searchForm').addEventListener('submit', function(event)
     } else {
         // Si al menos un campo tiene valor, redirigir a Search.html
         event.preventDefault(); // Prevenir comportamiento por defecto del formulario
-        window.location.href = "Search.html"; // Redireccionar a la página de búsqueda
+        window.location.href = "/BDM-CI/search"; // Redireccionar a la página de búsqueda
     }
 });
 
@@ -26,6 +26,6 @@ document.getElementById("searchBtn").addEventListener("click", function (e) {
         alert("Por favor, ingrese un término de búsqueda.");
     } else {
         // Si hay texto, redirige a Search.html
-        window.location.href = "Search.html";
+        window.location.href = "/BDM-CI/search";
     }
 });
