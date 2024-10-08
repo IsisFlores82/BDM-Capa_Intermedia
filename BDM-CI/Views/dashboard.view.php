@@ -65,7 +65,7 @@
                 <h2 class="h5 mt-4">Los Favoritos</h2>
                 <div class="row">
                     <div class="col-md-6">
-                        <a href="CourseDetail.html" class="card-link">
+                        <a href="/BDM-CI/courseDetail" class="card-link">
                         <div class="card">
                             <div class="card-body">
                                 <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Curso" class="img-fluid course-image">
@@ -84,7 +84,7 @@
                         </a>
                     </div>
                     <div class="col-md-6">
-                        <a href="CourseDetail.html" class="card-link">
+                        <a href="/BDM-CI/courseDetail" class="card-link">
                         <div class="card">
                             <div class="card-body">
                                 <img src="https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png" alt="Curso" class="img-fluid course-image">
@@ -110,7 +110,7 @@
                 <h2 class="h5 mt-4">Todos los Cursos</h2>
                 <div class="row g-2">
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="CourseDetail.html" class="card-link">
+                        <a href="/BDM-CI/courseDetail" class="card-link">
                         <div class="card">
                             <div class="card-body">
                                 <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Curso" class="img-fluid course-image">
@@ -129,7 +129,7 @@
                         </a>
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="CourseDetail.html" class="card-link">
+                        <a href="/BDM-CI/courseDetail" class="card-link">
                         <div class="card">
                            <div class="card-body">
                                <img src="https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png" alt="Curso" class="img-fluid course-image">
@@ -148,7 +148,7 @@
                         </a>
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="CourseDetail.html" class="card-link">
+                        <a href="/BDM-CI/courseDetail" class="card-link">
                         <div class="card">
                             <div class="card-body">
                                 <img src="https://mastermetrics.com/wp-content/uploads/2024/07/meta-ai.jpg" alt="Curso" class="img-fluid course-image">
@@ -167,7 +167,7 @@
                         </a>
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="CourseDetail.html" class="card-link">
+                        <a href="/BDM-CI/courseDetail" class="card-link">
                         <div class="card">
                             <div class="card-body">
                                 <img src="https://keystoneacademic-res.cloudinary.com/image/upload/f_auto/q_auto/g_auto/c_fill/w_1280/element/17/172834_default-meta-image-v2.png" alt="Curso" class="img-fluid course-image">
@@ -186,7 +186,7 @@
                         </a>
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="CourseDetail.html" class="card-link">
+                        <a href="/BDM-CI/courseDetail" class="card-link">
                         <div class="card">
                             <div class="card-body">
                                 <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Curso" class="img-fluid course-image">
@@ -205,7 +205,7 @@
                         </a>
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="CourseDetail.html" class="card-link">
+                        <a href="/BDM-CI/courseDetail" class="card-link">
                         <div class="card">
                            <div class="card-body">
                                <img src="https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png" alt="Curso" class="img-fluid course-image">
@@ -224,7 +224,7 @@
                         </a>
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="CourseDetail.html" class="card-link">
+                        <a href="/BDM-CI/courseDetail" class="card-link">
                         <div class="card">
                             <div class="card-body">
                                 <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Curso" class="img-fluid course-image">
@@ -243,7 +243,7 @@
                         </a>
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="CourseDetail.html" class="card-link">
+                        <a href="/BDM-CI/courseDetail" class="card-link">
                         <div class="card">
                            <div class="card-body">
                                <img src="https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png" alt="Curso" class="img-fluid course-image">
@@ -262,7 +262,7 @@
                         </a>
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="CourseDetail.html" class="card-link">
+                        <a href="/BDM-CI/courseDetail" class="card-link">
                         <div class="card">
                             <div class="card-body">
                                 <img src="https://mastermetrics.com/wp-content/uploads/2024/07/meta-ai.jpg" alt="Curso" class="img-fluid course-image">
@@ -281,7 +281,7 @@
                         </a>
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="CourseDetail.html" class="card-link">
+                        <a href="/BDM-CI/courseDetail" class="card-link">
                         <div class="card">
                             <div class="card-body">
                                 <img src="https://keystoneacademic-res.cloudinary.com/image/upload/f_auto/q_auto/g_auto/c_fill/w_1280/element/17/172834_default-meta-image-v2.png" alt="Curso" class="img-fluid course-image">
@@ -300,7 +300,7 @@
                         </a>
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="CourseDetail.html" class="card-link">
+                        <a href="/BDM-CI/courseDetail" class="card-link">
                         <div class="card">
                             <div class="card-body">
                                 <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Curso" class="img-fluid course-image">
@@ -319,7 +319,7 @@
                         </a>
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="CourseDetail.html" class="card-link">
+                        <a href="/BDM-CI/courseDetail" class="card-link">
                         <div class="card">
                            <div class="card-body">
                                <img src="https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png" alt="Curso" class="img-fluid course-image">
@@ -338,7 +338,7 @@
                         </a>
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="CourseDetail.html" class="card-link">
+                        <a href="/BDM-CI/courseDetail" class="card-link">
                         <div class="card">
                             <div class="card-body">
                                 <img src="https://mastermetrics.com/wp-content/uploads/2024/07/meta-ai.jpg" alt="Curso" class="img-fluid course-image">
@@ -357,7 +357,7 @@
                         </a>
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="CourseDetail.html" class="card-link">
+                        <a href="/BDM-CI/courseDetail" class="card-link">
                         <div class="card">
                             <div class="card-body">
                                 <img src="https://keystoneacademic-res.cloudinary.com/image/upload/f_auto/q_auto/g_auto/c_fill/w_1280/element/17/172834_default-meta-image-v2.png" alt="Curso" class="img-fluid course-image">
@@ -376,7 +376,7 @@
                         </a>
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="CourseDetail.html" class="card-link">
+                        <a href="/BDM-CI/courseDetail" class="card-link">
                         <div class="card">
                             <div class="card-body">
                                 <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Curso" class="img-fluid course-image">
@@ -395,7 +395,7 @@
                         </a>
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="CourseDetail.html" class="card-link">
+                        <a href="/BDM-CI/courseDetail" class="card-link">
                         <div class="card">
                            <div class="card-body">
                                <img src="https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png" alt="Curso" class="img-fluid course-image">
@@ -414,7 +414,7 @@
                         </a>
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="CourseDetail.html" class="card-link">
+                        <a href="/BDM-CI/courseDetail" class="card-link">
                         <div class="card">
                             <div class="card-body">
                                 <img src="https://mastermetrics.com/wp-content/uploads/2024/07/meta-ai.jpg" alt="Curso" class="img-fluid course-image">
@@ -433,7 +433,7 @@
                         </a>
                     </div>
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="CourseDetail.html" class="card-link">
+                        <a href="/BDM-CI/courseDetail" class="card-link">
                         <div class="card">
                             <div class="card-body">
                                 <img src="https://keystoneacademic-res.cloudinary.com/image/upload/f_auto/q_auto/g_auto/c_fill/w_1280/element/17/172834_default-meta-image-v2.png" alt="Curso" class="img-fluid course-image">

@@ -1,0 +1,24 @@
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.course-container {
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 900px;
+    margin: auto;
+}
+
+.course-banner {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
+.progress {
+    height: 30px;
+}

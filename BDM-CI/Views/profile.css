@@ -1,0 +1,88 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.sidebar {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 2rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h4 {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.sidebar .active {
+    font-weight: bold;
+    color: #000;
+}
+
+.profile-container, .courses-contaioner, .categories-container {
+    background-color: #fff;
+    padding: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-container h2,.courses-contaioner h2, .categories-container h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.form-label {
+    font-size: 14px;
+    color: #333;
+}
+
+.form-control {
+    font-size: 14px;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+}
+
+.btn-save {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+    width: 100%;
+}
+
+.profile-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.6rem;
+}
+
+.profile-img-container {
+    width: 150px; /* Tamaño fijo para el contenedor de la imagen */
+    height: 150px; /* El mismo valor que el ancho para que sea un cuadrado */
+    margin: 0 auto; /* Centrar el contenedor */
+    overflow: hidden; /* Asegura que la imagen no se salga del contenedor */
+}
+
+.profile-img-acc {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Asegura que la imagen se recorte y mantenga la proporción dentro del contenedor */
+    border-radius: 50%; /* Fuerza la imagen a ser un círculo */
+}
+
+#contentArea{
+    margin-top: 2rem;
+}

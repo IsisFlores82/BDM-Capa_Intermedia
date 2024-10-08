@@ -1,4 +1,4 @@
-<header class="d-flex justify-content-between align-items-center py-3">
+<header class="d-flex justify-content-between align-items-center py-3 <?php if(urlIs('/BDM-CI/mensajeria')){echo 'bg-light';} ?>">
         <div class="d-flex align-items-center">
             <a href="/BDM-CI/dashboard" class="btn"> 
                 <img src="Resources/logoPlacerHolder.png" alt="Logo" width="40" height="40"></img> 
@@ -8,11 +8,11 @@
                     <i class="fas fa-bars"></i> Categorías
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="Search.html">Desarrollo Web</a></li>
-                    <li><a class="dropdown-item" href="Search.html">Bases de Datos</a></li>
-                    <li><a class="dropdown-item" href="Search.html">Marketing</a></li>
-                    <li><a class="dropdown-item" href="Search.html">Diseño</a></li>
-                    <li><a class="dropdown-item" href="Search.html">Unreal</a></li>
+                    <li><a class="dropdown-item" href="/BDM-CI/search">Desarrollo</a></li>
+                    <li><a class="dropdown-item" href="/BDM-CI/search">Bases de Datos</a></li>
+                    <li><a class="dropdown-item" href="/BDM-CI/search">Marketing</a></li>
+                    <li><a class="dropdown-item" href="/BDM-CI/search">Diseño</a></li>
+                    <li><a class="dropdown-item" href="/BDM-CI/search">Unreal</a></li>
                 </ul>
             </div>
         </div>

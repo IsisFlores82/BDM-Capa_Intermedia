@@ -1,0 +1,60 @@
+header{
+    padding-left: 10px;
+  }
+  
+  body {
+    background-color: #f8f9fa;
+  }
+  .chat-container {
+    display: flex;
+    flex-direction: column-reverse; /* Invertir el flujo de los elementos */
+    height: 72vh;
+    width: 100%;
+    overflow-y: scroll;
+    scrollbar-width: 0;
+    border: none;
+    padding: 30px;
+  }
+  
+  .message {  
+    margin-bottom: 5px;
+  }
+  
+  .max-widh{
+    max-width: 60%;
+  }
+  
+  .hacer-mensaje{
+    padding: 10px;
+  }
+  
+  textarea {
+    resize: none;
+    max-height: 80px;
+    border: none;
+  }
+  textarea:focus {
+    outline: none;
+  }
+  
+  .message-div{
+    padding: 10px;
+    transition:all 0.3s;
+  }
+  
+  
+  .message-div:hover{
+    padding: 10px;
+    background-color: #b7b9bc;
+  }
+  
+  .message-container {
+    display: inline-block; /* Mantiene el tamaño del contenedor según el contenido */
+  }
+  
+  .message-container-me {
+    display: inline-block; /* Mantiene el tamaño del contenedor según el contenido */
+    max-width: 75%;
+  }
+  
+  
