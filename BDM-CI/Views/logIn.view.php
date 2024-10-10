@@ -16,6 +16,16 @@
 </head>
 <body>
 
+
+<?php // for each de testeo para ver que jale los datos de la bd
+  foreach ($users as $user): ?>
+        
+  <p class="">
+    <?= htmlspecialchars($user['Email']) ?> / <?= htmlspecialchars($user['Nombre']) ?>
+  </p>
+<?php endforeach; ?> 
+
+
   <div class="d-flex flex-column w-100 vh-100 align-items-center justify-content-center bg-light-subtle">
 
     <div class="container bg-info-subtle text-primary-emphasis rounded p-5">
