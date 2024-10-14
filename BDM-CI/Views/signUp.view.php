@@ -4,9 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inicio de Sesion</title>
-
-  
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -16,6 +15,41 @@
 </head>
 <body>
 
+<?php
+if (isset($_SESSION['mensaje'])) {
+    $mensaje = $_SESSION['mensaje'];
+    $alertType = $mensaje['type'] == 'success' ? '¡Éxito!' : 'Error';
+
+    // Check if the message is for a successful registration
+    if ($mensaje['type'] == 'success') {
+        echo "<script>
+            swal({
+                title: '$alertType',
+                text: '{$mensaje['text']}',
+                type: '{$mensaje['type']}',
+                showConfirmButton: true
+            }, function() {
+                // Redirigir al dashboard
+                window.location.href = '/BDM-CI/dashboard';
+            });
+        </script>";
+    } else {
+        echo "<script>
+            swal({
+                title: '$alertType',
+                text: '{$mensaje['text']}',
+                type: '{$mensaje['type']}',
+                showConfirmButton: true
+            }, function() {
+                // Redirigir a la página de signUp después de cerrar la alerta
+                window.location.href = '/BDM-CI/signUp';
+            });
+        </script>";
+    }
+
+    unset($_SESSION['mensaje']); // Elimina el mensaje después de mostrarlo
+}
+?>
   <div class="d-flex flex-column w-100 vh-100 align-items-center justify-content-center bg-light-subtle">
 
     <div class="container bg-info-subtle text-primary-emphasis rounded p-5">
@@ -28,10 +62,10 @@
     
         <div class="col-lg-6">
           
-          <form class="row g-3 needs-validation" id="loginForm">
+          <form class="row g-3 needs-validation" method = "post" id="loginForm">
             <div class="col-md-12">
-              <label for="validationCustom07" class="form-label">Correo Electronico</label>
-              <input type="email" class="form-control" id="validationCustom07" required>
+              <label for="Email" class="form-label">Correo Electronico</label>
+              <input type="email" class="form-control" id="Email" name="Email" required>
               <div class="invalid-feedback">
                 Ingresa una dirección de correo válida.
               </div>
@@ -40,21 +74,17 @@
             <br>
 
             <div class="col-md-12">
-              <label for="inputPassword5" class="form-label">Contraseña</label>
-              <input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock" required>
+              <label for="Password" class="form-label">Contraseña</label>
+              <input type="password" id="Password" class="form-control" name="Password" aria-describedby="passwordHelpBlock" required>
               <div class="invalid-feedback">
-                <!-- contraseña incorrecta cuando el back lo regrese-->
                  Contraseña incorrecta
-              </div>
-              <div  class="text-end">
-                <a href="">Olvidé mi contraseña</a>
               </div>
             </div>
 
             <br><br>
 
             <div class="col-12 align-items-center justify-content-center d-flex">
-              <button class="btn btn-primary fs-4 text" type="submit" id="CrearCuenta">Iniciar Sesión</button>
+              <button class="btn btn-primary fs-4 text" type="submit" name="Login" id="login">Iniciar Sesión</button>
 
               <!-- Botón para Iniciar Sesión con Google -->
               <button class="btn btn-outline-secondary fs-4 d-flex align-items-center" type="button" style="margin-left: 1rem; background: #fff;">
@@ -99,18 +129,40 @@
 })()
 
       
-document.getElementById("loginForm").addEventListener("submit", function (e) {
-    e.preventDefault();
+$(document).ready(function() {
+  const emailInput = $("#Email");
+  const passwordInput = $("#Password");
+  const loginButton = $("#login");
 
-    const email = document.getElementById("validationCustom07").value.trim();
-    const password = document.getElementById("inputPassword5").value.trim();
-    
-    if (email === "" || password === "") {
-        alert("Por favor, ingresa tu correo y contraseña.");
+  loginButton.on("click", function(event) {
+
+    let valid = true;
+
+    // Validar email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailInput.val())) {
+      emailInput.addClass("is-invalid");
+      valid = false;  
     } else {
-        // Si todo está bien, redirige manualmente
-        window.location.href = "/BDM-CI/dashboard";
+      emailInput.removeClass("is-invalid").addClass("is-valid");
     }
+
+    // Validar contraseña
+    const passwordValue = passwordInput.val();
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[a-z])(?=.*[!@#$%^&*()_+.])[A-Za-z\d!@#$%^&*()_+\\.]{8,}$/;
+
+    if (passwordRegex.test(passwordValue)) {
+      passwordInput.removeClass("is-invalid").addClass("is-valid");
+    } else {
+      passwordInput.addClass("is-invalid");
+      valid = false;
+    }
+
+    if (!valid) {
+      event.preventDefault(); // Prevent form submission if any validation fails
+    }
+
+  });
 });
 
 
