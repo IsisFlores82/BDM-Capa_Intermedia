@@ -24,6 +24,7 @@
                 <i class="fas fa-filter"></i> Filtro Avanzado
             </button>
         </div>
+        <?php if (isset($_SESSION['user'])) { ?>
         <div class="d-flex align-items-center">
             <a href="/BDM-CI/carrito" class="btn">
                 <i class="fas fa-shopping-cart me-3"></i> 
@@ -41,6 +42,19 @@
                 </ul>
             </div>
         </div>
+        <?php } else { ?>
+        <div class="d-flex align-items-center">         
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user-circle"></i> 
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                    <li><a class="dropdown-item" href="/BDM-CI/signUp">Iniciar Sesión</a></li>
+                    <li><a class="dropdown-item" href="/BDM-CI/logIn">Registrarse</a></li>
+                </ul>
+            </div>
+        </div>
+        <?php } ?>
         <!-- Ventana Modal -->
         <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable">

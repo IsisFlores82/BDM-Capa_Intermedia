@@ -9,21 +9,13 @@ class Conexion{
         $dsn = 'mysql:' . http_build_query($config,"",";");
 
         //$this->con = new mysqli('localhost','root','','BDMCAPA');
-        $this->con = new PDO($dsn,'root','');
+        $this->con = new PDO($dsn,$config['user'],$config['password']);
     }
 
-    public function getUsers(){
-        $query= $this->con->query('SELECT * FROM Usuario');
-
-        $return=[];
-        $i=0;
-        while($fila=$query->fetch(PDO::FETCH_ASSOC)){
-            $return[$i]=$fila;
-            $i++;
-        }
-
-        return $return;
+    public function getCon(){
+        return $this->con;
     }
+
 }
 
 ?>
