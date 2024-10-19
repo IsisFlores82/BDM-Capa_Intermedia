@@ -1,6 +1,6 @@
 <header class="d-flex justify-content-between align-items-center py-3">
         <div class="d-flex align-items-center">
-            <a href="/BDM-CI/dashboard" class="btn">
+            <a href="/BDM-CI/" class="btn">
                 <img src="Resources/logoPlacerHolder.png" alt="Logo" width="40" height="40"></img> 
             </a>  
             <div class="dropdown">

@@ -30,7 +30,7 @@ if (isset($_SESSION['mensaje'])) {
                 showConfirmButton: true
             }, function() {
                 // Redirigir al dashboard
-                window.location.href = '/BDM-CI/dashboard';
+                window.location.href = '/BDM-CI/';
             });
         </script>";
     } else {

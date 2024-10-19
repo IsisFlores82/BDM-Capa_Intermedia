@@ -2,8 +2,8 @@
 require "Model/User.php";
 $config = require 'config.php'; //extrae los datos de la bd de config.php
 
-$db = new User($config['database']); //crea la conexion 
-$users = $db->getUsers(); //realiza el query
+$userDb = new User($config['database']); //crea la conexion 
+$users = $userDb->getUsers(); //realiza el query
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre = $_POST['Nombre'];
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $foto = file_get_contents($profilePhotoInput['tmp_name']); // Lee el archivo de imagen
 
     // Llama a la función para registrar el usuario
-    $mensaje = $db->registerUser($email, $nombre, $apellido, $genero, $fechaNacimiento, $rol, $foto, $password);
+    $mensaje = $userDb->registerUser($email, $nombre, $apellido, $genero, $fechaNacimiento, $rol, $foto, $password);
     echo $mensaje;
     // Manejar el mensaje de registro
     if ($mensaje == 'Usuario registrado exitosamente') {

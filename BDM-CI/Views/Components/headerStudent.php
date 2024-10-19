@@ -1,6 +1,24 @@
+<?php
+    if (!empty($_SESSION['user']['Foto'])) {
+        // Inicializar fileinfo
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        
+        // Detectar el tipo MIME del contenido BLOB
+        $mimeType = $finfo->buffer($_SESSION['user']['Foto']);
+
+        // Convertir el BLOB a base64
+        $fotoBase64 = base64_encode($_SESSION['user']['Foto']);
+        
+        // Usar el MIME detectado en la etiqueta <img>
+        $fotoSrc = "data:" . $mimeType . ";base64," . $fotoBase64;
+    } else {
+        $fotoSrc = "https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg"; // Ruta a la imagen predeterminada
+    }
+?>
+
 <header class="d-flex justify-content-between align-items-center py-3 <?php if(urlIs('/BDM-CI/mensajeria')){echo 'bg-light';} ?>">
         <div class="d-flex align-items-center">
-            <a href="/BDM-CI/dashboard" class="btn"> 
+            <a href="/BDM-CI/" class="btn"> 
                 <img src="Resources/logoPlacerHolder.png" alt="Logo" width="40" height="40"></img> 
             </a>  
             <div class="dropdown">
@@ -31,14 +49,14 @@
             </a>            
             <div class="dropdown">
                 <button class="btn dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Perfil" class="rounded-circle" width="40" height="40">
+                    <img src="<?= $fotoSrc ?>" alt="Perfil" class="rounded-circle" width="40" height="40">
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                     <li><a class="dropdown-item" href="/BDM-CI/profile">Perfil</a></li>
                     <li><a class="dropdown-item" href="/BDM-CI/kardex">Kardex</a></li>
                     <li><a class="dropdown-item" href="/BDM-CI/mensajeria">Mensajes</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="/BDM-CI/signUp">Cerrar Sesión</a></li>
+                    <li><a class="dropdown-item" href="/BDM-CI/logOut">Cerrar Sesión</a></li>
                 </ul>
             </div>
         </div>

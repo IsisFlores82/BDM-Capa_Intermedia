@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const confirmPassword = confirmPasswordField.value;
         
         // Regular expressions for validation
+        const hasSmallLetter = /[a-z]/;
         const hasUpperCase = /[A-Z]/;
         const hasNumber = /\d/;
         const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/;
@@ -86,6 +87,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         if (!hasUpperCase.test(password)) {
             alert('La contraseña debe incluir al menos una mayúscula.');
+            return false;
+        }
+        if(!hasSmallLetter.test(password)){
+            alert('La contraseña debe incluir al menos una letra minúscula.');
             return false;
         }
         if (!hasNumber.test(password)) {

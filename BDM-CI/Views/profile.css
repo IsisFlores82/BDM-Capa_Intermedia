@@ -67,16 +67,13 @@ body {
     justify-content: center;
     align-items: center;
     padding: 1.6rem;
-}
-
-.profile-img-container {
-    width: 150px; /* Tamaño fijo para el contenedor de la imagen */
-    height: 150px; /* El mismo valor que el ancho para que sea un cuadrado */
+    width:  20rem; /* Tamaño fijo para el contenedor de la imagen */
+    height: 20rem; /* El mismo valor que el ancho para que sea un cuadrado */
     margin: 0 auto; /* Centrar el contenedor */
     overflow: hidden; /* Asegura que la imagen no se salga del contenedor */
 }
 
-.profile-img-acc {
+.profile-picture {
     width: 100%;
     height: 100%;
     object-fit: cover; /* Asegura que la imagen se recorte y mantenga la proporción dentro del contenedor */

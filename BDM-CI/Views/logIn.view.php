@@ -32,7 +32,7 @@ if (isset($_SESSION['mensaje'])) {
                 type: '{$mensaje['type']}',
                 showConfirmButton: true
             }, function() {
-                // Redirigir a la página de registro después de cerrar la alerta
+                // Redirigir a la página de iniciar sesion después de cerrar la alerta
                 window.location.href = '/BDM-CI/signUp';
             });
         </script>";
