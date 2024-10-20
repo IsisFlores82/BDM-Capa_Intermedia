@@ -22,9 +22,9 @@
 
 $router->get('/BDM-CI/','controller/dashboard.controller.php');
 $router->get('/BDM-CI/dashboard','controller/dashboard.controller.php');
-$router->get('/BDM-CI/logIn','controller/logIn.controller.php');
-$router->get('/BDM-CI/signUp','controller/signUp.controller.php');
-$router->get('/BDM-CI/carrito','controller/carrito.controller.php');
+$router->get('/BDM-CI/logIn','controller/logIn.controller.php')->only('guest');
+$router->get('/BDM-CI/signUp','controller/signUp.controller.php')->only('guest');
+$router->get('/BDM-CI/carrito','controller/carrito.controller.php')->only('Alumno');
 $router->get('/BDM-CI/search','controller/search.controller.php');
 $router->get('/BDM-CI/courseDetail','controller/courseDetail.controller.php');
 $router->get('/BDM-CI/profile','controller/profile.controller.php');
