@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
      <!-- Bootstrap JS -->
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="Views/dashboard.js"></script>
@@ -71,19 +72,22 @@ if (isset($_SESSION['mensaje'])) {
             <div class="col-md-9" id="contentArea">
                 <div class="profile-container" id="profileContent">
                     <h2>Editar Perfil</h2>
-                    <form id="profileForm" method="POST" action="/BDM-CI/profile" enctype="multipart/form-data">
+                    <form id="profileForm" class="needs-validation" method="POST" action="/BDM-CI/profile" enctype="multipart/form-data" novalidate>
                         <input type="hidden" name="id" value="<?= $user['ID_Usuario'] ?>">
                         <input type="hidden" name="_method" value="PATCH">
+
                         <!-- Nombre y Apellido -->
                         <div class="row mb-3">
-                          <div class="col-md-6">
-                              <label for="firstName" class="form-label">Nombre</label>
-                              <input type="text" class="form-control" id="firstName" name="firstName" value="<?= htmlspecialchars($user['Nombre']) ?>" required>
-                          </div>
-                          <div class="col-md-6">
-                              <label for="lastName" class="form-label">Apellido</label>
-                              <input type="text" class="form-control" id="lastName" name="lastName" value="<?= htmlspecialchars($user['Apellidos']) ?>" required>
-                          </div>
+                            <div class="col-md-6">
+                                <label for="firstName" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="firstName" name="firstName" value="<?= htmlspecialchars($user['Nombre']) ?>" required>
+                                <div class="invalid-feedback">Ingresa tu nombre.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="lastName" class="form-label">Apellido</label>
+                                <input type="text" class="form-control" id="lastName" name="lastName" value="<?= htmlspecialchars($user['Apellidos']) ?>" required>
+                                <div class="invalid-feedback">Ingresa tu apellido.</div>
+                            </div>
                         </div>
 
                         <!-- Género -->
@@ -95,21 +99,24 @@ if (isset($_SESSION['mensaje'])) {
                                     <option value="Femenino" <?= $user['Genero'] == 'Femenino' ? 'selected' : '' ?>>Femenino</option>
                                     <option value="Otro" <?= $user['Genero'] == 'Otro' ? 'selected' : '' ?>>Otro</option>
                                 </select>
+                                <div class="invalid-feedback">Selecciona tu género.</div>
                             </div>
                             <div class="col-md-6">
                                 <label for="birthdate" class="form-label">Fecha de Nacimiento</label>
                                 <input type="date" class="form-control" id="birthdate" name="birthdate" value="<?= htmlspecialchars($user['Fech_Nacimiento']) ?>" required>
+                                <div class="invalid-feedback">Ingresa tu fecha de nacimiento.</div>
                             </div>
                         </div>
-                    
+
                         <!-- Foto de Perfil -->
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="foto" class="form-label">Foto de Perfil</label>
                                 <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
+                                <div class="invalid-feedback">Debes seleccionar una imagen.</div>
                             </div>
                         </div>
-                    
+
                         <!-- Email -->
                         <div class="row mb-3">
                             <div class="col-md-12">
@@ -117,21 +124,23 @@ if (isset($_SESSION['mensaje'])) {
                                 <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($user['Email']) ?>" disabled>
                             </div>
                         </div>
-                    
+
                         <!-- Contraseña -->
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="password" class="form-label">Contraseña</label>
                                 <input type="password" class="form-control" id="password" name="password" placeholder="Ingrese nueva contraseña">
                                 <small class="form-text text-muted">Debe contener al menos 8 caracteres, una mayúscula, un número y un carácter especial.</small>
+                                <div class="invalid-feedback">Ingresa una contraseña correcta.</div>
                             </div>
                             <div class="col-md-6">
                                 <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
                                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirme la nueva contraseña">
+                                <div class="invalid-feedback">Confirme su contraseña.</div>
                             </div>
                         </div>
-                                        
-                        <!-- Fecha de Registro y Última Modificación (no editables) -->
+
+                        <!-- Fecha de Registro y Última Modificación -->
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="registrationDate" class="form-label">Fecha de Registro</label>
@@ -142,7 +151,7 @@ if (isset($_SESSION['mensaje'])) {
                                 <input type="text" class="form-control" id="lastUpdate" value="<?= htmlspecialchars($user['Fech_Actualizacion']) ?>" disabled>
                             </div>
                         </div>
-                    
+
                         <!-- Botón Guardar -->
                         <button type="submit" class="btn btn-save">Guardar</button>
                     </form>
@@ -156,6 +165,7 @@ if (isset($_SESSION['mensaje'])) {
             </div>
         </div>
     </div>
+    <script src="Views/validationsProfile.js"></script>
 
     <script src="Views/profile.js"></script>
 </body>

@@ -73,9 +73,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $foto = $result['data'];
         }
     }
-    if ($foto !== null) {
-        echo "Tamaño de la imagen: pre llamada: " . strlen($foto) . " bytes";
-    }
     if (!isset($_SESSION['mensaje'])) {
         $resultado = $userDb->updateUser($id, $nombre, $apellido, $genero, $fechaNacimiento, $foto, $password);
 

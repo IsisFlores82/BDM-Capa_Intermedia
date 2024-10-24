@@ -47,3 +47,6 @@ $router->patch('/BDM-CI/profile','controller/profile.controller.php')->only('Alu
 
 $router->post('/BDM-CI/profileAdmin','controller/profileAdmin.controller.php')->only('Admin');
 $router->patch('/BDM-CI/profileAdmin','controller/profileAdmin.controller.php')->only('Admin');
+
+$router->post('/BDM-CI/profileInstructor','controller/profileInstructor.controller.php')->only('Instructor');
+$router->patch('/BDM-CI/profileInstructor','controller/profileInstructor.controller.php')->only('Instructor');

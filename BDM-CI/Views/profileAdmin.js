@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const passwordField = document.getElementById('password');
-    const confirmPasswordField = document.getElementById('confirmPassword');
     const profileContent = document.getElementById('profileContent');
     const accountsContent = document.getElementById('accountsContent');
     const categoriesContent = document.getElementById('categoriesContent');
@@ -113,54 +111,4 @@ function addCategoryToDOM(name, description, index) {
 
     categoryList.appendChild(categoryItem);
 }
-    
-
-    function validatePassword() {
-        const password = passwordField.value;
-        const confirmPassword = confirmPasswordField.value;
-        
-        // Regular expressions for validation
-        const hasSmallLetter = /[a-z]/;
-        const hasUpperCase = /[A-Z]/;
-        const hasNumber = /\d/;
-        const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/;
-        const minLength = 8;
-
-
-        if (password.length==0&&confirmPassword.length==0){
-            return true;
-        }
-        if (password.length < minLength) {
-            alert('La contraseña debe tener al menos 8 caracteres.');
-            return false;
-        }
-        if (!hasUpperCase.test(password)) {
-            alert('La contraseña debe incluir al menos una mayúscula.');
-            return false;
-        }
-        if(!hasSmallLetter.test(password)){
-            alert('La contraseña debe incluir al menos una letra minúscula.');
-            return false;
-        }
-        if (!hasNumber.test(password)) {
-            alert('La contraseña debe incluir al menos un número.');
-            return false;
-        }
-        if (!hasSpecialChar.test(password)) {
-            alert('La contraseña debe incluir al menos un carácter especial.');
-            return false;
-        }
-        if (password !== confirmPassword) {
-            alert('Las contraseñas no coinciden.');
-            return false;
-        }
-
-        return true;
-    }
-
-    document.getElementById('profileForm').addEventListener('submit', function (event) {
-        if (!validatePassword()) {
-            event.preventDefault();
-        }
-    });
 });
