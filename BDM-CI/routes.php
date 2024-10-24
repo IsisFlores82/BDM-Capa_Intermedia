@@ -20,7 +20,7 @@
 //     '/crearCurso' => 'Controller/crearCurso.controller.php',
 // ];
 
-$router->get('/BDM-CI/','controller/dashboard.controller.php');
+$router->get('/BDM-CI/','controller/dashboard.controller.php')->only('AdminAlumno');
 $router->get('/BDM-CI/dashboard','controller/dashboard.controller.php');
 $router->get('/BDM-CI/logIn','controller/logIn.controller.php')->only('guest');
 $router->get('/BDM-CI/signUp','controller/signUp.controller.php')->only('guest');
@@ -42,5 +42,8 @@ $router->get('/BDM-CI/logOut','controller/logOut.controller.php');
 $router->post('/BDM-CI/logIn','controller/logIn.controller.php');
 $router->post('/BDM-CI/signUp','controller/signUp.controller.php');
 
-$router->post('/BDM-CI/profile','controller/profile.controller.php');
-$router->patch('/BDM-CI/profile','controller/profile.controller.php');
+$router->post('/BDM-CI/profile','controller/profile.controller.php')->only('Alumno');
+$router->patch('/BDM-CI/profile','controller/profile.controller.php')->only('Alumno');
+
+$router->post('/BDM-CI/profileAdmin','controller/profileAdmin.controller.php')->only('Admin');
+$router->patch('/BDM-CI/profileAdmin','controller/profileAdmin.controller.php')->only('Admin');

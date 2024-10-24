@@ -73,7 +73,25 @@ body {
     overflow: hidden; /* Asegura que la imagen no se salga del contenedor */
 }
 
+.profile-img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.6rem;
+    width:  20rem; /* Tamaño fijo para el contenedor de la imagen */
+    height: 20rem; /* El mismo valor que el ancho para que sea un cuadrado */
+    margin: 0 auto; /* Centrar el contenedor */
+    overflow: hidden; /* Asegura que la imagen no se salga del contenedor */
+}
+
 .profile-picture {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Asegura que la imagen se recorte y mantenga la proporción dentro del contenedor */
+    border-radius: 50%; /* Fuerza la imagen a ser un círculo */
+}
+
+.profile-img-acc {
     width: 100%;
     height: 100%;
     object-fit: cover; /* Asegura que la imagen se recorte y mantenga la proporción dentro del contenedor */

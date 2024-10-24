@@ -27,13 +27,13 @@
         <div class="d-flex align-items-center">          
             <div class="dropdown">
                 <button class="btn dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Perfil" class="rounded-circle" width="40" height="40">
+                    <img src="<?= $fotoSrc ?>" alt="Perfil" class="rounded-circle" width="40" height="40">
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                     <li><a class="dropdown-item" href="/BDM-CI/profileAdmin">Perfil</a></li>
                     <li><a class="dropdown-item" href="/BDM-CI/reporteUsuarios">Reporte</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="/BDM-CI/signUp">Cerrar Sesión</a></li>
+                    <li><a class="dropdown-item" href="/BDM-CI/logOut">Cerrar Sesión</a></li>
                 </ul>
             </div>
         </div>

@@ -6,7 +6,9 @@
     <title>Miku Academy</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-     <!-- Bootstrap JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script> 
+    <!-- Bootstrap JS -->
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="Views/dashboard.js"></script>
     <link rel="stylesheet" href="Views/dashboard.css">
@@ -16,13 +18,49 @@
 
 <body>
    <?php require 'Components/headerAdmin.php'; ?>
-    
+   <?php
+if (isset($_SESSION['mensaje'])) {
+    $mensaje = $_SESSION['mensaje'];
+    $alertType = $mensaje['type'] == 'success' ? '¡Éxito!' : 'Error';
+
+    // Check if the message is for a successful registration
+    if ($mensaje['type'] == 'success') {
+        echo "<script>
+            swal({
+                title: '$alertType',
+                text: '{$mensaje['text']}',
+                type: '{$mensaje['type']}',
+                showConfirmButton: true
+            }, function() {
+                // Redirigir a la página de iniciar sesion después de cerrar la alerta
+                window.location.href = '/BDM-CI/profileAdmin';
+            });
+        </script>";
+    } else {
+        echo "<script>
+            swal({
+                title: '$alertType',
+                text: '{$mensaje['text']}',
+                type: '{$mensaje['type']}',
+                showConfirmButton: true
+            }, function() {
+                // Redirigir a la página de logIn después de cerrar la alerta
+                window.location.href = '/BDM-CI/profileAdmin';
+            });
+        </script>";
+    }
+
+    unset($_SESSION['mensaje']); // Elimina el mensaje después de mostrarlo
+}
+?>
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
             <div class="col-md-3 sidebar">
-                <div class="profile-img "><img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Perfil" class="rounded-circle" width="50%" height="50%"></div>
-                <h4>Carlos Daniel Pinkus Martínez</h4>
+                <div class="profile-img">
+                    <img src="<?= $fotoSrc ?>" alt="Perfil" class="profile-picture">
+                </div>
+                <h4><?= $user['Nombre'] ?> <?= $user['Apellidos'] ?></h4>
                 <a href="#MiPerfil" class="active" data-section="profile">Mi perfil</a>
                 <a href="#Cuentas" data-section="accounts">Cuentas Bloqueadas</a>
                 <a href="#Categorias" data-section="categories">Categorias</a>
@@ -33,40 +71,42 @@
             <div class="col-md-9" id="contentArea">
                 <div class="profile-container" id="profileContent">
                     <h2>Editar Perfil</h2>
-                    <form id="profileForm">
+                    <form id="profileForm" method="POST" action="/BDM-CI/profileAdmin" enctype="multipart/form-data">
+                        <input type="hidden" name="id" value="<?= $user['ID_Usuario'] ?>">
+                        <input type="hidden" name="_method" value="PATCH">
                         <!-- Nombre y Apellido -->
                         <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="firstName" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="firstName" value="Carlos Daniel" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="lastName" class="form-label">Apellido</label>
-                                <input type="text" class="form-control" id="lastName" value="Pinkus Martínez" required>
-                            </div>
+                          <div class="col-md-6">
+                              <label for="firstName" class="form-label">Nombre</label>
+                              <input type="text" class="form-control" id="firstName" name="firstName" value="<?= htmlspecialchars($user['Nombre']) ?>" required>
+                          </div>
+                          <div class="col-md-6">
+                              <label for="lastName" class="form-label">Apellido</label>
+                              <input type="text" class="form-control" id="lastName" name="lastName" value="<?= htmlspecialchars($user['Apellidos']) ?>" required>
+                          </div>
                         </div>
-                    
+
                         <!-- Género -->
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="gender" class="form-label">Género</label>
-                                <select id="gender" class="form-select">
-                                    <option value="masculino">Masculino</option>
-                                    <option value="femenino">Femenino</option>
-                                    <option value="otro">Otro</option>
+                                <select id="gender" class="form-select" name="gender">
+                                    <option value="Masculino" <?= $user['Genero'] == 'Masculino' ? 'selected' : '' ?>>Masculino</option>
+                                    <option value="Femenino" <?= $user['Genero'] == 'Femenino' ? 'selected' : '' ?>>Femenino</option>
+                                    <option value="Otro" <?= $user['Genero'] == 'Otro' ? 'selected' : '' ?>>Otro</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
                                 <label for="birthdate" class="form-label">Fecha de Nacimiento</label>
-                                <input type="date" class="form-control" id="birthdate" value="1990-01-01" required>
+                                <input type="date" class="form-control" id="birthdate" name="birthdate" value="<?= htmlspecialchars($user['Fech_Nacimiento']) ?>" required>
                             </div>
                         </div>
                     
                         <!-- Foto de Perfil -->
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label for="profilePhoto" class="form-label">Foto de Perfil</label>
-                                <input type="file" class="form-control" id="profilePhoto" accept="image/*">
+                                <label for="foto" class="form-label">Foto de Perfil</label>
+                                <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
                             </div>
                         </div>
                     
@@ -74,7 +114,7 @@
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" value="carlos.pinkus@example.com" disabled>
+                                <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($user['Email']) ?>" disabled>
                             </div>
                         </div>
                     
@@ -82,24 +122,24 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="password" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control" id="password" placeholder="Ingrese nueva contraseña">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Ingrese nueva contraseña">
                                 <small class="form-text text-muted">Debe contener al menos 8 caracteres, una mayúscula, un número y un carácter especial.</small>
                             </div>
                             <div class="col-md-6">
                                 <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
-                                <input type="password" class="form-control" id="confirmPassword" placeholder="Confirme la nueva contraseña">
+                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirme la nueva contraseña">
                             </div>
                         </div>
-                    
+                                        
                         <!-- Fecha de Registro y Última Modificación (no editables) -->
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="registrationDate" class="form-label">Fecha de Registro</label>
-                                <input type="text" class="form-control" id="registrationDate" value="2023-09-15" disabled>
+                                <input type="text" class="form-control" id="registrationDate" value="<?= htmlspecialchars($user['Fech_Registro']) ?>" disabled>
                             </div>
                             <div class="col-md-6">
                                 <label for="lastUpdate" class="form-label">Última Modificación</label>
-                                <input type="text" class="form-control" id="lastUpdate" value="2024-09-17" disabled>
+                                <input type="text" class="form-control" id="lastUpdate" value="<?= htmlspecialchars($user['Fech_Actualizacion']) ?>" disabled>
                             </div>
                         </div>
                     

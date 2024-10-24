@@ -13,7 +13,15 @@
 </head>
 
 <body>
-<?php include 'Components/headerStudent.php'; ?>
+<?php
+if(!isset($_SESSION['user'])){
+require 'Components/headerGuest.php';
+}else if($_SESSION['user']['Rol']==='Alumno'){
+require 'Components/headerStudent.php';
+}else if($_SESSION['user']['Rol']==='Administrador'){
+require 'Components/headerAdmin.php';
+}
+?>
 
     <div class="container">
         <main>

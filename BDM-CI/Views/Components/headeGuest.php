@@ -1,4 +1,4 @@
-<header class="d-flex justify-content-between align-items-center py-3 <?php if(urlIs('/BDM-CI/mensajeria')){echo 'bg-light';} ?>">
+<header class="d-flex justify-content-between align-items-center py-3">
         <div class="d-flex align-items-center">
             <a href="/BDM-CI/" class="btn"> 
                 <img src="Resources/logoPlacerHolder.png" alt="Logo" width="40" height="40"></img> 
@@ -24,24 +24,18 @@
                 <i class="fas fa-filter"></i> Filtro Avanzado
             </button>
         </div>
-        <div class="d-flex align-items-center">
-            <a href="/BDM-CI/carrito" class="btn">
-                <i class="fas fa-shopping-cart me-3"></i> 
-            </a>            
+ 
+        <div class="d-flex align-items-center">         
             <div class="dropdown">
                 <button class="btn dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="<?= $fotoSrc ?>" alt="Perfil" class="rounded-circle" width="40" height="40">
+                    <i class="fas fa-user-circle"></i> 
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                    <li><a class="dropdown-item" href="/BDM-CI/profile">Perfil</a></li>
-                    <li><a class="dropdown-item" href="/BDM-CI/kardex">Kardex</a></li>
-                    <li><a class="dropdown-item" href="/BDM-CI/mensajeria">Mensajes</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="/BDM-CI/logOut">Cerrar Sesión</a></li>
+                    <li><a class="dropdown-item" href="/BDM-CI/signUp">Iniciar Sesión</a></li>
+                    <li><a class="dropdown-item" href="/BDM-CI/logIn">Registrarse</a></li>
                 </ul>
             </div>
         </div>
-
         <!-- Ventana Modal -->
         <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable">

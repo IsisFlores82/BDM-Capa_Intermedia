@@ -58,7 +58,7 @@ if (isset($_SESSION['mensaje'])) {
         <div class="row">
             <!-- Sidebar -->
             <div class="col-md-3 sidebar">
-                <div class="profile-img ">
+                <div class="profile-img">
                     <img src="<?= $fotoSrc ?>" alt="Perfil" class="profile-picture">
                 </div>
                 <h4><?= $user['Nombre'] ?> <?= $user['Apellidos'] ?></h4>

@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         courses.forEach(course => {
             const card = document.createElement('div');
-            card.className = 'col-md-3 mb-3';
+            card.className = 'col-md-4 mb-3';
             card.innerHTML = `
 <div class="card text-center">
     <div class="card-body">
@@ -120,6 +120,7 @@ function addCategoryToDOM(name, description, index) {
         const confirmPassword = confirmPasswordField.value;
         
         // Regular expressions for validation
+        const hasSmallLetter = /[a-z]/;
         const hasUpperCase = /[A-Z]/;
         const hasNumber = /\d/;
         const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/;
@@ -135,6 +136,10 @@ function addCategoryToDOM(name, description, index) {
         }
         if (!hasUpperCase.test(password)) {
             alert('La contraseña debe incluir al menos una mayúscula.');
+            return false;
+        }
+        if(!hasSmallLetter.test(password)){
+            alert('La contraseña debe incluir al menos una letra minúscula.');
             return false;
         }
         if (!hasNumber.test(password)) {
