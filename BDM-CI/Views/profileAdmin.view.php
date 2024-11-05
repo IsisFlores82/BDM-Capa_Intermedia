@@ -157,9 +157,34 @@ if (isset($_SESSION['mensaje'])) {
                     </form>
                 </div>
                 <div class="courses-container d-none" id="accountsContent">
-                    <h2>Cuentas Bloqueadas</h2>
-                    <div class="row">
-                    </div>
+                <h2>Cuentas Bloqueadas</h2>
+                  <div class="row">
+                  <?php if (!empty($blockedAccounts)): ?>
+                          <?php foreach ($blockedAccounts as $account): ?>
+                              <div class="col-md-4 mb-3">
+                                  <div class="card text-center">
+                                      <div class="card-body">
+                                          <div class="profile-img-container mb-3">
+                                            <?php if (!empty($account['Foto'])) {
+                                                    $finfo = new finfo(FILEINFO_MIME_TYPE);
+                                                    $mimeType = $finfo->buffer($account['Foto']);
+                                                    $fotoBase64 = base64_encode($account['Foto']);
+                                                    $fotoSrc = "data:" . $mimeType . ";base64," . $fotoBase64;
+                                                } else {
+                                                    $fotoSrc = "https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg";
+                                                } ?>
+                                              <img src="<?= $fotoSrc ?>" alt="Perfil" class="profile-img-acc rounded-circle">
+                                          </div>
+                                          <h5 class="card-title"><?= htmlspecialchars($account['Nombre'] . ' ' . $account['Apellidos']); ?></h5>
+                                          <button class="btn btn-primary mt-3" onclick="window.location.href='profileAdmin/rehabilitate?id=<?= $account['ID_Usuario']; ?>'">Rehabilitar Cuenta</button>
+                                          </div>
+                                  </div>
+                              </div>
+                          <?php endforeach; ?>
+                      <?php else: ?>
+                          <h3>No se encontraron cuentas bloqueadas.</h3>
+                      <?php endif; ?>
+                  </div>
                 </div>
                 <div class="categories-container d-none" id="categoriesContent">
                     <h2>Categorías</h2>
@@ -176,14 +201,7 @@ if (isset($_SESSION['mensaje'])) {
     </div>
     <script src="Views/validationsProfile.js"></script>
     <script>
-        function confirmRehabilitate() {
-    const confirmAction = confirm("¿Estás seguro de que deseas rehabilitara este usuario?");
-    if (confirmAction) {
-        alert("El usuario ha sido rehabilitado.");
-    } else {
-        alert("Rehabilitacion cancelada.");
-    }
-    }
+   
     
     function addCategoryToDOM(name, description, index) {
     const categoryList = document.getElementById('categoryList');

@@ -51,11 +51,35 @@ class User{
         $stmt = $this->con->getCon()->prepare($query);
         $stmt->execute(['email' => $email]);
     }
+
+    public function getBlockedAccounts() {
+        // Consulta SQL para obtener cuentas bloqueadas con sus nombres y fotos
+        $query = "CALL GetBlockedAccounts()";
+        $stmt = $this->con->getCon()->prepare($query);
+        $stmt->execute();
+        
+        $blockedAccounts = [];
+    
+        // Iterar sobre los resultados para construir el array de cuentas bloqueadas
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $blockedAccounts[] = $row;
+        }
+    
+        return $blockedAccounts;
+    }
+    
     
     public function disableUser($email) {
         $query = "CALL disableUser(:email)";
         $stmt = $this->con->getCon()->prepare($query);
         $stmt->execute(['email' => $email]);
+    }
+
+    public function enableAccount($userId) {
+        $query = "CALL enableUser(:userId)";
+        $stmt = $this->con->getCon()->prepare($query);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        return $stmt->execute();
     }
 
     public function updateUser($ID_usuario, $nombre, $apellido, $genero, $fechaNacimiento, $foto, $password) {

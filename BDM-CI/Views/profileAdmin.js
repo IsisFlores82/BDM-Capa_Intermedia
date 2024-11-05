@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 profileContent.classList.add('d-none');
                 accountsContent.classList.remove('d-none');
                 categoriesContent.classList.add('d-none');
-                loadAccounts();
             }else if(section === 'categories'){
                 profileContent.classList.add('d-none');
                 accountsContent.classList.add('d-none');
@@ -39,38 +38,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Function to load courses
-    function loadAccounts() {
-        const courses = [
-            { img:'https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg',user: 'Carlos Daniel Pinkus Martinez'},
-            { img:'https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png',user: 'Villatrue'}
-         ];
-
-        const coursesRow = document.querySelector('#accountsContent .row');
-        coursesRow.innerHTML = '';
-
-        courses.forEach(course => {
-            const card = document.createElement('div');
-            card.className = 'col-md-4 mb-3';
-            card.innerHTML = `
-<div class="card text-center">
-    <div class="card-body">
-        <!-- Imagen de Perfil centrada y forzada a ser un círculo -->
-        <div class="profile-img-container mb-3">
-            <img src="${course.img}" alt="Perfil" class="profile-img-acc rounded-circle">
-        </div>
-
-        <!-- Nombre del Usuario centrado -->
-        <h5 class="card-title">${course.user}</h5>
-
-        <!-- Botón centrado -->
-        <button class="btn btn-primary mt-3" onclick="confirmRehabilitate()">Rehabilitar Cuenta</button>
-    </div>
-</div>
-            `;
-            coursesRow.appendChild(card);
-        });
-    }
 // Carga inicial de categorías predeterminadas
 function loadInitialCategories() {
     const initialCategories = [

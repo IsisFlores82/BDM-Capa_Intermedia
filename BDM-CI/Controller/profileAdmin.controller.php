@@ -11,6 +11,19 @@ if (!isset($_SESSION['user'])) {
 
 $id = $_SESSION['user']['ID_Usuario'];
 $user = $userDb->getUserById($id);
+$blockedAccounts = $userDb->getBlockedAccounts();
+if (isset($_GET['action']) && $_GET['action'] === 'enableAccount') {
+    $userId = $_GET['userId'] ?? null;
+
+    if ($userId) {
+        // Llama al procedimiento almacenado para habilitar la cuenta
+        $userDb->enableAccount($userId);
+        echo json_encode(['status' => 'success', 'message' => 'Cuenta habilitada con éxito.']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'ID de usuario no proporcionada.']);
+    }
+    exit;
+}
 
 function handleImageUpload($file, $maxFileSize = 5242880) { // 5MB default
     if ($file['error'] !== UPLOAD_ERR_OK) {

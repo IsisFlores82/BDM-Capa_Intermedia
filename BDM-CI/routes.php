@@ -32,6 +32,7 @@ $router->get('/BDM-CI/kardex','controller/kardex.controller.php');
 $router->get('/BDM-CI/mensajeria','controller/mensajeria.controller.php');
 $router->get('/BDM-CI/cursarCurso','controller/cursarCurso.controller.php');
 $router->get('/BDM-CI/profileAdmin','controller/profileAdmin.controller.php');
+$router->get('/BDM-CI/profileAdmin/rehabilitate','controller/rehabilitate.controller.php');
 $router->get('/BDM-CI/reporteUsuarios','controller/reporteUsuarios.controller.php');
 $router->get('/BDM-CI/profileInstructor','controller/profileInstructor.controller.php');
 $router->get('/BDM-CI/reporteDeVentas','controller/reporteDeVentas.controller.php');
