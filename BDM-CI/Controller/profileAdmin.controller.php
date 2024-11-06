@@ -1,8 +1,10 @@
 <?php
 require "Model/User.php";
-$config = require 'config.php';
+require "Model/Category.php";
 
+$config = require 'config.php';
 $userDb = new User($config['database']);
+$categoryDb = new Category($config['database']);
 
 if (!isset($_SESSION['user'])) {
     header("Location: /BDM-CI/logIn");
@@ -11,6 +13,7 @@ if (!isset($_SESSION['user'])) {
 
 $id = $_SESSION['user']['ID_Usuario'];
 $user = $userDb->getUserById($id);
+$categories = $categoryDb->getCategories();
 $blockedAccounts = $userDb->getBlockedAccounts();
 if (isset($_GET['action']) && $_GET['action'] === 'enableAccount') {
     $userId = $_GET['userId'] ?? null;
@@ -69,35 +72,85 @@ function handleImageUpload($file, $maxFileSize = 5242880) { // 5MB default
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $nombre = $_POST['firstName'];
-    $apellido = $_POST['lastName'];
-    $genero = $_POST['gender'];
-    $fechaNacimiento = $_POST['birthdate'];
-    $password = !empty($_POST['password']) ? $_POST['password'] : null;
-
-    $foto = null;
-    if (isset($_FILES['foto']) && $_FILES['foto']['error'] == UPLOAD_ERR_OK) {
-        $result = handleImageUpload($_FILES['foto']);
-        if (isset($result['error'])) {
-            $_SESSION['mensaje'] = ['text' => $result['error'], 'type' => 'error'];
-        } else {
-            
-            $foto = $result['data'];
+    if (isset($_POST['_method']) && $_POST['_method'] === 'PATCH') {
+        $nombre = $_POST['firstName'];
+        $apellido = $_POST['lastName'];
+        $genero = $_POST['gender'];
+        $fechaNacimiento = $_POST['birthdate'];
+        $password = !empty($_POST['password']) ? $_POST['password'] : null;
+    
+        $foto = null;
+        if (isset($_FILES['foto']) && $_FILES['foto']['error'] == UPLOAD_ERR_OK) {
+            $result = handleImageUpload($_FILES['foto']);
+            if (isset($result['error'])) {
+                $_SESSION['mensaje'] = ['text' => $result['error'], 'type' => 'error'];
+            } else {
+                
+                $foto = $result['data'];
+            }
+        }
+    
+        if (!isset($_SESSION['mensaje'])) {
+            $resultado = $userDb->updateUser($id, $nombre, $apellido, $genero, $fechaNacimiento, $foto, $password);
+    
+            if ($resultado['status'] == 'success') {
+                $_SESSION['mensaje'] = ['text' => $resultado['message'], 'type' => 'success'];
+                $user = $userDb->getUserById($id);
+                $_SESSION['user'] = $user;
+            } else {
+                $_SESSION['mensaje'] = ['text' => $resultado['message'], 'type' => 'error'];
+            }
         }
     }
+    
+    if (isset($_POST['action'])) {
+        // Crear nueva categoría
+        if ($_POST['action'] === 'createCategory') {
+            $nameCreate = $_POST['categoryName'];
+            $descriptionCreate = $_POST['categoryDescription'];
 
-    if (!isset($_SESSION['mensaje'])) {
-        $resultado = $userDb->updateUser($id, $nombre, $apellido, $genero, $fechaNacimiento, $foto, $password);
+            if ($categoryDb->addCategory($nameCreate, $descriptionCreate, $id)) {
+                $_SESSION['mensaje'] = ['text' => 'Categoría creada exitosamente.', 'type' => 'success'];
+            } else {
+                $_SESSION['mensaje'] = ['text' => 'Error al crear la categoría.', 'type' => 'error'];
+            }
+        }
 
-        if ($resultado['status'] == 'success') {
-            $_SESSION['mensaje'] = ['text' => $resultado['message'], 'type' => 'success'];
-            $user = $userDb->getUserById($id);
-            $_SESSION['user'] = $user;
-        } else {
-            $_SESSION['mensaje'] = ['text' => $resultado['message'], 'type' => 'error'];
+        if (strpos($_POST['action'], 'updateCategory') === 0) {
+            // Obtén el ID de la categoría a actualizar de la acción
+            $categoryId = str_replace('updateCategory[', '', $_POST['action']);
+            $categoryId = rtrim($categoryId, ']'); // Limpiar el ID
+
+            // Obtiene el nombre y descripción usando el ID
+            $categoryName = $_POST['categoryName'][$categoryId];
+            $categoryDescription = $_POST['categoryDescription'][$categoryId];
+
+            // Llama al método de actualización de la categoría
+            if ($categoryDb->updateCategory($categoryId, $categoryName, $categoryDescription)) {
+                $_SESSION['mensaje'] = ['text' => 'Categoría actualizada exitosamente.', 'type' => 'success'];
+            } else {
+                $_SESSION['mensaje'] = ['text' => 'Error al actualizar la categoría.', 'type' => 'error'];
+            }
+        }
+
+        // Eliminar categoría específica
+        if (strpos($_POST['action'], 'deleteCategory') === 0) {
+            // Obtén el ID de la categoría a eliminar de la acción
+            $categoryId = str_replace('deleteCategory[', '', $_POST['action']);
+            $categoryId = rtrim($categoryId, ']'); // Limpiar el ID
+
+            if ($categoryDb->deleteCategory($categoryId)) {
+                $_SESSION['mensaje'] = ['text' => 'Categoría eliminada exitosamente.', 'type' => 'success'];
+            } else {
+                $_SESSION['mensaje'] = ['text' => 'Error al eliminar la categoría.', 'type' => 'error'];
+            }
         }
     }
+    
 }
+
+
+
 
 if (!empty($user['Foto'])) {
     $finfo = new finfo(FILEINFO_MIME_TYPE);

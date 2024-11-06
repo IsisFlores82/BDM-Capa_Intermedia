@@ -157,7 +157,7 @@ if (isset($_SESSION['mensaje'])) {
                     </form>
                 </div>
                 <div class="courses-container d-none" id="accountsContent">
-                <h2>Cuentas Bloqueadas</h2>
+                    <h2>Cuentas Bloqueadas</h2>
                   <div class="row">
                   <?php if (!empty($blockedAccounts)): ?>
                           <?php foreach ($blockedAccounts as $account): ?>
@@ -188,69 +188,51 @@ if (isset($_SESSION['mensaje'])) {
                 </div>
                 <div class="categories-container d-none" id="categoriesContent">
                     <h2>Categorías</h2>
-                    <form id="categoriesForm">
+                    <form id="categoriesForm" method="POST" action="/BDM-CI/profileAdmin">
                         <div id="categoryList">
-                            
+                            <?php foreach ($categories as $category): ?>
+                                <div class="row mb-3" data-index="<?= $category['ID_Categoria'] ?>">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Nombre de la Categoría</label>
+                                        <input type="text" class="form-control" name="categoryName[<?= $category['ID_Categoria'] ?>]" value="<?= htmlspecialchars($category['Nombre']) ?>" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Descripción</label>
+                                        <input type="text" class="form-control" name="categoryDescription[<?= $category['ID_Categoria'] ?>]" value="<?= htmlspecialchars($category['Descripcion']) ?>" required>
+                                    </div>
+                                    <div class="col-md-4 d-flex align-items-end">
+                                        <input type="hidden" name="categoryId[<?= $category['ID_Categoria'] ?>]" value="<?= $category['ID_Categoria'] ?>">
+                                        <button type="submit" name="action" value="updateCategory[<?= $category['ID_Categoria'] ?>]" class="btn btn-success">Actualizar</button>
+                                        <button type="submit" name="action" value="deleteCategory[<?= $category['ID_Categoria'] ?>]" class="btn btn-danger">Eliminar</button>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
                         </div>
-                        <button type="button" class="btn btn-primary mt-3" onclick="addCategory()">Agregar Categoría</button>
-                        <button type="submit" class="btn btn-success mt-3">Guardar Cambios</button>
+                    </form>
+                        
+                    <!-- Form to add a new category -->
+                    <form method="POST" action="/BDM-CI/profileAdmin">
+                        <h3>Agregar Nueva Categoría</h3>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Nombre de la Categoría</label>
+                                <input type="text" class="form-control" name="categoryName" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Descripción</label>
+                                <input type="text" class="form-control" name="categoryDescription" required>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end">
+                                <button type="submit" name="action" value="createCategory" class="btn btn-primary">Agregar</button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
     <script src="Views/validationsProfile.js"></script>
-    <script>
-   
-    
-    function addCategoryToDOM(name, description, index) {
-    const categoryList = document.getElementById('categoryList');
-    const categoryItem = document.createElement('div');
-    categoryItem.classList.add('row', 'mb-3');
-    categoryItem.setAttribute('data-index', index);
-
-    categoryItem.innerHTML = `
-        <div class="col-md-5">
-            <label class="form-label">Nombre de la Categoría</label>
-            <input type="text" class="form-control" name="categoryName" value="${name}" required>
-        </div>
-        <div class="col-md-5">
-            <label class="form-label">Descripción</label>
-            <input type="text" class="form-control" name="categoryDescription" value="${description}" required>
-        </div>
-        <div class="col-md-2 d-flex align-items-end">
-            <button type="button" class="btn btn-danger" onclick="removeCategory(this)">Eliminar</button>
-        </div>
-    `;
-
-    categoryList.appendChild(categoryItem);
-}
-
-    // Función para agregar nueva categoría
-    function addCategory() {
-        addCategoryToDOM('Nueva Categoría', 'Descripción de la Categoría', document.getElementById('categoryList').children.length);
-    }
-    // Función para eliminar una categoría
-    function removeCategory(button) {
-        const categoryItem = button.closest('.row');
-        categoryItem.remove();
-    }
-    
-    function saveCategories(event) {
-    event.preventDefault(); // Previene el envío automático del formulario
-
-    const form = document.getElementById('categoriesForm');
-
-    // Verificar si el formulario es válido
-    if (form.checkValidity()) {
-        alert('Los cambios han sido guardados');
-    } else {
-        // Si no es válido, mostrar el comportamiento de validación por defecto del navegador
-        form.reportValidity();
-    }
-}
-    </script>
-   <script src="Views/profileAdmin.js"></script>
+    <script src="Views/profileAdmin.js"></script>
 
 </body>
 </html>

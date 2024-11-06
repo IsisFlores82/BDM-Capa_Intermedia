@@ -33,49 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 profileContent.classList.add('d-none');
                 accountsContent.classList.add('d-none');
                 categoriesContent.classList.remove('d-none');
-                loadInitialCategories();
             }
         });
     });
-
-// Carga inicial de categorías predeterminadas
-function loadInitialCategories() {
-    const initialCategories = [
-        { name: 'Desarrollo', description: 'Cursos sobre desarrollo de software y programación' },
-        { name: 'Bases de Datos', description: 'Cursos para aprender sobre bases de datos' },
-        { name: 'Marketing', description: 'Cursos sobre marketing y ventas' },
-        { name: 'Diseño', description: 'Cursos sobre diseño gráfico y creativo' },
-        { name: 'Unreal', description: 'Cursos especializados en el motor de Unreal Engine' }
-    ];
-
-    const categoryList = document.getElementById('categoryList');
-    categoryList.innerHTML='';
-    initialCategories.forEach((category, index) => {
-        addCategoryToDOM(category.name, category.description, index);
-    });
-}
-
-// Función para agregar una categoría al DOM
-function addCategoryToDOM(name, description, index) {
-    const categoryList = document.getElementById('categoryList');
-    const categoryItem = document.createElement('div');
-    categoryItem.classList.add('row', 'mb-3');
-    categoryItem.setAttribute('data-index', index);
-
-    categoryItem.innerHTML = `
-        <div class="col-md-5">
-            <label class="form-label">Nombre de la Categoría</label>
-            <input type="text" class="form-control" name="categoryName" value="${name}" required>
-        </div>
-        <div class="col-md-5">
-            <label class="form-label">Descripción</label>
-            <input type="text" class="form-control" name="categoryDescription" value="${description}" required>
-        </div>
-        <div class="col-md-2 d-flex align-items-end">
-            <button type="button" class="btn btn-danger" onclick="removeCategory(this)">Eliminar</button>
-        </div>
-    `;
-
-    categoryList.appendChild(categoryItem);
-}
 });
