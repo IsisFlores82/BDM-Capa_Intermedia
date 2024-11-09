@@ -21,4 +21,11 @@ class Level
         
         return $stmt->execute();
     }
+
+    public function getLevelsByCourse($id) {
+        $query = "SELECT * FROM Nivel WHERE ID_Curso = :id AND Status = 1";
+        $stmt = $this->con->getCon()->prepare($query);
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

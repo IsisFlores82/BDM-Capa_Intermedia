@@ -43,7 +43,7 @@ if (isset($_SESSION['mensaje'])) {
                 type: '{$mensaje['type']}',
                 showConfirmButton: true
             }, function() {
-                window.location.href = '/BDM-CI/profileIntstructor';
+                window.location.href = '/BDM-CI/profileInstructor';
             });
         </script>";
     }
@@ -156,25 +156,71 @@ if (isset($_SESSION['mensaje'])) {
                 <div class="courses-container d-none" id="coursesContent">
                     <h2>Cursos Creados</h2>
                     <div class="row">
-                        <!-- Los cursos se añaden en el script -->
+                        <?php foreach ($courses as $course): ?>
+                            <?php
+                                // Handle BLOB image
+                                if (!empty($course['Imagen'])) {
+                                    $finfo = new finfo(FILEINFO_MIME_TYPE);
+                                    $mimeType = $finfo->buffer($course['Imagen']);
+                                    $fotoBase64 = base64_encode($course['Imagen']);
+                                    $fotoSrc = "data:" . $mimeType . ";base64," . $fotoBase64;
+                                } else {
+                                    $fotoSrc = "https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg";
+                                }
+                            ?>
+                            <div class="col-md-4 mb-3">
+                                <div class="card course-item">
+                                    <div class="card-body">
+                                        <!-- Delete button sends a POST request with course ID for deletion -->
+                                        <form method="POST" action="/BDM-CI/profileInstructor/deleteCourse" class="position-absolute top-0 end-0 m-2 delete-form">
+                                            <input type="hidden" name="ID_Curso" value="<?= htmlspecialchars($course['ID_Curso']); ?>">
+                                            <button type="submit" class="btn btn-danger btn-sm delete-btn">Baja</button>
+                                        </form>
+                            
+                                        <!-- Course Image -->
+                                        <img src="<?= $fotoSrc ?>" alt="Curso" class="img-fluid course-image mb-3">
+                            
+                                        <!-- Course Title -->
+                                        <h5 class="card-title"><?= htmlspecialchars($course['Titulo']); ?></h5>
+                            
+                                        <!-- Edit button links to edit controller, passing course ID -->
+                                        <a href="/BDM-CI/editarCurso?id=<?= htmlspecialchars($course['ID_Curso']); ?>" class="btn btn-primary">Editar Curso</a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="Views/validationsProfile.js"></script>
-
-    <script src="Views/profileInstructor.js"></script>
     <script>
-        function confirmDelete() {
-        const confirmAction = confirm("¿Estás seguro de que deseas darde baja este curso?");
-        if (confirmAction) {
-            alert("El curso ha sido dado de baja.");
-        } else {
-            alert("El curso no ha sido daddo de baja.");    
-        }
-    }
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                event.preventDefault(); // Prevent the form from submitting immediately
+                const form = this.closest('.delete-form'); // Select the form related to this button
+            
+                swal({
+                    title: "¿Estás seguro?",
+                    text: "No podrás revertir esta acción.",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Sí, eliminar",
+                    cancelButtonText: "Cancelar",
+                    closeOnConfirm: true // Keep the alert open until manually closed
+                }, function (isConfirm) {
+                    if (isConfirm) {
+                        form.submit(); // Submit the form if confirmed
+                    }
+                });
+            });
+        });
     </script>
+    <script src="Views/validationsProfile.js"></script>
+    <script src="Views/profileInstructor.js"></script>
+
 
 </body>
 </html>

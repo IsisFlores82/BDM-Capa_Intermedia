@@ -35,9 +35,11 @@ $router->get('/BDM-CI/profileAdmin','controller/profileAdmin.controller.php');
 $router->get('/BDM-CI/profileAdmin/rehabilitate','controller/rehabilitate.controller.php');
 $router->get('/BDM-CI/reporteUsuarios','controller/reporteUsuarios.controller.php');
 $router->get('/BDM-CI/profileInstructor','controller/profileInstructor.controller.php');
+$router->get('/BDM-CI/profileInstructor/deleteCourse','controller/deleteCourse.controller.php');
 $router->get('/BDM-CI/reporteDeVentas','controller/reporteDeVentas.controller.php');
 $router->get('/BDM-CI/ventaDetallada','controller/ventaDetallada.controller.php');
 $router->get('/BDM-CI/crearCurso','controller/crearCurso.controller.php');
+$router->get('/BDM-CI/editarCurso','controller/editCourse.controller.php');
 $router->get('/BDM-CI/logOut','controller/logOut.controller.php');
 
 $router->post('/BDM-CI/logIn','controller/logIn.controller.php');
@@ -53,3 +55,7 @@ $router->post('/BDM-CI/profileInstructor','controller/profileInstructor.controll
 $router->patch('/BDM-CI/profileInstructor','controller/profileInstructor.controller.php')->only('Instructor');
 
 $router->post('/BDM-CI/crearCurso','controller/crearCurso.controller.php')->only('Instructor');
+$router->post('/BDM-CI/editarCurso','controller/editCourse.controller.php')->only('Instructor');
+$router->patch('/BDM-CI/editarCurso','controller/editCourse.controller.php')->only('Instructor');
+$router->delete('/BDM-CI/editarCurso','controller/editCourse.controller.php')->only('Instructor');
+$router->post('/BDM-CI/profileInstructor/deleteCourse','controller/deleteCourse.controller.php')->only('Instructor');

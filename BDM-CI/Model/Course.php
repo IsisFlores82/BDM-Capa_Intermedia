@@ -27,4 +27,33 @@ class Course
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['new_course_id']; 
     }
+
+    public function getCourseById($id) {        
+        $query = "SELECT * FROM Curso WHERE ID_Curso = :id AND Status = 1";
+        $stmt = $this->con->getCon()->prepare($query);
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function validateCourseOwnership($id, $instructorId) {
+        $query = "SELECT * FROM Curso WHERE ID_Curso = :id AND ID_Instructor = :instructorId AND Status = 1";
+        $stmt = $this->con->getCon()->prepare($query);
+        $stmt->execute(['id' => $id, 'instructorId' => $instructorId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getCoursesByInstructor($id) {
+        $query = "SELECT * FROM Curso WHERE ID_Instructor = :id AND Status = 1";
+        $stmt = $this->con->getCon()->prepare($query);
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function deleteCourse($id, $instructorId) {
+        $query = "UPDATE Curso SET Status = 0, Fecha_Elim = NOW() WHERE ID_Curso = :id AND ID_Instructor = :instructorId";
+        $stmt = $this->con->getCon()->prepare($query);
+        return $stmt->execute(['id' => $id, 'instructorId' => $instructorId]);
+    }
+
+
 }
