@@ -51,3 +51,5 @@ $router->patch('/BDM-CI/profileAdmin','controller/profileAdmin.controller.php')-
 
 $router->post('/BDM-CI/profileInstructor','controller/profileInstructor.controller.php')->only('Instructor');
 $router->patch('/BDM-CI/profileInstructor','controller/profileInstructor.controller.php')->only('Instructor');
+
+$router->post('/BDM-CI/crearCurso','controller/crearCurso.controller.php')->only('Instructor');

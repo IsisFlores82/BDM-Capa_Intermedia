@@ -24,4 +24,3 @@
         </div>
     </header>
     
-    <script src="navbar.js"></script>

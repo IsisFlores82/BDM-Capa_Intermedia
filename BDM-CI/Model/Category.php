@@ -9,7 +9,7 @@ class Category {
 
     // Obtener todas las categorías
     public function getCategories() {
-        $query = "SELECT * FROM Categorias";
+        $query = "SELECT * FROM Categorias where Status = 1";
         $stmt = $this->con->getCon()->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -37,7 +37,7 @@ class Category {
 
     // Eliminar categoría
     public function deleteCategory($id) {
-        $query = "DELETE FROM Categorias WHERE ID_Categoria = :id";
+        $query = "UPDATE Categorias SET Status = 0 WHERE ID_Categoria = :id";
         $stmt = $this->con->getCon()->prepare($query);
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
