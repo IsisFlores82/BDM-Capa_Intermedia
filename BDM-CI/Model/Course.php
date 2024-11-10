@@ -28,11 +28,32 @@ class Course
         return $result['new_course_id']; 
     }
 
+    public function getCoursesWithInstructorsFromView() {
+        $query = "SELECT * FROM CoursesWithInstructors WHERE Status = 1";
+        $stmt = $this->con->getCon()->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getCourseById($id) {        
         $query = "SELECT * FROM Curso WHERE ID_Curso = :id AND Status = 1";
         $stmt = $this->con->getCon()->prepare($query);
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getFavCourses() {
+        $query = "SELECT * FROM CoursesWithInstructors WHERE Status = 1 ORDER BY Fecha_Elim DESC LIMIT 2";
+        $stmt = $this->con->getCon()->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllCourses() {
+        $query = "SELECT * FROM Curso WHERE Status = 1";
+        $stmt = $this->con->getCon()->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function validateCourseOwnership($id, $instructorId) {
@@ -54,7 +75,6 @@ class Course
         $stmt = $this->con->getCon()->prepare($query);
         return $stmt->execute(['id' => $id, 'instructorId' => $instructorId]);
     }
-
     // Función para actualizar el curso
     public function updateCourse($courseId, $title, $description, $categoryId, $price, $isFree, $imageData) {
         $stmt = $this->con->getCon()->prepare("CALL UpdateCourse(?, ?, ?, ?, ?, ?, ?)");

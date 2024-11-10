@@ -1,7 +1,11 @@
 <?php
 require "Model/User.php";
+require "Model/Course.php";
 $config = require 'config.php';
 $userDb = new User($config['database']);
+$courseDb = new Course($config['database']);
+$coursesFav = $courseDb->getFavCourses();
+$generalCourses = $courseDb->getCoursesWithInstructorsFromView();
 
 if(isset($_SESSION['user'])){
     $id = $_SESSION['user']['ID_Usuario'];

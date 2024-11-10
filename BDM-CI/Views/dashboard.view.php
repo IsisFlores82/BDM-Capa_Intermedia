@@ -72,44 +72,43 @@ require 'Components/headerAdmin.php';
             <section>
                 <h2 class="h5 mt-4">Los Favoritos</h2>
                 <div class="row">
-                    <div class="col-md-6">
-                        <a href="/BDM-CI/courseDetail" class="card-link">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Curso" class="img-fluid course-image">
-                                <h5 class="card-title">Como ser cantante profesional</h5>
-                                <p class="card-text">Hatsune Miku</p>
-                                <p class="card-text">999$</p>
-                                <div class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
+                    <?php foreach ($coursesFav as $course): ?>
+                        <div class="col-md-6">
+                            <a href="/BDM-CI/courseDetail?id=<?= $course['ID_Curso'] ?>" class="card-link">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <?php
+                                        // Procesamiento del BLOB de imagen para mostrarla correctamente
+                                        if (!empty($course['Course_Image'])) {
+                                            $finfo = new finfo(FILEINFO_MIME_TYPE);
+                                            $mimeType = $finfo->buffer($course['Course_Image']); // Detecta el tipo MIME
+                                            $fotoBase64 = base64_encode($course['Course_Image']); // Codifica la imagen en base64
+                                            $fotoSrc = "data:" . $mimeType . ";base64," . $fotoBase64;
+                                        } else {
+                                            // Imagen de respaldo si no hay una imagen guardada en el curso
+                                            $fotoSrc = "https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg";
+                                        }
+                                        ?>
+                                        <img src="<?= $fotoSrc ?>" alt="Curso" class="img-fluid course-image">
+                                    
+                                        <!-- Título, Autor y costo del curso -->
+                                        <h5 class="card-title"><?= htmlspecialchars($course['Course_Title']) ?></h5>
+                                        <p class="card-text"><?= htmlspecialchars($course['Instructor_Nombre']) . " " . htmlspecialchars($course['Instructor_Apellidos']) ?></p>
+                                        <p class="card-text"><?= $course['Course_Price'] ?>$</p>
+                                    
+                                        <!-- Reseñas de estrellas (puedes reemplazarlo si tienes datos de calificación) -->
+                                        <div class="text-warning">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
-                        </a>
-                    </div>
-                    <div class="col-md-6">
-                        <a href="/BDM-CI/courseDetail" class="card-link">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png" alt="Curso" class="img-fluid course-image">
-                                <h5 class="card-title">Como hacer una base de datos mamastrosa</h5>
-                                <p class="card-text">Villatrue</p>
-                                <p class="card-text">850$</p>
-                                <div class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </section>
 
@@ -117,349 +116,38 @@ require 'Components/headerAdmin.php';
             <section>
                 <h2 class="h5 mt-4">Todos los Cursos</h2>
                 <div class="row g-2">
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="/BDM-CI/courseDetail" class="card-link">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Curso" class="img-fluid course-image">
-                                <h5 class="card-title">Como ser cantante profesional</h5>
-                                <p class="card-text">Hatsune Miku</p>
-                                <p class="card-text">999$</p>
-                                <div class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
+                    <?php foreach ($generalCourses as $course): ?>
+                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                            <a href="/BDM-CI/courseDetail?id=<?= $course['ID_Curso'] ?>" class="card-link">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <?php
+                                        // Handle BLOB image or use default
+                                        if (!empty($course['Course_Image'])) {
+                                            $finfo = new finfo(FILEINFO_MIME_TYPE);
+                                            $mimeType = $finfo->buffer($course['Course_Image']);
+                                            $fotoBase64 = base64_encode($course['Course_Image']);
+                                            $fotoSrc = "data:" . $mimeType . ";base64," . $fotoBase64;
+                                        } else {
+                                            $fotoSrc = "https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg";
+                                        }
+                                        ?>
+                                        <img src="<?= $fotoSrc ?>" alt="Curso" class="img-fluid course-image">
+                                        <h5 class="card-title"><?= htmlspecialchars($course['Course_Title']) ?></h5>
+                                        <p class="card-text"><?= htmlspecialchars($course['Instructor_Nombre']) . " " . htmlspecialchars($course['Instructor_Apellidos']) ?></p>
+                                        <p class="card-text"><?= htmlspecialchars($course['Course_Price']) ?>$</p>
+                                        <div class="text-warning">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="/BDM-CI/courseDetail" class="card-link">
-                        <div class="card">
-                           <div class="card-body">
-                               <img src="https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png" alt="Curso" class="img-fluid course-image">
-                                <h5 class="card-title">Como hacer una base de datos mamastrosa</h5>
-                                <p class="card-text">Villatrue</p>
-                                <p class="card-text">850$</p>
-                               <div class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="/BDM-CI/courseDetail" class="card-link">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="https://mastermetrics.com/wp-content/uploads/2024/07/meta-ai.jpg" alt="Curso" class="img-fluid course-image">
-                                <h5 class="card-title">Como hacer que meta ai no trolee</h5>
-                                <p class="card-text">Dream Team</p>
-                                <p class="card-text">500$</p>
-                                <div class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="/BDM-CI/courseDetail" class="card-link">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="https://keystoneacademic-res.cloudinary.com/image/upload/f_auto/q_auto/g_auto/c_fill/w_1280/element/17/172834_default-meta-image-v2.png" alt="Curso" class="img-fluid course-image">
-                                <h5 class="card-title">Curso Udemy</h5>
-                                <p class="card-text">Persona Generica 3</p>
-                                <p class="card-text">0$</p>
-                                <div class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="/BDM-CI/courseDetail" class="card-link">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Curso" class="img-fluid course-image">
-                                <h5 class="card-title">Como ser cantante profesional</h5>
-                                <p class="card-text">Hatsune Miku</p>
-                                <p class="card-text">999$</p>
-                                <div class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="/BDM-CI/courseDetail" class="card-link">
-                        <div class="card">
-                           <div class="card-body">
-                               <img src="https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png" alt="Curso" class="img-fluid course-image">
-                                <h5 class="card-title">Como hacer una base de datos mamastrosa</h5>
-                                <p class="card-text">Villatrue</p>
-                                <p class="card-text">850$</p>
-                               <div class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="/BDM-CI/courseDetail" class="card-link">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Curso" class="img-fluid course-image">
-                                <h5 class="card-title">Como ser cantante profesional</h5>
-                                <p class="card-text">Hatsune Miku</p>
-                                <p class="card-text">999$</p>
-                                <div class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="/BDM-CI/courseDetail" class="card-link">
-                        <div class="card">
-                           <div class="card-body">
-                               <img src="https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png" alt="Curso" class="img-fluid course-image">
-                                <h5 class="card-title">Como hacer una base de datos mamastrosa</h5>
-                                <p class="card-text">Villatrue</p>
-                                <p class="card-text">850$</p>
-                               <div class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="/BDM-CI/courseDetail" class="card-link">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="https://mastermetrics.com/wp-content/uploads/2024/07/meta-ai.jpg" alt="Curso" class="img-fluid course-image">
-                                <h5 class="card-title">Como hacer que meta ai no trolee</h5>
-                                <p class="card-text">Dream Team</p>
-                                <p class="card-text">500$</p>
-                                <div class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="/BDM-CI/courseDetail" class="card-link">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="https://keystoneacademic-res.cloudinary.com/image/upload/f_auto/q_auto/g_auto/c_fill/w_1280/element/17/172834_default-meta-image-v2.png" alt="Curso" class="img-fluid course-image">
-                                <h5 class="card-title">Curso Udemy</h5>
-                                <p class="card-text">Persona Generica 3</p>
-                                <p class="card-text">0$</p>
-                                <div class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="/BDM-CI/courseDetail" class="card-link">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Curso" class="img-fluid course-image">
-                                <h5 class="card-title">Como ser cantante profesional</h5>
-                                <p class="card-text">Hatsune Miku</p>
-                                <p class="card-text">999$</p>
-                                <div class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="/BDM-CI/courseDetail" class="card-link">
-                        <div class="card">
-                           <div class="card-body">
-                               <img src="https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png" alt="Curso" class="img-fluid course-image">
-                                <h5 class="card-title">Como hacer una base de datos mamastrosa</h5>
-                                <p class="card-text">Villatrue</p>
-                                <p class="card-text">850$</p>
-                               <div class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="/BDM-CI/courseDetail" class="card-link">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="https://mastermetrics.com/wp-content/uploads/2024/07/meta-ai.jpg" alt="Curso" class="img-fluid course-image">
-                                <h5 class="card-title">Como hacer que meta ai no trolee</h5>
-                                <p class="card-text">Dream Team</p>
-                                <p class="card-text">500$</p>
-                                <div class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="/BDM-CI/courseDetail" class="card-link">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="https://keystoneacademic-res.cloudinary.com/image/upload/f_auto/q_auto/g_auto/c_fill/w_1280/element/17/172834_default-meta-image-v2.png" alt="Curso" class="img-fluid course-image">
-                                <h5 class="card-title">Curso Udemy</h5>
-                                <p class="card-text">Persona Generica 3</p>
-                                <p class="card-text">0$</p>
-                                <div class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="/BDM-CI/courseDetail" class="card-link">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Curso" class="img-fluid course-image">
-                                <h5 class="card-title">Como ser cantante profesional</h5>
-                                <p class="card-text">Hatsune Miku</p>
-                                <p class="card-text">999$</p>
-                                <div class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="/BDM-CI/courseDetail" class="card-link">
-                        <div class="card">
-                           <div class="card-body">
-                               <img src="https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png" alt="Curso" class="img-fluid course-image">
-                                <h5 class="card-title">Como hacer una base de datos mamastrosa</h5>
-                                <p class="card-text">Villatrue</p>
-                                <p class="card-text">850$</p>
-                               <div class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="/BDM-CI/courseDetail" class="card-link">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="https://mastermetrics.com/wp-content/uploads/2024/07/meta-ai.jpg" alt="Curso" class="img-fluid course-image">
-                                <h5 class="card-title">Como hacer que meta ai no trolee</h5>
-                                <p class="card-text">Dream Team</p>
-                                <p class="card-text">500$</p>
-                                <div class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <a href="/BDM-CI/courseDetail" class="card-link">
-                        <div class="card">
-                            <div class="card-body">
-                                <img src="https://keystoneacademic-res.cloudinary.com/image/upload/f_auto/q_auto/g_auto/c_fill/w_1280/element/17/172834_default-meta-image-v2.png" alt="Curso" class="img-fluid course-image">
-                                <h5 class="card-title">Curso Udemy</h5>
-                                <p class="card-text">Persona Generica 3</p>
-                                <p class="card-text">0$</p>
-                                <div class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        </a>
-                    </div>
-                
+                    <?php endforeach; ?>
                 </div>
             </section>
 

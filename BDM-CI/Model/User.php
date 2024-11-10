@@ -164,4 +164,5 @@ class User{
             return 'Error al registrar usuario: ' . $e->getMessage();
         }
     }
+
 }
