@@ -9,7 +9,6 @@ if (!isset($_SESSION['user'])) {
     header("Location: /BDM-CI/logIn");
     exit;
 }
-
 $id = $_SESSION['user']['ID_Usuario'];
 $user = $userDb->getUserById($id);
 $courses = $courseDb->getCoursesByInstructor($id);

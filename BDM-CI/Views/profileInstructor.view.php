@@ -6,48 +6,40 @@
     <title>Miku Academy</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+    
+    <!-- Usar SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.js"></script> 
+
+    <!-- jQuery y Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script> 
-     <!-- Bootstrap JS -->
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="Views/dashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
     <link rel="stylesheet" href="Views/dashboard.css">
     <link rel="stylesheet" href="Views/profile.css">
 </head>
 
+
 <body>
    <?php require 'Components/headerInstructor.php'; ?>
-   <?php
+<?php
 if (isset($_SESSION['mensaje'])) {
     $mensaje = $_SESSION['mensaje'];
-    $alertType = $mensaje['type'] == 'success' ? '¡Éxito!' : 'Error';
+    $alertType = $mensaje['type'] == 'success' ? 'success' : 'error';
+    // Escapar los caracteres especiales del mensaje
+    $text = htmlspecialchars($mensaje['text'], ENT_QUOTES, 'UTF-8');
 
-    // Check if the message is for a successful registration
-    if ($mensaje['type'] == 'success') {
-        echo "<script>
-            swal({
-                title: '$alertType',
-                text: '{$mensaje['text']}',
-                type: '{$mensaje['type']}',
-                showConfirmButton: true
-            }, function() {
-                window.location.href = '/BDM-CI/profileInstructor';
-            });
-        </script>";
-    } else {
-        echo "<script>
-            swal({
-                title: '$alertType',
-                text: '{$mensaje['text']}',
-                type: '{$mensaje['type']}',
-                showConfirmButton: true
-            }, function() {
-                window.location.href = '/BDM-CI/profileInstructor';
-            });
-        </script>";
-    }
-
+    // Usando SweetAlert2 para mostrar la alerta
+    echo "<script>
+        Swal.fire({
+            title: '$alertType',
+            text: '$text',
+            icon: '$alertType',
+            confirmButtonText: 'OK'
+        }).then(function() {
+            window.location.href = '/BDM-CI/profileInstructor';
+        });
+    </script>";
     unset($_SESSION['mensaje']); // Elimina el mensaje después de mostrarlo
 }
 ?>

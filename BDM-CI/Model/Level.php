@@ -28,4 +28,23 @@ class Level
         $stmt->execute(['id' => $id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    // Función para actualizar un nivel
+    public function updateLevel($levelId, $courseId, $title, $price, $attachmentPath, $videoPath) {
+        $stmt = $this->con->getCon()->prepare("CALL UpdateLevel(?, ?, ?, ?, ?, ?)");
+        $stmt->bindParam(1, $levelId, PDO::PARAM_INT);
+        $stmt->bindParam(2, $courseId, PDO::PARAM_INT);
+        $stmt->bindParam(3, $title, PDO::PARAM_STR);
+        $stmt->bindParam(4, $price, PDO::PARAM_STR);
+        $stmt->bindParam(5, $attachmentPath, PDO::PARAM_STR);
+        $stmt->bindParam(6, $videoPath, PDO::PARAM_STR);
+        return $stmt->execute();
+    }
+
+    // Función para desactivar un nivel
+    public function deactivateLevel($levelId) {
+        $stmt = $this->con->getCon()->prepare("CALL DeactivateLevel(?)");
+        $stmt->bindParam(1, $levelId, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
 }

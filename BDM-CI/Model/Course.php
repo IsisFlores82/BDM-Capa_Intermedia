@@ -55,5 +55,17 @@ class Course
         return $stmt->execute(['id' => $id, 'instructorId' => $instructorId]);
     }
 
+    // Función para actualizar el curso
+    public function updateCourse($courseId, $title, $description, $categoryId, $price, $isFree, $imageData) {
+        $stmt = $this->con->getCon()->prepare("CALL UpdateCourse(?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bindParam(1, $courseId, PDO::PARAM_INT);
+        $stmt->bindParam(2, $title, PDO::PARAM_STR);
+        $stmt->bindParam(3, $description, PDO::PARAM_STR);
+        $stmt->bindParam(4, $categoryId, PDO::PARAM_INT);
+        $stmt->bindParam(5, $price, PDO::PARAM_STR);
+        $stmt->bindParam(6, $isFree, PDO::PARAM_INT);
+        $stmt->bindParam(7, $imageData, PDO::PARAM_LOB);
+        return $stmt->execute();
+    }
 
 }
