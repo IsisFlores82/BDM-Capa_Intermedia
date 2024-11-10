@@ -1,12 +1,14 @@
 <?php
 require "Model/User.php";
 require "Model/Course.php";
+require "Model/Category.php";
 $config = require 'config.php';
 $userDb = new User($config['database']);
 $courseDb = new Course($config['database']);
+$categoryDb = new Category($config['database']);
 $coursesFav = $courseDb->getFavCourses();
 $generalCourses = $courseDb->getCoursesWithInstructorsFromView();
-
+$categories = $categoryDb->getCategories();
 if(isset($_SESSION['user'])){
     $id = $_SESSION['user']['ID_Usuario'];
     $user = $userDb->getUserById($id);

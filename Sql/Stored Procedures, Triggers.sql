@@ -1,0 +1,247 @@
+use BDMCAPA;
+
+DELIMITER //
+
+CREATE PROCEDURE RegistrarUsuario (
+    IN p_Email VARCHAR(255),
+    IN p_Nombre VARCHAR(50),
+    IN p_Apellidos VARCHAR(50),
+    IN p_Genero VARCHAR(10),
+    IN p_Fech_Nacimiento DATE,
+    IN p_Rol VARCHAR(50),
+    IN p_Foto LONGBLOB,
+    IN p_Contraseña VARCHAR(255),
+    OUT p_Mensaje VARCHAR(255)
+)
+BEGIN
+    -- Verificar si el usuario ya existe (por el correo)
+    IF (SELECT COUNT(*) FROM Usuario WHERE Email = p_Email) > 0 THEN
+        SET p_Mensaje = 'El correo ya está registrado';
+    ELSE
+        -- Insertar el nuevo usuario
+        INSERT INTO Usuario (Email, Nombre, Apellidos, Genero, Fech_Nacimiento, Rol, Foto, Contraseña)
+        VALUES (p_Email, p_Nombre, p_Apellidos, p_Genero, p_Fech_Nacimiento, p_Rol, p_Foto, p_Contraseña);
+
+        SET p_Mensaje = 'Usuario registrado exitosamente';
+    END IF;
+END //
+
+DELIMITER ;
+
+
+
+DELIMITER $$
+
+CREATE PROCEDURE UpdateUsuario(
+    IN p_ID_Usuario INT,
+    IN p_Nombre VARCHAR(50),
+    IN p_Apellidos VARCHAR(50),
+    IN p_Genero VARCHAR(10),
+    IN p_Fech_Nacimiento DATE,
+    IN p_Foto LONGBLOB,
+    IN p_Contraseña VARCHAR(255)
+    
+)
+BEGIN
+    -- Variables locales para almacenar los valores actuales
+    DECLARE v_ContraseñaActual VARCHAR(255);
+    DECLARE v_FotoActual LONGBLOB;
+
+    -- Obtén la contraseña y la foto actuales del usuario
+    SELECT Contraseña, Foto INTO v_ContraseñaActual, v_FotoActual
+    FROM Usuario
+    WHERE ID_Usuario = p_ID_Usuario;
+
+    -- Si la nueva contraseña es NULL, conserva la actual
+    IF p_Contraseña IS NULL OR p_Contraseña = '' THEN
+        SET p_Contraseña = v_ContraseñaActual;
+    END IF;
+
+    -- Si la nueva foto es NULL, conserva la actual
+    IF p_Foto IS NULL THEN
+        SET p_Foto = v_FotoActual;
+    END IF;
+
+    -- Actualiza los datos del usuario
+    UPDATE Usuario
+    SET
+        Nombre = p_Nombre,
+        Apellidos = p_Apellidos,
+        Genero = p_Genero,
+        Fech_Nacimiento = p_Fech_Nacimiento,
+        Foto = p_Foto,
+        Contraseña = p_Contraseña,
+        Fech_Actualizacion = CURRENT_TIMESTAMP
+    WHERE ID_Usuario = p_ID_Usuario;
+
+END$$
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE GetBlockedAccounts()
+BEGIN
+    SELECT ID_Usuario, Nombre, Apellidos, Foto
+    FROM Usuario
+    WHERE Status = 0;
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE disableUser(IN emailInput VARCHAR(255))
+BEGIN
+    UPDATE Usuario
+    SET Status = 0
+    WHERE Email = emailInput;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE enableUser(IN p_ID_Usuario INT )
+BEGIN
+    UPDATE Usuario
+    SET Status = 1
+    WHERE ID_Usuario = p_ID_Usuario;
+END //
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE CreateCourse(
+    IN p_Titulo VARCHAR(255),
+    IN p_Descripcion TEXT,
+    IN p_Imagen LONGBLOB,
+    IN p_Costo_Total DECIMAL(10,2),
+    IN p_Gratuito BOOLEAN,
+    IN p_ID_Instructor INT,
+    IN p_ID_Categoria INT
+)
+BEGIN
+    INSERT INTO Curso (Titulo, Descripcion, Imagen, Costo_Total, Gratuito, ID_Instructor, ID_Categoria)
+    VALUES (p_Titulo, p_Descripcion, p_Imagen, p_Costo_Total, p_Gratuito, p_ID_Instructor, p_ID_Categoria);
+
+    -- Return the ID of the newly created course
+    SELECT LAST_INSERT_ID() AS new_course_id;
+END $$
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE createNivel(
+    IN p_ID_Curso INT,
+    IN p_Titulo VARCHAR(255),
+    IN p_Costo_Nivel DECIMAL(10, 2),
+    IN p_Video VARCHAR(255),
+    IN p_Adjunto VARCHAR(255)
+)
+BEGIN
+    INSERT INTO Nivel (ID_Curso, Titulo, Costo_Nivel, Video, Adjunto)
+    VALUES (p_ID_Curso, p_Titulo, p_Costo_Nivel, p_Video, p_Adjunto);
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE UpdateLevel(
+    IN p_levelId INT,
+    IN p_courseId INT,
+    IN p_title VARCHAR(255),
+    IN p_price DECIMAL(10, 2),
+    IN p_attachmentPath VARCHAR(255),
+    IN p_videoPath VARCHAR(255)
+)
+BEGIN
+    UPDATE Nivel
+    SET
+        Titulo = p_title,
+        Costo_Nivel = p_price,
+        Adjunto = IFNULL(p_attachmentPath, Adjunto), -- Actualiza solo si hay nuevo archivo adjunto
+        Video = IFNULL(p_videoPath, Video)           -- Actualiza solo si hay nuevo video
+    WHERE ID_Nivel = p_levelId AND ID_Curso = p_courseId;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE DeactivateLevel(
+    IN p_levelId INT
+)
+BEGIN
+    UPDATE Nivel
+    SET Status = 0
+    WHERE ID_Nivel = p_levelId;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE UpdateCourse(
+    IN p_ID_Curso INT,
+    IN p_Titulo VARCHAR(255),
+    IN p_Descripcion TEXT,
+    IN p_ID_Categoria INT,
+    IN p_Costo_Total DECIMAL(10,2),
+    IN p_Gratuito TINYINT,
+    IN p_Imagen LONGBLOB
+)
+BEGIN
+    -- Actualización del título
+    IF p_Titulo IS NOT NULL THEN
+        UPDATE Curso SET Titulo = p_Titulo WHERE ID_Curso = p_ID_Curso;
+    END IF;
+
+    -- Actualización de la descripción
+    IF p_Descripcion IS NOT NULL THEN
+        UPDATE Curso SET Descripcion = p_Descripcion WHERE ID_Curso = p_ID_Curso;
+    END IF;
+
+    -- Actualización de la categoría
+    IF p_ID_Categoria IS NOT NULL THEN
+        UPDATE Curso SET ID_Categoria = p_ID_Categoria WHERE ID_Curso = p_ID_Curso;
+    END IF;
+
+    -- Actualización del precio
+    IF p_Costo_Total IS NOT NULL THEN
+        UPDATE Curso SET Costo_Total = p_Costo_Total WHERE ID_Curso = p_ID_Curso;
+    END IF;
+
+    -- Actualización del campo Gratuito
+    IF p_Gratuito IS NOT NULL THEN
+        UPDATE Curso SET Gratuito = p_Gratuito WHERE ID_Curso = p_ID_Curso;
+    END IF;
+
+    -- Actualización de la imagen
+    IF p_Imagen IS NOT NULL THEN
+        UPDATE Curso SET Imagen = p_Imagen WHERE ID_Curso = p_ID_Curso;
+    END IF;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER trg_on_course_deletion
+AFTER UPDATE ON Curso
+FOR EACH ROW
+BEGIN
+    -- Check if the course status is being set to 0
+    IF OLD.Status = 1 AND NEW.Status = 0 THEN
+        -- Set all related levels to inactive
+        UPDATE Nivel 
+        SET Status = 0 
+        WHERE ID_Curso = NEW.ID_Curso;
+    END IF;
+END //
+
+DELIMITER ;
+

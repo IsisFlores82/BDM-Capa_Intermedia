@@ -31,31 +31,16 @@ require 'Components/headerAdmin.php';
                 <h2 class="h5 mb-3">Nuestras Categorías!</h2>
                 <div id="categoriesCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="d-flex justify-content-center align-items-center py-4">
-                                <h3 class="fs-4">Desarrollo</h3>
+                        <?php foreach ($categories as $index => $category): ?>
+                            <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                <div class="d-flex justify-content-center align-items-center py-4">
+                                    <h3 class="fs-4"><?= htmlspecialchars($category['Nombre']) ?></h3>
+                                </div>
+                                <div class="d-flex justify-content-center align-items-center py-2">
+                                    <h5 class="fs-6"><?= htmlspecialchars($category['Descripcion']) ?></h5>
+                                </div>
                             </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="d-flex justify-content-center align-items-center py-4">
-                                <h3 class="fs-4">Bases de Datos</h3>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="d-flex justify-content-center align-items-center py-4">
-                                <h3 class="fs-4">Marketing</h3>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="d-flex justify-content-center align-items-center py-4">
-                                <h3 class="fs-4">Diseño</h3>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="d-flex justify-content-center align-items-center py-4">
-                                <h3 class="fs-4">Unreal</h3>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#categoriesCarousel" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
