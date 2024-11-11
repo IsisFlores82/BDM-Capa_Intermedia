@@ -7,6 +7,14 @@ class Category {
         $this->con = new Conexion($config);
     }
 
+    // Obtener categoría por ID
+    public function getCategoryById($id) {
+        $query = "SELECT * FROM Categorias WHERE ID_Categoria = :id AND Status = 1";
+        $stmt = $this->con->getCon()->prepare($query);
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     // Obtener todas las categorías
     public function getCategories() {
         $query = "SELECT * FROM Categorias where Status = 1";

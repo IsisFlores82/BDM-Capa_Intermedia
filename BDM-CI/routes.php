@@ -20,8 +20,8 @@
 //     '/crearCurso' => 'Controller/crearCurso.controller.php',
 // ];
 
-$router->get('/BDM-CI/','controller/dashboard.controller.php')->only('AdminAlumno');
-$router->get('/BDM-CI/dashboard','controller/dashboard.controller.php');
+$router->get('/BDM-CI/','controller/dashboard.controller.php')->only('NoInstructor');
+$router->get('/BDM-CI/dashboard','controller/dashboard.controller.php')->only('NoInstructor');
 $router->get('/BDM-CI/logIn','controller/logIn.controller.php')->only('guest');
 $router->get('/BDM-CI/signUp','controller/signUp.controller.php')->only('guest');
 $router->get('/BDM-CI/carrito','controller/carrito.controller.php')->only('Alumno');

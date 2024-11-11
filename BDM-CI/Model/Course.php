@@ -43,7 +43,7 @@ class Course
     }
 
     public function getFavCourses() {
-        $query = "SELECT * FROM CoursesWithInstructors WHERE Status = 1 ORDER BY Fecha_Elim DESC LIMIT 2";
+        $query = "SELECT * FROM CoursesWithInstructors WHERE Status = 1 ORDER BY RAND() LIMIT 2";
         $stmt = $this->con->getCon()->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

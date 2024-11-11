@@ -9,10 +9,12 @@ $categoryDb = new Category($config['database']);
 $coursesFav = $courseDb->getFavCourses();
 $generalCourses = $courseDb->getCoursesWithInstructorsFromView();
 $categories = $categoryDb->getCategories();
+
 if(isset($_SESSION['user'])){
-    $id = $_SESSION['user']['ID_Usuario'];
-    $user = $userDb->getUserById($id);
+$id = $_SESSION['user']['ID_Usuario'];
+$user = $userDb->getUserById($id);
 }
+
 if (!empty($user['Foto'])) {
     $finfo = new finfo(FILEINFO_MIME_TYPE);
     $mimeType = $finfo->buffer($user['Foto']);
