@@ -32,8 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'Titulo' => $_POST['Titulo'],
         'Descripcion' => $_POST['Descripcion'],
         'ID_Categoria' => $_POST['ID_Categoria'],
-        'Gratuito' => $_POST['Gratuito'] == '0' ? 0 : 1, // Si está marcado, se pone 1
-        'Costo_Total' => !empty($_POST['Gratuito']) && $_POST['Gratuito'] == '0' ? 0 : $_POST['Costo_Total'], // Si está marcado, se pone 0
+        'Gratuito' => $_POST['Gratuito'], // Si está marcado, se pone 1
+        'Costo_Total' => isset($_POST['Costo_Total']) && $_POST['Costo_Total'] !== '' && $_POST['Gratuito'] == '0' ? $_POST['Costo_Total'] : 0, // Si está marcado, se pone 0
         'ID_Instructor' => $id
     ];
     $imageData = null;
@@ -47,7 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     foreach ($_POST['Nivel'] as $index => $nivelData) {
         $videoPath = null;
         $attachmentPath = null;
-
         // Upload Video
         if (!empty($_FILES['Nivel']['tmp_name'][$index]['Video'])) {
             $videoName = basename($_FILES['Nivel']['name'][$index]['Video']);
@@ -61,11 +60,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $attachmentPath = $resourceDir . $attachmentName;
             move_uploaded_file($_FILES['Nivel']['tmp_name'][$index]['Adjunto'], $attachmentPath);
         }
-
         $nivelData = [
             'ID_Curso' => $courseID,
             'Titulo' => $nivelData['Titulo'],
-            'Costo_Nivel' => !empty($nivelData['Gratuito']) ? 0 : $nivelData['Costo_Nivel'],
+            'Costo_Nivel' => isset($nivelData['Costo_Nivel']) && $nivelData['Costo_Nivel'] !== '' && $nivelData['Gratuito'] == '0' ? $nivelData['Costo_Nivel'] : 0,
             'Video' => $videoPath,
             'Adjunto' => $attachmentPath
         ];

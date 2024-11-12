@@ -80,7 +80,7 @@
               <div class="input-group" style="max-width: 280px;">
                 <input type="hidden" name="Gratuito" value="<?= htmlspecialchars($course['Gratuito']); ?>" id="isFreeHidden">
                 <span class="input-group-text">MX $</span>
-                <input type="number" name="Costo_Total" class="form-control" value="<?= htmlspecialchars($course['Costo_Total']); ?>" id="course-price">
+                <input type="number" step=0.01 min=0 name="Costo_Total" class="form-control" value="<?= htmlspecialchars($course['Costo_Total']); ?>" id="course-price">
               </div>
             </div>
           </div>
@@ -112,7 +112,7 @@
                             <input type="hidden" name="Nivel[<?= $index ?>][Gratuito]" value="<?= $level['Costo_Nivel'] == '0.00' ? '1' : '0' ?>" id="flexCheckCheckedHidden-<?= $index ?>">
                             <div class="input-group" style="max-width: 240px;">
                               <span class="input-group-text px-2">MX $</span>
-                              <input type="text" class="form-control level-price" id="level-price-<?= $index ?>" name="Nivel[<?= $index ?>][Costo_Nivel]" value="<?= $level['Costo_Nivel'] ?>">
+                              <input type="number" step=0.01 min=0 class="form-control level-price" id="level-price-<?= $index ?>" name="Nivel[<?= $index ?>][Costo_Nivel]" value="<?= $level['Costo_Nivel'] ?>">
                             </div>
                           </div>
                         </div>
@@ -181,7 +181,7 @@
                                     <input type="hidden" name="Nivel[${levelIndex}][Gratuito]" value="" id="flexCheckCheckedHidden-${levelIndex}">    
                                     <div class="input-group" style="max-width: 240px;">
                                             <span class="input-group-text px-2">MX $</span>
-                                            <input type="text" class="form-control level-price" id="level-price-${levelIndex}" name="Nivel[${levelIndex}][Costo_Nivel]">
+                                            <input type="number" step=0.01 min=0 class="form-control level-price" id="level-price-${levelIndex}" name="Nivel[${levelIndex}][Costo_Nivel]">
                                         </div>
                                     </div>
                                 </div>

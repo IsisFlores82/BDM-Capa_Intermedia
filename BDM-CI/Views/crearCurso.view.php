@@ -55,8 +55,6 @@ if (isset($_SESSION['mensaje'])) {
 }
 ?>
   <form id="courseForm" method="POST" action="/BDM-CI/crearCurso" enctype="multipart/form-data" onsubmit="return validateCourse();">
-     <!-- Campo oculto con valor 1 (para "checked") -->
-     <input type="hidden" name="Gratuito" value="1">
 <div class="container">
       <!-- Course Information Section -->
       <div class="row d-flex align-items-center mb-3">
@@ -110,10 +108,11 @@ if (isset($_SESSION['mensaje'])) {
             <div class="row">
               <label for="couse-price" class="form-label">Precio</label>
               <div class="ms-3 form-check d-flex align-items-center">
-                <input type="checkbox" name="Gratuito" class="form-check-input me-2" value="0" id="isFree" data-bs-toggle="tooltip" title="en caso de no estar activo, el curso será gratuito" <?php echo isset($_POST['Gratuito']) && $_POST['Gratuito'] == '0' ? 'checked' : ''; ?>>
+                <input type="checkbox" name="Gratuito" class="form-check-input me-2" value="1" id="isFree" data-bs-toggle="tooltip" title="en caso de no estar activo, el curso será gratuito" onchange="toggleFreeValue()">
                 <div class="input-group" style="max-width: 280px;">
+                <input type="hidden" name="Gratuito" value="1" id="isFreeHidden">
                   <span class="input-group-text">MX $</span>
-                  <input type="number" name="Costo_Total" class="form-control" id="couse-price">
+                  <input type="number" step=0.01 min=0 name="Costo_Total" class="form-control" id="couse-price">
                 </div>
               </div>
             </div>
@@ -140,11 +139,12 @@ if (isset($_SESSION['mensaje'])) {
                     <div class="mt-3 form-check px-1">
                       <label for="level-price-0" class="form-label mb-1">Precio:</label>
                       <div class="ms-0 form-check d-flex align-items-center">
-                        <input class="form-check-input me-2 level-free-checkbox" type="checkbox" value="" id="flexCheckChecked-0" name="Nivel[0][Gratuito]" checked data-bs-toggle="tooltip" title="en caso de no estar activo, el nivel será gratuito">
-                        
+                        <input class="form-check-input me-2 level-free-checkbox" type="checkbox" value="0" id="flexCheckChecked-0" name="Nivel[0][Gratuito]" checked data-bs-toggle="tooltip" title="en caso de no estar activo, el nivel será gratuito" onchange="toggleFreeValueLvl(0)">
+                        <input type="hidden" name="Nivel[0][Gratuito]" value="0" id="flexCheckCheckedHidden-0">
+
                         <div class="input-group" style="max-width: 240px;">
                           <span class="input-group-text px-2">MX $</span>
-                          <input type="number" name="Nivel[0][Costo_Nivel]" id="level-price-0" class="form-control level-price">
+                          <input type="number" step=0.01 min=0 name="Nivel[0][Costo_Nivel]" id="level-price-0" class="form-control level-price">
                         </div>
                       </div>
                     </div>
@@ -257,6 +257,28 @@ levels.forEach((level, index) => {
 });
 
 return valid;
+}
+
+function toggleFreeValue() {
+    const checkbox = document.getElementById('isFree');
+    const hiddenInput = document.getElementById('isFreeHidden');
+    // Cambia el valor a "1" si está desmarcado (gratuito) o "0" si está marcado (no gratuito)
+    checkbox.value = checkbox.checked ? '0' : '1';
+    hiddenInput.value = checkbox.checked ? '0' : '1';
+}
+
+function toggleFreeValueLvl(index) {
+    const checkbox = document.getElementById('flexCheckChecked-' + index);
+    const hiddenInput = document.getElementById('flexCheckCheckedHidden-' + index);
+
+    // Cambia el valor del campo oculto dependiendo del estado del checkbox
+    if (checkbox.checked) {
+        checkbox.value = '0';  // No gratuito (marcado)
+        hiddenInput.value = '0';  // No gratuito (marcado)
+    } else {
+        checkbox.value = '1';  // Gratuito (desmarcado)
+        hiddenInput.value = '1';  // Gratuito (desmarcado)
+    }
 }
 </script>
     <script src="Views/crearCurso.js"></script>

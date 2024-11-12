@@ -38,11 +38,12 @@
               <div class="mt-3 form-check px-1"> 
                 <label for="level-price-${index}" class="form-label mb-1">Precio:</label>
                 <div class="ms-0 form-check d-flex align-items-center">
-                  <input class="form-check-input me-2 level-free-checkbox" type="checkbox" value="0" id="flexCheckChecked-${index}" name="Nivel[${index}][Gratuito]" checked data-bs-toggle="tooltip" title="en caso de no estar activo, el nivel será gratuito">
-              
+                  <input class="form-check-input me-2 level-free-checkbox" type="checkbox" value="0" id="flexCheckChecked-${index}" name="Nivel[${index}][Gratuito]" checked data-bs-toggle="tooltip" title="en caso de no estar activo, el nivel será gratuito" onchange="toggleFreeValueLvl(${index})">
+                  <input type="hidden" name="Nivel[${index}][Gratuito]" value="" id="flexCheckCheckedHidden-${index}">
+
                   <div class="input-group" style="max-width: 240px;">
                     <span class="input-group-text px-2">MX $</span>
-                    <input type="text" class="form-control level-price" id="level-price-${index}" name="Nivel[${index}][Costo_Nivel]">
+                    <input type="number" step=0.01 min=0 class="form-control level-price" id="level-price-${index}" name="Nivel[${index}][Costo_Nivel]">
                   </div>
                 </div>
               </div>

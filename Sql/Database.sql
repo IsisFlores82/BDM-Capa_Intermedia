@@ -20,7 +20,7 @@ select * from Usuario;
 -- Insert para un Administrador
 INSERT INTO Usuario (Email, Nombre, Apellidos, Genero, Fech_Nacimiento, Rol, Foto, Contraseña)
 VALUES ('admin@ejemplo.com', 'Admin', 'Ejemplo', 'Masculino', '1980-01-01', 'Administrador', '', '$2y$10$MsPQRReOdRC0G41ppEpX6ONlZYHTaGVNVYE.PD6WZgWGexlcw061S');
-SELECT * FROM CoursesWithInstructors;
+
 -- Insert para un Alumno
 INSERT INTO Usuario (Email, Nombre, Apellidos, Genero, Fech_Nacimiento, Rol, Foto, Contraseña)
 VALUES ('alumno@ejemplo.com', 'Alumno', 'Ejemplo', 'Femenino', '1995-05-10', 'Alumno', '', '$2y$10$MsPQRReOdRC0G41ppEpX6ONlZYHTaGVNVYE.PD6WZgWGexlcw061S');
@@ -35,7 +35,6 @@ INSERT INTO Usuario (Email, Nombre, Apellidos, Genero, Fech_Nacimiento, Rol, Fot
 VALUES ('instructor@ejemplo.com', 'Instructor', 'Ejemplo', 'Otro', '1985-08-20', 'Instructor', '', '$2y$10$MsPQRReOdRC0G41ppEpX6ONlZYHTaGVNVYE.PD6WZgWGexlcw061S');
 
 
-
 CREATE TABLE IF NOT EXISTS Categorias (
     ID_Categoria INT AUTO_INCREMENT PRIMARY KEY,
     Nombre VARCHAR(255),
@@ -47,7 +46,6 @@ CREATE TABLE IF NOT EXISTS Categorias (
     FOREIGN KEY (ID_Usuario) REFERENCES Usuario(ID_Usuario)
 );
 select * from Categorias;
-
 
 CREATE TABLE if not exists Curso (
     ID_Curso INT AUTO_INCREMENT PRIMARY KEY,
@@ -66,8 +64,6 @@ CREATE TABLE if not exists Curso (
 );
 select * from Curso;
 
-
-
 CREATE TABLE if not exists Nivel (
     ID_Nivel INT AUTO_INCREMENT PRIMARY KEY,
     Titulo VARCHAR(255),
@@ -79,8 +75,6 @@ CREATE TABLE if not exists Nivel (
     FOREIGN KEY (ID_Curso) REFERENCES Curso(ID_Curso)
 );
 select * from Nivel;
-
-
 
 CREATE TABLE if not exists Inscripciones (
     ID_Inscripcion INT AUTO_INCREMENT PRIMARY KEY,
@@ -137,5 +131,4 @@ CREATE TABLE if not exists Carrito (
     FOREIGN KEY (ID_Nivel) REFERENCES Nivel(ID_Nivel)
 );
 select * FROM Carrito;
-
 

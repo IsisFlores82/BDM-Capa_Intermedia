@@ -24,28 +24,42 @@
       <h2>Tu carrito de compra</h2>
       <div class="col-md-8 each-side">
       
-      <!-- Aquí iteramos sobre los cursos y niveles en el carrito -->
-      <?php foreach ($courses as $course): ?>
-          <div class="row car-item border-bottom border-secondary-subtle position-relative">
-            <div class="col-lg-4">
-              <img src="data:image/jpeg;base64,<?= base64_encode($course['Courser_Image']) ?>" alt="Curso" class="img-fluid course-image">
-            </div>
-            <div class="col-lg-8">
-              <div class="d-flex flex-column h-100">
-                <div class="d-flex justify-content-between align-items-start">
-                  <div>
-                    <h3><?= htmlspecialchars($course['Course_Title']) ?></h3>
-                    <h5><?= htmlspecialchars($course['Instructor_Nombre']).' '.htmlspecialchars($course['Instructor_Apellidos']) ?></h5> <!-- Nombre del instructor -->
-                  </div>
-                  <button class="btn btn-link p-0 position-absolute top-0 end-0 mt-2 me-2 delete-btn" aria-label="Eliminar curso">
-                    <i class="fa-solid fa-trash text-secondary"></i>
-                  </button>
+<!-- Aquí iteramos sobre los cursos y niveles en el carrito -->
+<?php foreach ($carritoEnriquecido as $item): ?>
+    <div class="row car-item border-bottom border-secondary-subtle position-relative">
+        <div class="col-lg-4">
+            <?php if ($item['Tipo'] === 'curso'): ?>
+                <!-- Mostrar imagen solo si es un curso -->
+                <img src="data:image/jpeg;base64,<?= base64_encode($item['Course_Image']) ?>" alt="Curso" class="img-fluid course-image">
+            <?php else: ?>
+                <!-- Espacio vacío para niveles -->
+                <div class="placeholder-image bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 150px;">
+                    <span>Sin Imagen</span>
                 </div>
-                <p class="text-end price mt-auto">$<?= number_format($course['Course_Price'], 2) ?></p>
-              </div>
+            <?php endif; ?>
+        </div>
+        <div class="col-lg-8">
+            <div class="d-flex flex-column h-100">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h3>
+                            <?= htmlspecialchars($item['Tipo'] === 'curso' ? $item['Course_Title'] : $item['Level_Title']) ?>
+                        </h3>
+                        <?php if ($item['Tipo'] === 'nivel'): ?>
+                            <h6 class="text-muted">De: <?= htmlspecialchars($item['Course_Title']) ?></h6>
+                        <?php endif; ?>
+                        <h5><?= htmlspecialchars($item['Instructor_Nombre']) . ' ' . htmlspecialchars($item['Instructor_Apellidos']) ?></h5>
+                    </div>
+                    <button class="btn btn-link p-0 position-absolute top-0 end-0 mt-2 me-2 delete-btn" aria-label="Eliminar <?= $item['Tipo'] ?>">
+                        <i class="fa-solid fa-trash text-secondary"></i>
+                    </button>
+                </div>
+                <p class="text-end price mt-auto">$<?= number_format($item['Tipo'] === 'curso' ? $item['Course_Price'] : $item['Level_Price'], 2) ?></p>
             </div>
-          </div>
-      <?php endforeach; ?>
+        </div>
+    </div>
+<?php endforeach; ?>
+
     
       </div>
       <!--parte derecha, donde va el total de los productos--> 
@@ -57,7 +71,7 @@
                <h5>Total estimado:</h5> 
             </div>
             <div class="col-lg-4">            
-            <h5 class="text-end">$<?= number_format($totalPrice, 2) ?></h5>
+            <h5 class="text-end">$<?= number_format($totalAmount, 2) ?></h5>
             </div>
          </div>
          <br>

@@ -26,12 +26,13 @@ class Cart
         $query = "SELECT * FROM Carrito WHERE ID_Usuario = :id AND Status = 1";
         $stmt = $this->con->getCon()->prepare($query);
         $stmt->execute(['id' => $id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getTotal($id) {
-        $query="SELECT ObtenerTotalComprado(:id)";
+        $query="SELECT ObtenerTotalComprado(:id) AS Total";
         $stmt = $this->con->getCon()->prepare($query);
-        return $stmt->execute(['id' => $id]);
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
