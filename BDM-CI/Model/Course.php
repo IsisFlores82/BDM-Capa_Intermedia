@@ -35,6 +35,13 @@ class Course
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getCoursesWithInstructorsFromViewById($id) {
+        $query = "SELECT Course_Title, Course_Price Instructor_Nombre, Instructor_Apellidos FROM CoursesWithInstructors WHERE Status = 1 AND ID_Curso = :id";
+        $stmt = $this->con->getCon()->prepare($query);
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getCourseById($id) {        
         $query = "SELECT * FROM Curso WHERE ID_Curso = :id AND Status = 1";
         $stmt = $this->con->getCon()->prepare($query);

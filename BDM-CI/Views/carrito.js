@@ -67,3 +67,4 @@ document.getElementById("submitPayment").addEventListener("click", function (e) 
       });
     });
   });
+

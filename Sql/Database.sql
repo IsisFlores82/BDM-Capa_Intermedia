@@ -20,7 +20,7 @@ select * from Usuario;
 -- Insert para un Administrador
 INSERT INTO Usuario (Email, Nombre, Apellidos, Genero, Fech_Nacimiento, Rol, Foto, Contraseña)
 VALUES ('admin@ejemplo.com', 'Admin', 'Ejemplo', 'Masculino', '1980-01-01', 'Administrador', '', '$2y$10$MsPQRReOdRC0G41ppEpX6ONlZYHTaGVNVYE.PD6WZgWGexlcw061S');
-
+SELECT * FROM CoursesWithInstructors;
 -- Insert para un Alumno
 INSERT INTO Usuario (Email, Nombre, Apellidos, Genero, Fech_Nacimiento, Rol, Foto, Contraseña)
 VALUES ('alumno@ejemplo.com', 'Alumno', 'Ejemplo', 'Femenino', '1995-05-10', 'Alumno', '', '$2y$10$MsPQRReOdRC0G41ppEpX6ONlZYHTaGVNVYE.PD6WZgWGexlcw061S');
@@ -124,6 +124,18 @@ CREATE TABLE if not exists Comentario (
 );
 select * from Comentario;
 
-
+CREATE TABLE if not exists Carrito (
+    ID_Carrito INT AUTO_INCREMENT PRIMARY KEY,
+    ID_Usuario INT NOT NULL,  -- ID del usuario dueño del carrito
+    ID_Curso INT NULL,        -- ID del curso (si es un curso)
+    ID_Nivel INT NULL,        -- ID del nivel (si es un nivel)
+    Tipo VARCHAR(6) NOT NULL,  -- Tipo de producto (curso o nivel)
+    Fecha_Agregado DATETIME DEFAULT CURRENT_TIMESTAMP,  -- Fecha de cuando se añadió el item al carrito
+	Status TINYINT(1) DEFAULT 1,
+    FOREIGN KEY (ID_Usuario) REFERENCES Usuario(ID_Usuario),
+    FOREIGN KEY (ID_Curso) REFERENCES Curso(ID_Curso),
+    FOREIGN KEY (ID_Nivel) REFERENCES Nivel(ID_Nivel)
+);
+select * FROM Carrito;
 
 

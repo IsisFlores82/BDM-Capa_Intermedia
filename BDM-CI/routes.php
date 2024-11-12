@@ -25,8 +25,8 @@ $router->get('/BDM-CI/dashboard','controller/dashboard.controller.php')->only('N
 $router->get('/BDM-CI/logIn','controller/logIn.controller.php')->only('guest');
 $router->get('/BDM-CI/signUp','controller/signUp.controller.php')->only('guest');
 $router->get('/BDM-CI/carrito','controller/carrito.controller.php')->only('Alumno');
-$router->get('/BDM-CI/search','controller/search.controller.php');
-$router->get('/BDM-CI/courseDetail','controller/courseDetail.controller.php');
+$router->get('/BDM-CI/search','controller/search.controller.php')->only('NoInstructor');
+$router->get('/BDM-CI/courseDetail','controller/courseDetail.controller.php')->only('NoInstructor');
 $router->get('/BDM-CI/profile','controller/profile.controller.php');
 $router->get('/BDM-CI/kardex','controller/kardex.controller.php');
 $router->get('/BDM-CI/mensajeria','controller/mensajeria.controller.php');
@@ -53,6 +53,9 @@ $router->patch('/BDM-CI/profileAdmin','controller/profileAdmin.controller.php')-
 
 $router->post('/BDM-CI/profileInstructor','controller/profileInstructor.controller.php')->only('Instructor');
 $router->patch('/BDM-CI/profileInstructor','controller/profileInstructor.controller.php')->only('Instructor');
+
+$router->post('/BDM-CI/courseDetail','controller/courseDetail.controller.php');
+$router->post('/BDM-CI/carrito','controller/carrito.controller.php')->only('Alumno');
 
 $router->post('/BDM-CI/crearCurso','controller/crearCurso.controller.php')->only('Instructor');
 $router->post('/BDM-CI/editarCurso','controller/editCourse.controller.php')->only('Instructor');

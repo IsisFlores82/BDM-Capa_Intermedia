@@ -25,9 +25,10 @@
             </button>
         </div>
         <div class="d-flex align-items-center">
-            <a href="/BDM-CI/carrito" class="btn">
+            <a class="btn align-self-center" href="/BDM-CI/carrito">
                 <i class="fas fa-shopping-cart me-3"></i> 
-            </a>            
+            </a>
+            
             <div class="dropdown">
                 <button class="btn dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="<?= $fotoSrc ?>" alt="Perfil" class="rounded-circle" width="40" height="40">
@@ -83,5 +84,4 @@
             </div>
         </div>
     </header>
-
     <script src="Views/navbar.js"></script>

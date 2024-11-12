@@ -18,102 +18,60 @@
 
 <body>
 <?php include 'Components/headerStudent.php'; ?>
-
-  <br>
-  <div class="container">
+<div class="container">
    <div class="row">   
-    <!--parte izquierda, donde van los productos-->
-    <h2 class=""> Tu carrito de compra</h2>
-    <div class="col-md-8 each-side">
-      <!-- Course Item -->
-      <div class="row car-item border-bottom border-secondary-subtle position-relative">
-        <div class="col-lg-4">
-          <img src="https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg" alt="Curso" class="img-fluid course-image">
-        </div>
-        <div class="col-lg-8">
-          <div class="d-flex flex-column h-100">
-            <div class="d-flex justify-content-between align-items-start">
-              <div>
-                <h3>Como ser cantante profesional</h3>
-                <h5>Hatsune Miku</h5>
-              </div>
-              <button class="btn btn-link p-0 position-absolute top-0 end-0 mt-2 me-2 delete-btn" aria-label="Eliminar curso">
-                <i class="fa-solid fa-trash text-secondary"></i>
-              </button>
+      <!--parte izquierda, donde van los productos-->
+      <h2>Tu carrito de compra</h2>
+      <div class="col-md-8 each-side">
+      
+      <!-- Aquí iteramos sobre los cursos y niveles en el carrito -->
+      <?php foreach ($courses as $course): ?>
+          <div class="row car-item border-bottom border-secondary-subtle position-relative">
+            <div class="col-lg-4">
+              <img src="data:image/jpeg;base64,<?= base64_encode($course['Courser_Image']) ?>" alt="Curso" class="img-fluid course-image">
             </div>
-            <p class="text-end price mt-auto">$999</p>
+            <div class="col-lg-8">
+              <div class="d-flex flex-column h-100">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <h3><?= htmlspecialchars($course['Course_Title']) ?></h3>
+                    <h5><?= htmlspecialchars($course['Instructor_Nombre']).' '.htmlspecialchars($course['Instructor_Apellidos']) ?></h5> <!-- Nombre del instructor -->
+                  </div>
+                  <button class="btn btn-link p-0 position-absolute top-0 end-0 mt-2 me-2 delete-btn" aria-label="Eliminar curso">
+                    <i class="fa-solid fa-trash text-secondary"></i>
+                  </button>
+                </div>
+                <p class="text-end price mt-auto">$<?= number_format($course['Course_Price'], 2) ?></p>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+      <?php endforeach; ?>
     
-      <!-- Repeat for other items -->
-      <div class="row car-item border-bottom border-secondary-subtle position-relative">
-        <div class="col-lg-4">
-          <img src="https://bs-uploads.toptal.io/blackfish-uploads/components/open_graph_image/8959179/og_image/optimized/0712-Bad_Practices_in_Database_Design_-_Are_You_Making_These_Mistakes_Dan_Social-754bc73011e057dc76e55a44a954e0c3.png" alt="Curso" class="img-fluid course-image">
-        </div>
-        <div class="col-lg-8">
-          <div class="d-flex flex-column h-100">
-            <div class="d-flex justify-content-between align-items-start">
-              <div>
-                <h3>Como hacer una base de datos mamastrosa</h3>
-                <h5>Villatrue</h5>
-              </div>
-              <button class="btn btn-link p-0 position-absolute top-0 end-0 mt-2 me-2 delete-btn" aria-label="Eliminar curso">
-                <i class="fa-solid fa-trash text-secondary"></i>
-              </button>
-            </div>
-            <p class="text-end price mt-auto">$850</p>
-          </div>
-        </div>
       </div>
-    
-      <div class="row car-item border-bottom border-secondary-subtle position-relative">
-        <div class="col-lg-4">
-          <img src="https://mastermetrics.com/wp-content/uploads/2024/07/meta-ai.jpg" alt="Curso" class="img-fluid course-image">
-        </div>
-        <div class="col-lg-8">
-          <div class="d-flex flex-column h-100">
-            <div class="d-flex justify-content-between align-items-start">
-              <div>
-                <h3>Como hacer que Meta AI no trolee</h3>
-                <h5>Dream Team</h5>
-              </div>
-              <button class="btn btn-link p-0 position-absolute top-0 end-0 mt-2 me-2 delete-btn" aria-label="Eliminar curso">
-                <i class="fa-solid fa-trash text-secondary"></i>
-              </button>
+      <!--parte derecha, donde va el total de los productos--> 
+      <div class="col-md-3 each-side right-side">
+         <div class="row">
+            <h3>Resumen</h3>
+            <br><br><br>
+            <div class="col-lg-8">            
+               <h5>Total estimado:</h5> 
             </div>
-            <p class="text-end price mt-auto">$500</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--parte derecha, donde va el total de los productos--> 
-      <div class="col-md-3  each-side right-side">
-       
-        <div class="row">
-          <h3>Resumen</h3>
-          <br><br><br>
-          <div class="col-lg-8">            
-            <h5>Total estimado:</h5> 
-          </div>
-          <div class="col-lg-4">            
-            <h5 class="text-end">$2,349</h5> 
-          </div>
-          </div>
-          <br>
-          <div class="row  each-side">
-          <button type="button" class="btn btn-primary btn-pagar" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Continuar al Pago
-          </button>
-        </div>
+            <div class="col-lg-4">            
+            <h5 class="text-end">$<?= number_format($totalPrice, 2) ?></h5>
+            </div>
+         </div>
+         <br>
+         <div class="row each-side">
+            <button type="button" class="btn btn-primary btn-pagar" data-bs-toggle="modal" data-bs-target="#exampleModal">
+               Continuar al Pago
+            </button>
+         </div>
+      </div>         
+   </div>   
+</div>
 
-        <div class="row">
 
-        </div>
-      </div>        
 
-    </div>   
-  </div>
 
  <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -167,6 +125,6 @@
   </div>
 </div>
 
-  <script src="Views/carrito.js"></script>
+<script src="Views/carrito.js"></script>
 </body>
 </html>
