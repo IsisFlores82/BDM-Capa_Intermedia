@@ -35,4 +35,19 @@ class Cart
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function updateStatusByCourseId($courseId, $status)
+    {
+        $sql = "UPDATE carrito SET Status = ? WHERE ID_Curso = ?";
+        $stmt = $this->con->getCon()->prepare($sql);
+        return $stmt->execute([$status, $courseId]);
+    }
+
+    public function updateStatusByLevelId($levelId, $status)
+    {
+        $sql = "UPDATE carrito SET Status = ? WHERE ID_Nivel = ?";
+        $stmt = $this->con->getCon()->prepare($sql);
+        return $stmt->execute([$status, $levelId]);
+    }
+
 }

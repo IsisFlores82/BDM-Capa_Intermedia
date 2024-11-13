@@ -92,6 +92,30 @@ CREATE TABLE if not exists Inscripciones (
 );
 select * from Inscripciones;
 
+CREATE TABLE if not exists Inscripciones_Niveles (
+    ID_Inscripcion_Nivel INT AUTO_INCREMENT PRIMARY KEY,
+    ID_Nivel INT NOT NULL,
+    ID_Usuario INT NOT NULL,
+    Fecha_Compra DATETIME,
+    Monto_Pagado DECIMAL(10, 2),
+    Status TINYINT(1) DEFAULT 1,
+    FOREIGN KEY (ID_Nivel) REFERENCES Nivel(ID_Nivel),
+    FOREIGN KEY (ID_Usuario) REFERENCES Usuario(ID_Usuario)
+);
+select * from Inscripciones_Niveles;
+
+CREATE TABLE if not exists Progreso_Niveles (
+    ID_Progreso INT AUTO_INCREMENT PRIMARY KEY,
+    ID_Usuario INT NOT NULL,
+    ID_Nivel INT NOT NULL,
+    Fecha_Completado DATETIME,
+    Status TINYINT(1) DEFAULT 0, -- 0: No completado, 1: Completado
+    FOREIGN KEY (ID_Usuario) REFERENCES Usuario(ID_Usuario),
+    FOREIGN KEY (ID_Nivel) REFERENCES Nivel(ID_Nivel),
+    UNIQUE (ID_Usuario, ID_Nivel) -- Para evitar duplicados
+);
+select * from Progreso_Niveles;
+
 CREATE TABLE if not exists Mensajes (
     ID_Mensaje INT AUTO_INCREMENT PRIMARY KEY,
     ID_Emisor INT,

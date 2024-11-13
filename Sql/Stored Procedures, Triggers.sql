@@ -245,3 +245,73 @@ END //
 
 DELIMITER ;
 
+DELIMITER $$
+
+CREATE TRIGGER after_level_purchase
+AFTER INSERT ON Inscripciones_Niveles
+FOR EACH ROW
+BEGIN
+    DECLARE total_niveles INT;
+    DECLARE niveles_comprados INT;
+
+    -- Obtener la cantidad total de niveles del curso
+    SELECT COUNT(ID_Nivel)
+    INTO total_niveles
+    FROM Nivel
+    WHERE ID_Curso = (SELECT ID_Curso FROM Nivel WHERE ID_Nivel = NEW.ID_Nivel);
+
+    -- Obtener la cantidad de niveles que el usuario ha comprado para este curso
+    SELECT COUNT(DISTINCT ID_Nivel)
+    INTO niveles_comprados
+    FROM Inscripciones_Niveles
+    WHERE ID_Usuario = NEW.ID_Usuario
+      AND ID_Nivel IN (
+          SELECT ID_Nivel
+          FROM Nivel
+          WHERE ID_Curso = (SELECT ID_Curso FROM Nivel WHERE ID_Nivel = NEW.ID_Nivel)
+      );
+
+    -- Si el usuario ha comprado todos los niveles, insertar el curso en Inscripciones
+    IF niveles_comprados = total_niveles THEN
+        INSERT INTO Inscripciones (ID_Curso, ID_Usuario, Fecha_Inscripcion, Monto_Pagado, Forma_de_Pago)
+        VALUES (
+            (SELECT ID_Curso FROM Nivel WHERE ID_Nivel = NEW.ID_Nivel),
+            NEW.ID_Usuario,
+            NOW(),
+            (SELECT SUM(Costo_Nivel) FROM Nivel WHERE ID_Curso = (SELECT ID_Curso FROM Nivel WHERE ID_Nivel = NEW.ID_Nivel)),
+            'Completado por niveles'
+        );
+
+        -- Opcional: Actualizar los registros en Inscripciones_Niveles para reflejar que el curso ya se completó
+        UPDATE Inscripciones_Niveles
+        SET Status = 0 -- 0 indica que ya no se necesita verificar estos niveles
+        WHERE ID_Usuario = NEW.ID_Usuario
+          AND ID_Nivel IN (
+              SELECT ID_Nivel
+              FROM Nivel
+              WHERE ID_Curso = (SELECT ID_Curso FROM Nivel WHERE ID_Nivel = NEW.ID_Nivel)
+          );
+    END IF;
+END$$
+
+DELIMITER ;
+
+
+
+DELIMITER $$
+
+CREATE TRIGGER AfterInsertNivel
+AFTER INSERT ON Nivel
+FOR EACH ROW
+BEGIN
+    -- Insertar un registro de progreso para todos los usuarios con el curso completado
+    INSERT INTO Progreso_Niveles (ID_Usuario, ID_Nivel, Status)
+    SELECT ID_Usuario, NEW.ID_Nivel, 0
+    FROM Inscripciones
+    WHERE ID_Curso = NEW.ID_Curso AND Fecha_Terminacion IS NOT NULL;
+END$$
+
+DELIMITER ;
+
+
+

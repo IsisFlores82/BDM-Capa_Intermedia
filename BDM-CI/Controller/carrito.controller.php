@@ -14,9 +14,6 @@ if(isset($_SESSION['user'])){
 }
 
 $carrito = $cartDb->getCartById($id);
-dd($carrito);
-dd($id);
-
 // Enriquecer los datos del carrito con detalles de curso o nivel
 $carritoEnriquecido = [];
 
@@ -78,7 +75,6 @@ foreach ($carrito as $item) {
 
 
 $total = $cartDb->getTotal($id);
-dd($total);
 $totalAmount = $total['Total']; // Acceso más directo
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
   

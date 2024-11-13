@@ -6,7 +6,7 @@
     <title>Miku Academy</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    
+
     <!-- Usar SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.js"></script> 
@@ -188,23 +188,22 @@ if (isset($_SESSION['mensaje'])) {
     </div>
     <script>
         document.querySelectorAll('.delete-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                event.preventDefault(); // Prevent the form from submitting immediately
-                const form = this.closest('.delete-form'); // Select the form related to this button
+            button.addEventListener('click', function (event) {
+                event.preventDefault(); // Evitar el envío inmediato del formulario
+                const form = this.closest('.delete-form'); // Seleccionar el formulario relacionado con este botón
             
-                swal({
-                    title: "¿Estás seguro?",
-                    text: "No podrás revertir esta acción.",
-                    type: "warning",
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: 'No podrás revertir esta acción.',
+                    icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: "#d33",
-                    cancelButtonColor: "#3085d6",
-                    confirmButtonText: "Sí, eliminar",
-                    cancelButtonText: "Cancelar",
-                    closeOnConfirm: true // Keep the alert open until manually closed
-                }, function (isConfirm) {
-                    if (isConfirm) {
-                        form.submit(); // Submit the form if confirmed
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit(); // Enviar el formulario si el usuario confirma
                     }
                 });
             });

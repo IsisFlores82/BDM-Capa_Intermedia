@@ -52,19 +52,5 @@ document.getElementById("submitPayment").addEventListener("click", function (e) 
     }
   });
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const deleteButtons = document.querySelectorAll('.delete-btn');
-    
 
-    deleteButtons.forEach(button => {
-      button.addEventListener('click', (event) => {
-        event.preventDefault();
-        // Muestra el mensaje de confirmación
-        if (confirm('¿Estás seguro de que quieres eliminar este elemento del carrito?')) {
-          alert('El elemento ha sido borrado.');
-          button.closest('.car-item').remove();
-        }
-      });
-    });
-  });
 

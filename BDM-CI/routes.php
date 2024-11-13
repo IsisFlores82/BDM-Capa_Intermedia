@@ -56,6 +56,7 @@ $router->patch('/BDM-CI/profileInstructor','controller/profileInstructor.control
 
 $router->post('/BDM-CI/courseDetail','controller/courseDetail.controller.php');
 $router->post('/BDM-CI/carrito','controller/carrito.controller.php')->only('Alumno');
+$router->post('/BDM-CI/carrito/eliminarDelCarrito','controller/eliminarDelCarrito.controller.php')->only('Alumno');
 
 $router->post('/BDM-CI/crearCurso','controller/crearCurso.controller.php')->only('Instructor');
 $router->post('/BDM-CI/editarCurso','controller/editCourse.controller.php')->only('Instructor');

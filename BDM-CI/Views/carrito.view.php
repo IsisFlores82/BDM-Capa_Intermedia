@@ -9,7 +9,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  
+  <!-- Usar SweetAlert2 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.js"></script> 
   <link rel="stylesheet" href="Views/dashboard.css">
   <link rel="stylesheet" href="Views/carrito.css">
   
@@ -18,6 +20,27 @@
 
 <body>
 <?php include 'Components/headerStudent.php'; ?>
+<?php
+if (isset($_SESSION['mensaje'])) {
+    $mensaje = $_SESSION['mensaje'];
+    $alertType = $mensaje['type'] == 'success' ? 'success' : 'error';
+    // Escapar los caracteres especiales del mensaje
+    $text = htmlspecialchars($mensaje['text'], ENT_QUOTES, 'UTF-8');
+
+    // Usando SweetAlert2 para mostrar la alerta
+    echo "<script>
+        Swal.fire({
+            title: '$alertType',
+            text: '$text',
+            icon: '$alertType',
+            confirmButtonText: 'OK'
+        }).then(function() {
+            window.location.href = '/BDM-CI/carrito';
+        });
+    </script>";
+    unset($_SESSION['mensaje']); // Elimina el mensaje después de mostrarlo
+}
+?>
 <div class="container">
    <div class="row">   
       <!--parte izquierda, donde van los productos-->
@@ -50,9 +73,13 @@
                         <?php endif; ?>
                         <h5><?= htmlspecialchars($item['Instructor_Nombre']) . ' ' . htmlspecialchars($item['Instructor_Apellidos']) ?></h5>
                     </div>
-                    <button class="btn btn-link p-0 position-absolute top-0 end-0 mt-2 me-2 delete-btn" aria-label="Eliminar <?= $item['Tipo'] ?>">
-                        <i class="fa-solid fa-trash text-secondary"></i>
-                    </button>
+                    <form action="/BDM-CI/carrito/eliminarDelCarrito" method="POST" class="delete-form d-inline">
+                        <input type="hidden" name="ID" value="<?= $item['Tipo'] === 'curso' ? $item['ID_Curso'] : $item['ID_Nivel'] ?>">
+                        <input type="hidden" name="Tipo" value="<?= htmlspecialchars($item['Tipo']) ?>">
+                        <button class="btn btn-link p-0 position-absolute top-0 end-0 mt-2 me-2 delete-btn" aria-label="Eliminar <?= htmlspecialchars($item['Tipo']) ?>">
+                            <i class="fa-solid fa-trash text-secondary"></i>
+                        </button>
+                    </form>
                 </div>
                 <p class="text-end price mt-auto">$<?= number_format($item['Tipo'] === 'curso' ? $item['Course_Price'] : $item['Level_Price'], 2) ?></p>
             </div>
@@ -79,6 +106,11 @@
             <button type="button" class="btn btn-primary btn-pagar" data-bs-toggle="modal" data-bs-target="#exampleModal">
                Continuar al Pago
             </button>
+         </div>
+         <div class="row mt-3">
+            <div class="alert alert-warning" role="alert">
+               <strong>Advertencia:</strong> Evita combinar niveles y cursos completos en el mismo pago. Podrías pagar individualmente por un nivel cuyo curso ya tienes en el carrito.
+            </div>
          </div>
       </div>         
    </div>   
@@ -138,7 +170,29 @@
       </div>
   </div>
 </div>
-
+<script>
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault(); // Evitar el envío inmediato del formulario
+                const form = this.closest('.delete-form'); // Seleccionar el formulario relacionado con este botón
+            
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: 'No podrás revertir esta acción.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit(); // Enviar el formulario si el usuario confirma
+                    }
+                });
+            });
+        });
+</script>
 <script src="Views/carrito.js"></script>
 </body>
 </html>
