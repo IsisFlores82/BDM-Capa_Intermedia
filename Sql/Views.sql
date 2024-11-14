@@ -91,3 +91,25 @@ SELECT
     inl.Fecha_Inscripcion
 FROM 
     View_Inscripciones_Niveles inl;
+    
+    
+CREATE VIEW View_Inscripciones_Niveles_Completa AS
+SELECT 
+    inl.ID_Usuario,
+    n.ID_Curso,  -- Usar ID_Curso de la tabla Nivel
+    c.Titulo AS CursoTitulo,
+    c.Descripcion AS CursoDescripcion,
+    c.Imagen AS CursoImagen,
+    n.ID_Nivel,
+    n.Titulo AS NivelTitulo,
+    n.Costo_Nivel,
+    inl.Fecha_Inscripcion,
+    inl.Status AS NivelStatus
+FROM 
+    Inscripciones_Niveles inl
+JOIN 
+    Nivel n ON inl.ID_Nivel = n.ID_Nivel
+JOIN 
+    Curso c ON n.ID_Curso = c.ID_Curso
+WHERE 
+    inl.Status = 1;

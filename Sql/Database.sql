@@ -110,7 +110,7 @@ select * from Inscripciones_Niveles;
 ALTER TABLE Inscripciones_Niveles
 ADD CONSTRAINT UNQ_Inscripcion_Nivel UNIQUE (ID_Nivel, ID_Usuario);
 
-
+describe Inscripciones_Niveles;
 CREATE TABLE if not exists Progreso_Niveles (
     ID_Progreso INT AUTO_INCREMENT PRIMARY KEY,
     ID_Usuario INT NOT NULL,
