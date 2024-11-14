@@ -3,11 +3,13 @@ require "Model/User.php";
 require "Model/Course.php";
 require "Model/Level.php";
 require "Model/Cart.php";
+require "Model/Inscription.php";
 $config = require 'config.php';
 $userDb = new User($config['database']);
 $courseDb = new Course($config['database']);
 $levelDb = new Level($config['database']);
 $cartDb = new Cart($config['database']);
+$inscripcionesDB= new Inscription($config['database']);
 if(isset($_SESSION['user'])){
     $id = $_SESSION['user']['ID_Usuario'];
     $user = $userDb->getUserById($id);
@@ -76,10 +78,69 @@ foreach ($carrito as $item) {
 
 $total = $cartDb->getTotal($id);
 $totalAmount = $total['Total']; // Acceso más directo
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-  
-}
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $items = $_POST['items'] ?? [];
+    $pagado = $_POST['Pagado'] ?? [];
+    $user_id = $_POST['user_id'] ?? null;
 
+    try {
+        // Procesar los elementos enviados
+        foreach ($items as $tipo => $ids) {
+            foreach ($ids as $index => $id) {
+                $monto_pagado = $pagado[$tipo][$index] ?? 0; // Monto pagado correspondiente
+
+                // Agregar el item a la base de datos dependiendo del tipo
+                $inserted = false;
+                if ($tipo === 'curso') {
+                    // Agregar curso a inscripciones
+                    $inserted = $inscripcionesDB->agregarCurso($id, $user_id, $monto_pagado);
+                } elseif ($tipo === 'nivel') {
+                    // Agregar nivel a inscripciones
+                    $inserted = $inscripcionesDB->agregarNivel($id, $user_id, $monto_pagado);
+                }
+
+                // Solo actualizamos el estado si se insertó exitosamente en la base de datos
+                if ($inserted) {
+                    if ($tipo === 'curso') {
+                        // Verificar si es un curso gratuito (monto_pagado == 0)
+                        if ($monto_pagado > 0) {
+                            // Si el curso tiene un pago, actualizar estado a "pagado" (0)
+                            $cartDb->updateStatusByCourseId($id, 0);
+                        } else {
+                            // Si es gratuito, asignar un estado especial "gratuito"
+                            $cartDb->updateStatusByCourseId($id, 2);  // Ejemplo: 2 puede ser el estado para "gratuito"
+                        }
+                    } elseif ($tipo === 'nivel') {
+                        // Verificar si es un nivel gratuito (monto_pagado == 0)
+                        if ($monto_pagado > 0) {
+                            // Si el nivel tiene un pago, actualizar estado a "pagado" (0)
+                            $cartDb->updateStatusByLevelId($id, 0);
+                        } else {
+                            // Si es gratuito, asignar un estado especial "gratuito"
+                            $cartDb->updateStatusByLevelId($id, 2);  // Ejemplo: 2 puede ser el estado para "gratuito"
+                        }
+                    }
+                }
+            }
+        }
+    } catch (PDOException $e) {
+        // Manejar errores
+        $_SESSION['mensaje'] = [
+            'type' => 'error',
+            'text' => 'Error al agregar los items a la base de datos: Posible compra duplicada.'
+        ];
+        header('Location: /BDM-CI/carrito');
+        exit;
+    }
+
+    // Redireccionar después de procesar
+    $_SESSION['mensaje'] = [
+        'type' => 'success',
+        'text' => 'Pago realizado correctamente. Los cursos/niveles han sido agregados a tus inscripciones.'
+    ];
+    header('Location: /BDM-CI/carrito');
+    exit;
+}
 if (!empty($user['Foto'])) {
     $finfo = new finfo(FILEINFO_MIME_TYPE);
     $mimeType = $finfo->buffer($user['Foto']);

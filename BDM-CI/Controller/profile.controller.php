@@ -1,9 +1,10 @@
 <?php
 
 require "Model/User.php";
+require "Model/Inscription.php";
 $config = require 'config.php';
-
 $userDb = new User($config['database']);
+$inscriptionDb = new Inscription($config['database']);
 
 if (!isset($_SESSION['user'])) {
     header("Location: /BDM-CI/logIn");
@@ -12,7 +13,7 @@ if (!isset($_SESSION['user'])) {
 
 $id = $_SESSION['user']['ID_Usuario'];
 $user = $userDb->getUserById($id);
-
+$userCourses = $inscriptionDb->getUserCourses($id);
 function handleImageUpload($file, $maxFileSize = 5242880) { // 5MB default
     if ($file['error'] !== UPLOAD_ERR_OK) {
         return ['error' => 'Error en la carga del archivo: ' . $file['error']];

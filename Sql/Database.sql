@@ -91,18 +91,25 @@ CREATE TABLE if not exists Inscripciones (
     FOREIGN KEY (ID_Usuario) REFERENCES Usuario(ID_Usuario)
 );
 select * from Inscripciones;
+ALTER TABLE Inscripciones
+ADD CONSTRAINT UNQ_Inscripcion UNIQUE (ID_Curso, ID_Usuario);
 
 CREATE TABLE if not exists Inscripciones_Niveles (
     ID_Inscripcion_Nivel INT AUTO_INCREMENT PRIMARY KEY,
     ID_Nivel INT NOT NULL,
     ID_Usuario INT NOT NULL,
-    Fecha_Compra DATETIME,
     Monto_Pagado DECIMAL(10, 2),
+	Forma_de_Pago VARCHAR(255),
+    Fecha_Inscripcion DATETIME,
+	Fecha_Ultimo_Ingreso DATETIME,
     Status TINYINT(1) DEFAULT 1,
     FOREIGN KEY (ID_Nivel) REFERENCES Nivel(ID_Nivel),
     FOREIGN KEY (ID_Usuario) REFERENCES Usuario(ID_Usuario)
 );
 select * from Inscripciones_Niveles;
+ALTER TABLE Inscripciones_Niveles
+ADD CONSTRAINT UNQ_Inscripcion_Nivel UNIQUE (ID_Nivel, ID_Usuario);
+
 
 CREATE TABLE if not exists Progreso_Niveles (
     ID_Progreso INT AUTO_INCREMENT PRIMARY KEY,

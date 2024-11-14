@@ -192,6 +192,39 @@ if (isset($_SESSION['mensaje'])) {
                 });
             });
         });
+
+        document.getElementById('submitPayment').addEventListener('click', function () {
+    // Crear un formulario oculto
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/BDM-CI/carrito';
+
+    // Agregar los datos de los cursos y niveles
+    <?php foreach ($carritoEnriquecido as $index => $item): ?>
+        const inputTipo<?= $index ?> = document.createElement('input');
+        inputTipo<?= $index ?>.type = 'hidden';
+        inputTipo<?= $index ?>.name = 'items[<?= $item["Tipo"] ?>][]';
+        inputTipo<?= $index ?>.value = '<?= $item["Tipo"] === "curso" ? $item["ID_Curso"] : $item["ID_Nivel"] ?>';
+        form.appendChild(inputTipo<?= $index ?>);
+
+        const inputTotal<?= $index ?> = document.createElement('input');
+        inputTotal<?= $index ?>.type = 'hidden';
+        inputTotal<?= $index ?>.name = 'Pagado[<?= $item["Tipo"] ?>][]';
+        inputTotal<?= $index ?>.value = '<?= number_format($item["Tipo"] === "curso" ? $item["Course_Price"] : $item["Level_Price"], 2) ?>';
+        form.appendChild(inputTotal<?= $index ?>);
+    <?php endforeach; ?>
+
+    const user_id = document.createElement('input');
+    user_id.type = 'hidden';
+    user_id.name = 'user_id';
+    user_id.value = '<?= $id ?>';
+    form.appendChild(user_id);
+    // Agregar el formulario al body y enviarlo
+    document.body.appendChild(form);
+    form.submit();
+});
+
+
 </script>
 <script src="Views/carrito.js"></script>
 </body>

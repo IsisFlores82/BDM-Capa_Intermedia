@@ -254,47 +254,56 @@ BEGIN
     DECLARE total_niveles INT;
     DECLARE niveles_comprados INT;
 
-    -- Obtener la cantidad total de niveles del curso
-    SELECT COUNT(ID_Nivel)
-    INTO total_niveles
-    FROM Nivel
-    WHERE ID_Curso = (SELECT ID_Curso FROM Nivel WHERE ID_Nivel = NEW.ID_Nivel);
+    -- Verificar si el curso ya está inscrito por el usuario
+    IF NOT EXISTS (
+        SELECT 1
+        FROM Inscripciones
+        WHERE ID_Curso = (SELECT ID_Curso FROM Nivel WHERE ID_Nivel = NEW.ID_Nivel)
+          AND ID_Usuario = NEW.ID_Usuario
+    ) THEN
+        -- Obtener la cantidad total de niveles del curso
+        SELECT COUNT(ID_Nivel)
+        INTO total_niveles
+        FROM Nivel
+        WHERE ID_Curso = (SELECT ID_Curso FROM Nivel WHERE ID_Nivel = NEW.ID_Nivel);
 
-    -- Obtener la cantidad de niveles que el usuario ha comprado para este curso
-    SELECT COUNT(DISTINCT ID_Nivel)
-    INTO niveles_comprados
-    FROM Inscripciones_Niveles
-    WHERE ID_Usuario = NEW.ID_Usuario
-      AND ID_Nivel IN (
-          SELECT ID_Nivel
-          FROM Nivel
-          WHERE ID_Curso = (SELECT ID_Curso FROM Nivel WHERE ID_Nivel = NEW.ID_Nivel)
-      );
-
-    -- Si el usuario ha comprado todos los niveles, insertar el curso en Inscripciones
-    IF niveles_comprados = total_niveles THEN
-        INSERT INTO Inscripciones (ID_Curso, ID_Usuario, Fecha_Inscripcion, Monto_Pagado, Forma_de_Pago)
-        VALUES (
-            (SELECT ID_Curso FROM Nivel WHERE ID_Nivel = NEW.ID_Nivel),
-            NEW.ID_Usuario,
-            NOW(),
-            (SELECT SUM(Costo_Nivel) FROM Nivel WHERE ID_Curso = (SELECT ID_Curso FROM Nivel WHERE ID_Nivel = NEW.ID_Nivel)),
-            'Completado por niveles'
-        );
-
-        -- Opcional: Actualizar los registros en Inscripciones_Niveles para reflejar que el curso ya se completó
-        UPDATE Inscripciones_Niveles
-        SET Status = 0 -- 0 indica que ya no se necesita verificar estos niveles
+        -- Obtener la cantidad de niveles que el usuario ha comprado para este curso
+        SELECT COUNT(DISTINCT ID_Nivel)
+        INTO niveles_comprados
+        FROM Inscripciones_Niveles
         WHERE ID_Usuario = NEW.ID_Usuario
           AND ID_Nivel IN (
               SELECT ID_Nivel
               FROM Nivel
               WHERE ID_Curso = (SELECT ID_Curso FROM Nivel WHERE ID_Nivel = NEW.ID_Nivel)
           );
+
+        -- Si el usuario ha comprado todos los niveles, insertar el curso en Inscripciones
+        IF niveles_comprados = total_niveles THEN
+            INSERT INTO Inscripciones (ID_Curso, ID_Usuario, Fecha_Inscripcion, Monto_Pagado, Forma_de_Pago)
+            VALUES (
+                (SELECT ID_Curso FROM Nivel WHERE ID_Nivel = NEW.ID_Nivel),
+                NEW.ID_Usuario,
+                NOW(),
+                (SELECT SUM(Costo_Nivel) FROM Nivel WHERE ID_Curso = (SELECT ID_Curso FROM Nivel WHERE ID_Nivel = NEW.ID_Nivel)),
+                'Completado por niveles'
+            );
+
+            -- Opcional: Actualizar los registros en Inscripciones_Niveles para reflejar que el curso ya se completó
+            UPDATE Inscripciones_Niveles
+            SET Status = 0 -- 0 indica que ya no se necesita verificar estos niveles
+            WHERE ID_Usuario = NEW.ID_Usuario
+              AND ID_Nivel IN (
+                  SELECT ID_Nivel
+                  FROM Nivel
+                  WHERE ID_Curso = (SELECT ID_Curso FROM Nivel WHERE ID_Nivel = NEW.ID_Nivel)
+              );
+        END IF;
     END IF;
 END$$
 
 DELIMITER ;
+
 
 
 

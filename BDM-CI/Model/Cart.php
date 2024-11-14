@@ -38,16 +38,16 @@ class Cart
 
     public function updateStatusByCourseId($courseId, $status)
     {
-        $sql = "UPDATE carrito SET Status = ? WHERE ID_Curso = ?";
+        $sql = "UPDATE carrito SET Status = :status WHERE ID_Curso = :courseId";
         $stmt = $this->con->getCon()->prepare($sql);
-        return $stmt->execute([$status, $courseId]);
+        return $stmt->execute(['status' => $status, 'courseId' => $courseId]);
     }
 
     public function updateStatusByLevelId($levelId, $status)
     {
-        $sql = "UPDATE carrito SET Status = ? WHERE ID_Nivel = ?";
+        $sql = "UPDATE carrito SET Status = :status WHERE ID_Nivel = :levelId";
         $stmt = $this->con->getCon()->prepare($sql);
-        return $stmt->execute([$status, $levelId]);
+        return $stmt->execute(['status' => $status, 'levelId' => $levelId]);
     }
 
 }

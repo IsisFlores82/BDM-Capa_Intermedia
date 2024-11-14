@@ -159,9 +159,39 @@ if (isset($_SESSION['mensaje'])) {
                 <div class="courses-container d-none" id="coursesContent">
                     <h2>Mis Cursos</h2>
                     <div class="row">
-                        <!-- Los cursos se añadirán aquí mediante JavaScript -->
+                        <?php if (!empty($userCourses)): ?>
+                            <?php foreach ($userCourses as $course): ?>
+                                <?php
+                                // Handle BLOB image
+                                if (!empty($course['CursoImagen'])) {
+                                    $finfo = new finfo(FILEINFO_MIME_TYPE);
+                                    $mimeType = $finfo->buffer($course['CursoImagen']);
+                                    $fotoBase64 = base64_encode($course['CursoImagen']);
+                                    $fotoCurso = "data:" . $mimeType . ";base64," . $fotoBase64;
+                                } else {
+                                    $fotoCurso = "https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg";
+                                }
+                            ?>
+                                <div class="col-md-4 mb-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <img 
+                                                src="<?= $fotoCurso ?>"
+                                                alt="Curso" 
+                                                class="img-fluid course-image"
+                                            >
+                                            <h5 class="card-title"><?= htmlspecialchars($course['CursoTitulo'], ENT_QUOTES, 'UTF-8') ?></h5>
+                                            <a href="/BDM-CI/cursarCurso?id=<?= $course['ID_Curso'] ?>" class="btn btn-primary">Ver Curso</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <p class="text-center">No tienes cursos inscritos.</p>
+                        <?php endif; ?>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
