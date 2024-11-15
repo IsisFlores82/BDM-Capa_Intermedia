@@ -1,4 +1,5 @@
 use BDMCAPA;
+SET GLOBAL event_scheduler = ON;
 
 DELIMITER //
 
@@ -228,6 +229,112 @@ END //
 
 DELIMITER ;
 
+DELIMITER $$
+
+CREATE PROCEDURE procesarNivelProgresoLogs()
+BEGIN
+    DECLARE done INT DEFAULT 0;
+    DECLARE logId INT;
+    DECLARE userId INT;
+    DECLARE nivelId INT;
+    DECLARE cursoId INT;
+
+    -- Cursor para recorrer los logs no procesados
+    DECLARE cur_logs CURSOR FOR
+        SELECT ID_Log, ID_Usuario, ID_Nivel
+        FROM Nivel_Progreso_Log
+        WHERE Procesado = 0;
+
+    -- Manejo de final del cursor
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+
+    -- Abrir cursor
+    OPEN cur_logs;
+
+    -- Recorrer cada log
+    read_logs: LOOP
+        FETCH cur_logs INTO logId, userId, nivelId;
+        IF done THEN
+            LEAVE read_logs;
+        END IF;
+
+        -- Obtener el ID del curso
+        SELECT ID_Curso INTO cursoId FROM Nivel WHERE ID_Nivel = nivelId;
+
+        -- Actualizar registros en Inscripciones_Niveles
+        UPDATE Inscripciones_Niveles
+        SET Status = 0
+        WHERE ID_Usuario = userId
+          AND ID_Nivel IN (
+              SELECT ID_Nivel FROM Nivel WHERE ID_Curso = cursoId
+          );
+
+        -- Verificar si todos los niveles están comprados
+        CALL verificarInscripcionCurso(userId, nivelId);
+
+        -- Marcar el log como procesado
+        UPDATE Nivel_Progreso_Log
+        SET Procesado = 1
+        WHERE ID_Log = logId;
+    END LOOP;
+
+    -- Cerrar cursor
+    CLOSE cur_logs;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE EVENT if not exists procesar_logs_event
+ON SCHEDULE EVERY 1 MINUTE
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    CALL procesarNivelProgresoLogs();
+END $$
+
+DELIMITER ;
+
+SHOW EVENTS;
+
+DELIMITER $$
+
+CREATE PROCEDURE verificarInscripcionCurso(userId INT, nivelId INT)
+BEGIN
+    DECLARE total_niveles INT;
+    DECLARE niveles_comprados INT;
+    DECLARE cursoId INT;
+
+    -- Obtener el ID del curso
+    SELECT ID_Curso INTO cursoId FROM Nivel WHERE ID_Nivel = nivelId;
+
+    -- Contar la cantidad total de niveles del curso
+    SELECT COUNT(ID_Nivel) INTO total_niveles FROM Nivel WHERE ID_Curso = cursoId;
+
+    -- Contar la cantidad de niveles comprados por el usuario para ese curso
+    SELECT COUNT(DISTINCT ID_Nivel) INTO niveles_comprados
+    FROM Inscripciones_Niveles
+    WHERE ID_Usuario = userId AND ID_Nivel IN (
+        SELECT ID_Nivel FROM Nivel WHERE ID_Curso = cursoId
+    );
+
+    -- Si el usuario ha comprado todos los niveles, insertar en Inscripciones
+    IF niveles_comprados = total_niveles THEN
+        INSERT INTO Inscripciones (ID_Curso, ID_Usuario, Fecha_Inscripcion, Monto_Pagado, Forma_de_Pago)
+        VALUES (
+            cursoId,
+            userId,
+            NOW(),
+            (SELECT SUM(Costo_Nivel) FROM Nivel WHERE ID_Curso = cursoId),
+            'Completado por niveles'
+        );
+    END IF;
+END$$
+
+DELIMITER ;
+
+
 DELIMITER //
 
 CREATE TRIGGER trg_on_course_deletion
@@ -251,60 +358,11 @@ CREATE TRIGGER after_level_purchase
 AFTER INSERT ON Inscripciones_Niveles
 FOR EACH ROW
 BEGIN
-    DECLARE total_niveles INT;
-    DECLARE niveles_comprados INT;
-
-    -- Verificar si el curso ya está inscrito por el usuario
-    IF NOT EXISTS (
-        SELECT 1
-        FROM Inscripciones
-        WHERE ID_Curso = (SELECT ID_Curso FROM Nivel WHERE ID_Nivel = NEW.ID_Nivel)
-          AND ID_Usuario = NEW.ID_Usuario
-    ) THEN
-        -- Obtener la cantidad total de niveles del curso
-        SELECT COUNT(ID_Nivel)
-        INTO total_niveles
-        FROM Nivel
-        WHERE ID_Curso = (SELECT ID_Curso FROM Nivel WHERE ID_Nivel = NEW.ID_Nivel);
-
-        -- Obtener la cantidad de niveles que el usuario ha comprado para este curso
-        SELECT COUNT(DISTINCT ID_Nivel)
-        INTO niveles_comprados
-        FROM Inscripciones_Niveles
-        WHERE ID_Usuario = NEW.ID_Usuario
-          AND ID_Nivel IN (
-              SELECT ID_Nivel
-              FROM Nivel
-              WHERE ID_Curso = (SELECT ID_Curso FROM Nivel WHERE ID_Nivel = NEW.ID_Nivel)
-          );
-
-        -- Si el usuario ha comprado todos los niveles, insertar el curso en Inscripciones
-        IF niveles_comprados = total_niveles THEN
-            INSERT INTO Inscripciones (ID_Curso, ID_Usuario, Fecha_Inscripcion, Monto_Pagado, Forma_de_Pago)
-            VALUES (
-                (SELECT ID_Curso FROM Nivel WHERE ID_Nivel = NEW.ID_Nivel),
-                NEW.ID_Usuario,
-                NOW(),
-                (SELECT SUM(Costo_Nivel) FROM Nivel WHERE ID_Curso = (SELECT ID_Curso FROM Nivel WHERE ID_Nivel = NEW.ID_Nivel)),
-                'Completado por niveles'
-            );
-
-            -- Opcional: Actualizar los registros en Inscripciones_Niveles para reflejar que el curso ya se completó
-            UPDATE Inscripciones_Niveles
-            SET Status = 0 -- 0 indica que ya no se necesita verificar estos niveles
-            WHERE ID_Usuario = NEW.ID_Usuario
-              AND ID_Nivel IN (
-                  SELECT ID_Nivel
-                  FROM Nivel
-                  WHERE ID_Curso = (SELECT ID_Curso FROM Nivel WHERE ID_Nivel = NEW.ID_Nivel)
-              );
-        END IF;
-    END IF;
+    INSERT INTO Nivel_Progreso_Log (ID_Usuario, ID_Nivel)
+    VALUES (NEW.ID_Usuario, NEW.ID_Nivel);
 END$$
 
 DELIMITER ;
-
-
 
 
 DELIMITER $$

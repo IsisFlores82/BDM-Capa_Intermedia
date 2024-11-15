@@ -31,7 +31,6 @@ if (isset($_GET['id'])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        dd($_POST);
     // Recibir datos del curso
     $courseId = $_POST['ID_Curso'];
     $title = $_POST['Titulo'];
@@ -39,7 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $categoryId = $_POST['ID_Categoria'];
     $isFree = $_POST['Gratuito'];
     $price = isset($_POST['Costo_Total']) && $_POST['Costo_Total'] !== '' && $isFree == '0' ? $_POST['Costo_Total'] : 0;
-    dd($price);
     // Procesar imagen de banner del curso
     $imageData = null;
     if (!empty($_FILES['Imagen']['tmp_name'])) {
@@ -64,7 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $levelTitle = $levelData['Titulo'];
         $isLevelFree = $levelData['Gratuito'];
         $levelPrice = isset($levelData['Costo_Nivel']) && $levelData['Costo_Nivel'] !== '' && $isLevelFree == '0' ? $levelData['Costo_Nivel'] : 0;
-        dd($levelPrice);
         // Manejo de archivos de video y adjunto
         $videoPath = null;
         $attachmentPath = null;
