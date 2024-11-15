@@ -70,22 +70,9 @@ class Inscription
 
     public function obtenerNivelesPoseidos($userId) {
         $sql = "
-            SELECT DISTINCT 
-            IFNULL(inl.ID_Nivel, n.ID_Nivel) AS ID_Nivel,
-            n.Titulo AS NivelTitulo,
-            n.ID_Curso,
-            c.Titulo AS CursoTitulo
-        FROM 
-            View_Inscripciones_Combinadas inl
-        LEFT JOIN 
-            Nivel n ON inl.ID_Curso = n.ID_Curso
-        LEFT JOIN 
-            Curso c ON n.ID_Curso = c.ID_Curso
-        WHERE 
-            inl.ID_Usuario = :
-            AND (inl.ID_Nivel IS NULL OR inl.ID_Nivel = n.ID_Nivel)
-            AND c.Status = 1 
-            AND (n.Status = 1 OR n.Status IS NULL);
+            SELECT ID_Nivel, NivelTitulo, ID_Curso, CursoTitulo
+            FROM View_Niveles_Poseidos
+            WHERE ID_Usuario = ?
         ";
     
         $stmt = $this->con->getCon()->prepare($sql);
@@ -106,6 +93,66 @@ class Inscription
             $stmt->execute([$userId, $nivel['ID_Nivel']]);
         }
     }
+    
+    public function actualizarProgresoNivel($idUsuario, $idNivel) {
+        $sql = "
+            INSERT INTO Progreso_Niveles (ID_Usuario, ID_Nivel, Fecha_Completado, Status)
+            VALUES (:idUsuario, :idNivel, NOW(), 1)
+            ON DUPLICATE KEY UPDATE
+                Fecha_Completado = NOW(),
+                Status = 1
+        ";
+
+        $stmt = $this->con->getCon()->prepare($sql);
+        return $stmt->execute([
+            'idUsuario' => $idUsuario,
+            'idNivel' => $idNivel
+        ]);
+    }
+
+    public function actualizarProgresoCurso($idUsuario, $idCurso) {
+        $sql = "
+            SELECT COUNT(vnp.ID_Nivel) AS TotalNiveles,
+                   SUM(CASE WHEN vnp.ProgresoStatus = 1 THEN 1 ELSE 0 END) AS NivelesCompletados
+            FROM View_Niveles_Progreso vnp
+            WHERE vnp.ID_Usuario = :idUsuario AND vnp.ID_Curso = :idCurso
+        ";
+    
+        $stmt = $this->con->getCon()->prepare($sql);
+        $stmt->execute([
+            'idUsuario' => $idUsuario,
+            'idCurso' => $idCurso
+        ]);
+    
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($result && $result['TotalNiveles'] > 0 && $result['TotalNiveles'] == $result['NivelesCompletados']) {
+            // Si todos los niveles están completados, marcar el curso como completado
+            $updateSql = "
+                UPDATE Inscripciones
+                SET Fecha_Terminacion = NOW(), Status = 1
+                WHERE ID_Usuario = :idUsuario AND ID_Curso = :idCurso
+            ";
+    
+            $updateStmt = $this->con->getCon()->prepare($updateSql);
+            return $updateStmt->execute([
+                'idUsuario' => $idUsuario,
+                'idCurso' => $idCurso
+            ]);
+        }
+    
+        return false;
+    }
+    
+    public function getProgreso($userId, $courseId) {
+        $sql = "SELECT CalcularProgresoCurso(:idUsuario, :idCurso) AS PorcentajeProgreso";
+        $stmt = $this->con->getCon()->prepare($sql);
+        $stmt->execute([
+            'idUsuario' => $userId,
+            'idCurso' => $courseId
+        ]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    }
 
     public function isCoursePurchased($userId, $courseId) {
         $query = "SELECT COUNT(*) 
@@ -116,6 +163,20 @@ class Inscription
         $result = $stmt->fetchColumn();
         return $result > 0;
     }
+
+    public function updateLastAccess($userId, $courseId) {
+        $sql = "
+            UPDATE Inscripciones
+            SET Fecha_Ultimo_Ingreso = NOW()
+            WHERE ID_Usuario = :userId AND ID_Curso = :courseId
+        ";
+        $stmt = $this->con->getCon()->prepare($sql);
+        return $stmt->execute([
+            'userId' => $userId,
+            'courseId' => $courseId
+        ]);
+    }
+    
     
     public function getPurchasedLevels($userId, $courseId) {
         $query = "SELECT ID_Nivel 
@@ -124,6 +185,25 @@ class Inscription
         $stmt = $this->con->getCon()->prepare($query);
         $stmt->execute([$userId, $courseId]);
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+    
+    public function verificarProgresoNivel($userId, $nivelId) {
+        $sql = "
+            SELECT ProgresoStatus 
+            FROM View_Niveles_Progreso 
+            WHERE ID_Usuario = :userId AND ID_Nivel = :nivelId
+        ";
+        
+        $stmt = $this->con->getCon()->prepare($sql);
+        $stmt->execute([
+            'userId' => $userId,
+            'nivelId' => $nivelId
+        ]);
+        
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // Si no se encuentra el registro, el nivel no está completado.
+        return $resultado ? $resultado['ProgresoStatus'] : 0;
     }
     
     

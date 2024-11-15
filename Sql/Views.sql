@@ -21,7 +21,8 @@ FROM
 JOIN 
     Usuario u ON c.ID_Instructor = u.ID_Usuario;
     
-    CREATE VIEW View_Inscripciones_Cursos AS
+    
+CREATE VIEW View_Inscripciones_Cursos AS
 SELECT 
     i.ID_Usuario,
     c.ID_Curso,
@@ -29,13 +30,14 @@ SELECT
     c.Descripcion AS CursoDescripcion,
     c.Imagen AS CursoImagen,
     c.Costo_Total,
-    i.Fecha_Inscripcion
+    i.Fecha_Inscripcion,
+    c.Status
 FROM 
     Inscripciones i
 JOIN 
     Curso c ON i.ID_Curso = c.ID_Curso
 WHERE 
-    i.Status = 1; -- Solo cursos activos
+    i.Status = 1 and c.Status = 1; -- Solo cursos activos
 
 
 CREATE VIEW View_Inscripciones_Niveles AS
@@ -57,11 +59,13 @@ JOIN
     Curso c ON n.ID_Curso = c.ID_Curso
 WHERE 
     inl.Status = 1
+    AND n.Status = 1
     AND c.ID_Curso NOT IN (
         SELECT ID_Curso 
         FROM Inscripciones 
         WHERE ID_Usuario = inl.ID_Usuario AND Status = 1
     );
+
 
 CREATE VIEW View_Inscripciones_Combinadas AS
 SELECT 
@@ -113,3 +117,45 @@ JOIN
     Curso c ON n.ID_Curso = c.ID_Curso
 WHERE 
     inl.Status = 1;
+
+
+CREATE VIEW View_Niveles_Poseidos AS
+SELECT DISTINCT 
+    IFNULL(inl.ID_Nivel, n.ID_Nivel) AS ID_Nivel,
+    n.Titulo AS NivelTitulo,
+    n.ID_Curso,
+    c.Titulo AS CursoTitulo,
+    inl.ID_Usuario
+FROM 
+    View_Inscripciones_Combinadas inl
+LEFT JOIN 
+    Nivel n ON inl.ID_Curso = n.ID_Curso
+LEFT JOIN 
+    Curso c ON n.ID_Curso = c.ID_Curso
+WHERE 
+    c.Status = 1 
+    AND (n.Status = 1 OR n.Status IS NULL);
+    
+    
+CREATE OR REPLACE VIEW View_Niveles_Progreso AS
+SELECT 
+    n.ID_Nivel,
+    n.Titulo AS NivelTitulo,
+    n.Costo_Nivel,
+    n.Video,
+    n.Adjunto,
+    n.Status AS NivelStatus,
+    c.ID_Curso,
+    c.Titulo AS CursoTitulo,
+    c.Costo_Total AS CursoCosto,
+    c.Status AS CursoStatus,
+    pn.ID_Usuario,
+    pn.Fecha_Completado,
+    pn.Status AS ProgresoStatus -- 0: No completado, 1: Completado
+FROM 
+    Nivel n
+JOIN 
+    Curso c ON n.ID_Curso = c.ID_Curso
+LEFT JOIN 
+    Progreso_Niveles pn ON n.ID_Nivel = pn.ID_Nivel;
+
