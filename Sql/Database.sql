@@ -122,7 +122,7 @@ CREATE TABLE if not exists Progreso_Niveles (
     UNIQUE (ID_Usuario, ID_Nivel) -- Para evitar duplicados
 );
 select * from Progreso_Niveles;
- 
+
 CREATE TABLE if not exists Mensajes (
     ID_Mensaje INT AUTO_INCREMENT PRIMARY KEY,
     ID_Emisor INT,
@@ -163,16 +163,3 @@ CREATE TABLE if not exists Carrito (
 );
 select * FROM Carrito;
 
-CREATE TABLE if not exists Nivel_Progreso_Log (
-    ID_Log INT AUTO_INCREMENT PRIMARY KEY,
-    ID_Usuario INT NOT NULL,
-    ID_Nivel INT NOT NULL,
-    Fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    Procesado TINYINT(1) DEFAULT 0 -- 0: No procesado, 1: Procesado
-);
-select * FROM Nivel_Progreso_Log;
-
-
-select * from View_Inscripciones_Niveles;
-select * from View_Inscripciones_Cursos;
-select * from View_Inscripciones_Combinadas;

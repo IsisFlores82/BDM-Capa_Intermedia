@@ -124,8 +124,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
     } catch (PDOException $e) {
-        dd($e);
-        alert('aaa');
         // Manejar errores
         $_SESSION['mensaje'] = [
             'type' => 'error',

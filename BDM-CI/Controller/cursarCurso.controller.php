@@ -28,11 +28,8 @@ if (!$cursoId) {
     exit;
 }
 $cursoComprado = $inscriptionDb->isCoursePurchased($id, $cursoId);
-if ($cursoComprado) {
-    // Actualiza la fecha de último ingreso solo si el curso está en inscripciones
-    $inscriptionDb->updateLastAccess($id, $cursoId);
-}
-$infoCurso=$courseDb->getCoursesWithInstructorsFromViewById($cursoId);
+
+$infoCurso=$courseDb->getCourseById($cursoId);
 // Obtén todos los niveles del curso.
 $nivelesCurso = $levelDb->getLevelsByCourse($cursoId);
 // Obtén los niveles que el usuario ha comprado (si no compró el curso completo).
@@ -40,9 +37,7 @@ $nivelesComprados = $cursoComprado
     ? array_column($nivelesCurso, 'ID_Nivel') // Si compró el curso, tiene acceso a todos los niveles.
     : $inscriptionDb->getPurchasedLevels($id, $cursoId);
 
-$inscriptionDb->llenarProgresoNiveles($id);
-$result = $inscriptionDb->getProgreso($id, $cursoId);
-$progreso = $result['PorcentajeProgreso'] ?? 0;
+
     if (!empty($user['Foto'])) {
         $finfo = new finfo(FILEINFO_MIME_TYPE);
         $mimeType = $finfo->buffer($user['Foto']);

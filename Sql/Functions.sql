@@ -32,37 +32,3 @@ BEGIN
 END$$
 
 DELIMITER ;
-
-
-DELIMITER //
-
-CREATE FUNCTION CalcularProgresoCurso(idUsuario INT, idCurso INT)
-RETURNS DECIMAL(5, 2) DETERMINISTIC
-BEGIN
-    DECLARE totalNiveles INT;
-    DECLARE nivelesCompletados INT;
-    DECLARE progreso DECIMAL(5, 2);
-
-    -- Contar el total de niveles del curso
-    SELECT COUNT(ID_Nivel) 
-    INTO totalNiveles
-    FROM Nivel
-    WHERE ID_Curso = idCurso AND Status = 1;
-
-    -- Contar los niveles completados por el usuario
-    SELECT COUNT(vnp.ID_Nivel) 
-    INTO nivelesCompletados
-    FROM View_Niveles_Progreso vnp
-    WHERE vnp.ID_Usuario = idUsuario AND vnp.ID_Curso = idCurso AND vnp.ProgresoStatus = 1;
-
-    -- Calcular el porcentaje
-    IF totalNiveles > 0 THEN
-        SET progreso = (nivelesCompletados / totalNiveles) * 100;
-    ELSE
-        SET progreso = 0;
-    END IF;
-
-    RETURN progreso;
-END //
-
-DELIMITER ;
