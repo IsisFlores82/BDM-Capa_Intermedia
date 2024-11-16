@@ -37,7 +37,7 @@ $router->get('/BDM-CI/reporteUsuarios','controller/reporteUsuarios.controller.ph
 $router->get('/BDM-CI/profileInstructor','controller/profileInstructor.controller.php')->only('Instructor');
 $router->get('/BDM-CI/profileInstructor/deleteCourse','controller/deleteCourse.controller.php')->only('Instructor');
 $router->get('/BDM-CI/reporteDeVentas','controller/reporteDeVentas.controller.php')->only('Instructor');
-$router->get('/BDM-CI/ventaDetallada','controller/ventaDetallada.controller.php');
+$router->get('/BDM-CI/ventaDetallada','controller/ventaDetallada.controller.php')->only('Instructor');
 $router->get('/BDM-CI/crearCurso','controller/crearCurso.controller.php')->only('Instructor');
 $router->get('/BDM-CI/editarCurso','controller/editCourse.controller.php')->only('Instructor');
 $router->get('/BDM-CI/logOut','controller/logOut.controller.php');

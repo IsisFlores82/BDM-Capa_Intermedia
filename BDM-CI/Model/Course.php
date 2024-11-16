@@ -49,6 +49,13 @@ class Course
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getCourseTitle($id) {
+        $query = "SELECT Titulo FROM Curso WHERE ID_Curso = :id AND Status = 1";
+        $stmt = $this->con->getCon()->prepare($query);
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetchColumn();
+    }
+
     public function getFavCourses() {
         $query = "SELECT * FROM CoursesWithInstructors WHERE Status = 1 ORDER BY RAND() LIMIT 2";
         $stmt = $this->con->getCon()->prepare($query);

@@ -21,11 +21,17 @@ $start_date = isset($_GET['startDate']) ? $_GET['startDate'] : null;
 $end_date = isset($_GET['endDate']) ? $_GET['endDate'] : null;
 $category_id = isset($_GET['categoryFilter']) ? $_GET['categoryFilter'] : null;
 $estado_curso = isset($_GET['statusFilter']) && $_GET['statusFilter'] != 'todos' ? $_GET['statusFilter'] : null;
-
+$coursesSummary = $salesReportDb->getCoursesSummary($id, $start_date, $end_date, $category_id, $estado_curso);
 $salesSummary = $salesReportDb->getInstructorSalesSummary($id);
-dd($salesSummary);
 
-$salesReport = $salesReportDb->getSalesReport($id, $start_date, $end_date, $category_id, $estado_curso);
-dd($salesReport);
+
+if (!empty($user['Foto'])) {
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $mimeType = $finfo->buffer($user['Foto']);
+    $fotoBase64 = base64_encode($user['Foto']);
+    $fotoSrc = "data:" . $mimeType . ";base64," . $fotoBase64;
+} else {
+    $fotoSrc = "https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg";
+}
 require "Views/reporteDeVentas.view.php"; // Pass the data to the view
 ?>
