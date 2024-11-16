@@ -159,3 +159,77 @@ JOIN
 LEFT JOIN 
     Progreso_Niveles pn ON n.ID_Nivel = pn.ID_Nivel;
 
+CREATE OR REPLACE VIEW KardexUsuario AS
+SELECT 
+    i.ID_Usuario,
+    c.ID_Curso,
+    c.Titulo AS Curso,
+    i.Fecha_Inscripcion,
+    i.Fecha_Ultimo_Ingreso,
+    c.ID_Categoria AS Categoria,
+    CalcularProgresoCurso(i.ID_Usuario, c.ID_Curso) AS Progreso,
+    CASE 
+        WHEN i.Fecha_Terminacion IS NOT NULL THEN 'Completado'
+        WHEN c.Status = 1 THEN 'Activo'
+        ELSE 'Inactivo'
+    END AS Estado,
+    i.Fecha_Terminacion,
+    i.Certificado,
+    COUNT(co.ID_Comentario) AS TotalComentarios
+FROM 
+    Inscripciones i
+LEFT JOIN 
+    Curso c ON i.ID_Curso = c.ID_Curso
+LEFT JOIN 
+    Comentario co ON co.ID_Curso = c.ID_Curso AND co.ID_Usuario = i.ID_Usuario
+GROUP BY 
+    i.ID_Usuario, i.ID_Curso;
+    
+    
+CREATE OR REPLACE VIEW Resumen_Inscripciones_Cursos AS
+SELECT 
+    c.ID_Curso,
+    c.Titulo AS Curso,
+    COUNT(i.ID_Usuario) AS AlumnosInscritos,
+    AVG(COALESCE(CalcularProgresoCurso(i.ID_Usuario, c.ID_Curso), 0)) AS PromedioProgreso,
+    SUM(CASE 
+        WHEN i.Status = 1 THEN i.Monto_Pagado
+        ELSE 0
+    END) AS VentasTotales,
+    i.Forma_de_Pago
+FROM Curso c
+LEFT JOIN Inscripciones i ON c.ID_Curso = i.ID_Curso
+WHERE c.Status = 1
+GROUP BY c.ID_Curso, i.Forma_de_Pago;
+
+
+CREATE OR REPLACE VIEW Resumen_Inscripciones_Niveles AS
+SELECT 
+    n.ID_Curso,
+    n.ID_Nivel,
+    COUNT(inl.ID_Usuario) AS AlumnosInscritos,
+    SUM(CASE 
+        WHEN inl.Status = 1 THEN inl.Monto_Pagado
+        ELSE 0
+    END) AS VentasTotalesNiveles
+FROM Nivel n
+LEFT JOIN Inscripciones_Niveles inl ON n.ID_Nivel = inl.ID_Nivel
+GROUP BY n.ID_Curso, n.ID_Nivel;
+
+CREATE OR REPLACE VIEW Ventas_Totales_Cursos AS
+SELECT 
+    c.ID_Curso,
+    c.Titulo,
+	c.ID_Instructor,
+    c.Fecha_Creacion,
+    c.ID_Categoria,
+    c.Status,
+    COALESCE(rc.VentasTotales, 0) AS VentasCursos,
+    COALESCE(SUM(rn.VentasTotalesNiveles), 0) AS VentasNiveles,
+    (COALESCE(rc.VentasTotales, 0) + COALESCE(SUM(rn.VentasTotalesNiveles), 0)) AS VentasTotales,
+    rc.Forma_de_Pago
+FROM Curso c
+LEFT JOIN Resumen_Inscripciones_Cursos rc ON c.ID_Curso = rc.ID_Curso
+LEFT JOIN Resumen_Inscripciones_Niveles rn ON c.ID_Curso = rn.ID_Curso
+GROUP BY c.ID_Curso, c.Titulo, rc.Forma_de_Pago;
+

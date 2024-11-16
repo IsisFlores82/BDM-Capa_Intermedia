@@ -28,8 +28,8 @@ class Inscription
     }
     
     public function agregarNivel($nivelId, $userId, $montoPagado) {
-        $query = "INSERT INTO Inscripciones_Niveles (ID_Nivel, ID_Usuario, Fecha_Inscripcion, Monto_Pagado) 
-                  VALUES (:nivelId, :userId, NOW(), :montoPagado)";
+        $query = "INSERT INTO Inscripciones_Niveles (ID_Nivel, ID_Usuario, Fecha_Inscripcion, Monto_Pagado, Forma_de_Pago) 
+                  VALUES (:nivelId, :userId, NOW(), :montoPagado,'Tarjeta')";
         $stmt = $this->con->getCon()->prepare($query);
         return $stmt->execute([
             'nivelId' => $nivelId,

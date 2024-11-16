@@ -28,7 +28,7 @@ $router->get('/BDM-CI/carrito','controller/carrito.controller.php')->only('Alumn
 $router->get('/BDM-CI/search','controller/search.controller.php')->only('NoInstructor');
 $router->get('/BDM-CI/courseDetail','controller/courseDetail.controller.php')->only('NoInstructor');
 $router->get('/BDM-CI/profile','controller/profile.controller.php')->only('Alumno');
-$router->get('/BDM-CI/kardex','controller/kardex.controller.php');
+$router->get('/BDM-CI/kardex','controller/kardex.controller.php')->only('Alumno');
 $router->get('/BDM-CI/mensajeria','controller/mensajeria.controller.php');
 $router->get('/BDM-CI/cursarCurso','controller/cursarCurso.controller.php')->only('Alumno');
 $router->get('/BDM-CI/profileAdmin','controller/profileAdmin.controller.php')->only('Admin');

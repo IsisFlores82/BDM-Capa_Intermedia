@@ -172,7 +172,11 @@ CREATE TABLE if not exists Nivel_Progreso_Log (
 );
 select * FROM Nivel_Progreso_Log;
 
-
 select * from View_Inscripciones_Niveles;
 select * from View_Inscripciones_Cursos;
 select * from View_Inscripciones_Combinadas;
+select * from KardexUsuario;
+select * from KardexUsuario;
+select * from Resumen_Inscripciones_Cursos;
+select * from Ventas_Totales_Cursos;
+

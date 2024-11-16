@@ -284,6 +284,56 @@ END$$
 
 DELIMITER ;
 
+DELIMITER //
+
+CREATE PROCEDURE ObtenerVentasCursos(
+    IN id_instructor INT,
+    IN start_date DATE,
+    IN end_date DATE,
+    IN categoria_id INT,
+    IN estado_curso TINYINT
+)
+BEGIN
+    SELECT 
+        v.ID_Curso,
+        v.Titulo,
+        v.VentasCursos,
+        v.VentasNiveles,
+        v.VentasTotales
+    FROM Ventas_Totales_Cursos v
+    JOIN Curso c ON v.ID_Curso = c.ID_Curso
+    WHERE c.ID_Instructor = id_instructor
+      AND (start_date IS NULL OR c.Fecha_Creacion >= start_date)
+      AND (end_date IS NULL OR c.Fecha_Creacion <= end_date)
+      AND (categoria_id IS NULL OR c.ID_Categoria = categoria_id)
+      AND (estado_curso = 2 OR c.Status = estado_curso);
+END;
+//
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE ObtenerResumenPagos(
+    IN id_instructor INT
+)
+BEGIN
+    SELECT 
+        i.Forma_de_Pago,
+        SUM(i.Monto_Pagado) AS TotalPagado
+    FROM Inscripciones i
+    JOIN Curso c ON i.ID_Curso = c.ID_Curso
+    WHERE c.ID_Instructor = id_instructor
+      AND i.Status = 1
+    GROUP BY i.Forma_de_Pago;
+END;
+//
+
+DELIMITER ;
+
+
+
+
 DELIMITER $$
 
 CREATE EVENT if not exists procesar_logs_event
