@@ -68,6 +68,28 @@ END //
 DELIMITER ;
 
 
+DELIMITER //
+
+CREATE OR REPLACE FUNCTION CalcularPromedioCurso(cursoID INT) 
+RETURNS DECIMAL(3, 2)
+DETERMINISTIC
+BEGIN
+    DECLARE promedio DECIMAL(3, 2);
+
+    SELECT 
+        IFNULL(AVG(Calificacion), 0) 
+    INTO 
+        promedio
+    FROM 
+        Comentario
+    WHERE 
+        ID_Curso = cursoID 
+        AND Status = 1; -- Solo considerar comentarios activos
+
+    RETURN promedio;
+END //
+
+DELIMITER ;
 
 
 

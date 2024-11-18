@@ -57,15 +57,32 @@ if (isset($_SESSION['mensaje'])) {
                     <h1>Curso: <?= htmlspecialchars($course['Titulo']) ?></h1>
                     <a href="/BDM-CI/mensajeria">Instructor: <?= htmlspecialchars($instructor) ?></a>
                     <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                        <span>(4.5/5 estrellas)</span>
+                        <?php
+                        // Número de estrellas llenas, medias y vacías basado en la calificación
+                        $fullStars = floor($calificacion); // Número de estrellas completas
+                        $halfStar = ($calificacion - $fullStars) >= 0.5 ? 1 : 0; // Si hay media estrella
+                        $emptyStars = 5 - ($fullStars + $halfStar); // Resto de estrellas vacías
+
+                        // Renderizar estrellas llenas
+                        for ($i = 0; $i < $fullStars; $i++) {
+                            echo '<i class="fas fa-star"></i>';
+                        }
+                    
+                        // Renderizar media estrella si aplica
+                        if ($halfStar) {
+                            echo '<i class="fas fa-star-half-alt"></i>';
+                        }
+                    
+                        // Renderizar estrellas vacías
+                        for ($i = 0; $i < $emptyStars; $i++) {
+                            echo '<i class="far fa-star"></i>';
+                        }
+                        ?>
+                        <span>(<?= number_format($calificacion, 1) ?>/5 estrellas)</span>
                     </div>
-                    <p>Categoría: <?= htmlspecialchars($category['Nombre']) ?></p>
+                    <p>Categoría: <?= htmlspecialchars($categoryCourse['Nombre']) ?></p>
                 </div>
+
 
                 <!-- Niveles y Precios -->
                 <div class="mb-4">
@@ -95,7 +112,8 @@ if (isset($_SESSION['mensaje'])) {
                     <p><?= htmlspecialchars($course['Descripcion']) ?></p>
                 </div>
 
-                <div class="mb-4">
+            <!-- Comentarios del Curso -->
+            <div class="mb-4">
                 <h3>Comentarios</h3>
                 <?php if (empty($comentarios)) : ?>
                     <p class="text-muted">Sin comentarios</p>
@@ -103,15 +121,42 @@ if (isset($_SESSION['mensaje'])) {
                     <?php foreach ($comentarios as $comentario) : ?>
                         <div class="card comment-card mb-3 position-relative">
                             <div class="card-body">
-                                <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 delete-btn" onclick="deleteComment(this)">Eliminar</button>
-                                <div class="d-flex align-items-start">
-                                    <img src="<?= htmlspecialchars($comentario['avatar']) ?>" alt="Usuario" class="rounded-circle me-3" width="50" height="50">
-                                    <div>
-                                        <h5 class="card-title"><?= htmlspecialchars($comentario['nombre_usuario']) ?></h5>
-                                        <h6 class="card-subtitle mb-2 text-muted">Calificación: <?= htmlspecialchars($comentario['calificacion']) ?>/5</h6>
-                                        <p class="card-text"><?= htmlspecialchars($comentario['texto']) ?></p>
-                                        <small class="text-muted">Fecha y hora de creación: <?= htmlspecialchars($comentario['fecha']) ?></small>
+                                <?php if ($comentario['Status_Comentario'] == 1) : ?>
+                                    <!-- Mostrar los comentarios activos -->
+                                    <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 delete-btn" 
+                                            <?= ($user['Rol'] === 'Administrador') ? '' : 'disabled style="display: none;"' ?> 
+                                            onclick="showDeleteForm(<?= $comentario['ID_Comentario'] ?>)">
+                                        Eliminar
+                                    </button>
+                                    <div class="d-flex align-items-start">
+                                        <img src="data:image/jpeg;base64,<?= base64_encode($comentario['Imagen_Perfil']) ?>" alt="Usuario" class="rounded-circle me-3" width="50" height="50">
+                                        <div>
+                                            <h5 class="card-title"><?= htmlspecialchars($comentario['Nombre']) . " " . htmlspecialchars($comentario['Apellidos']) ?></h5>
+                                            <h3 class="card-title"><?= htmlspecialchars($comentario['Titulo_Comentario']) ?></h3>
+                                            <h6 class="card-subtitle mb-2 text-muted">Calificación: <?= htmlspecialchars($comentario['Calificacion']) ?>/5</h6>
+                                            <p class="card-text"><?= htmlspecialchars($comentario['Descripcion_Comentario']) ?></p>
+                                            <small class="text-muted">Fecha y hora de creación: <?= htmlspecialchars($comentario['Fecha_Creacion']) ?></small>
+                                        </div>
                                     </div>
+                                <?php else : ?>
+                                    <!-- Mostrar comentarios eliminados -->
+                                    <h5 class="card-title">Comentario eliminado</h5>
+                                    <p><strong>Motivo de eliminación:</strong> <?= htmlspecialchars($comentario['Motivo_Eliminacion']) ?></p>
+                                <?php endif; ?>
+                                
+                                <!-- Formulario oculto para eliminar el comentario -->
+                                <div id="deleteForm-<?= $comentario['ID_Comentario'] ?>" class="delete-form" style="display:none;">
+                                    <form action="/BDM-CI/courseDetail" method="POST">
+                                        <input type="hidden" name="id_comentario" value="<?= $comentario['ID_Comentario'] ?>">
+                                        <input type="hidden" name="id_curso" value="<?= $course['ID_Curso'] ?>">
+                                        <input type="hidden" name="_method" value="DELETE"> <!-- Método oculto para eliminar -->
+                                        <div class="mb-3">
+                                            <label for="motivo_eliminacion" class="form-label">Motivo de eliminación</label>
+                                            <textarea name="motivo_eliminacion" id="motivo_eliminacion" class="form-control" required></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-danger">Eliminar Comentario</button>
+                                        <button type="button" class="btn btn-secondary" onclick="hideDeleteForm(<?= $comentario['ID_Comentario'] ?>)">Cancelar</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -142,15 +187,15 @@ if (isset($_SESSION['mensaje'])) {
     </div>
 
     <script>
-        function deleteComment(button) {
-            const reason = prompt("Por favor, ingresa el motivo para eliminar este comentario:");
-            if (reason) {
-                const commentCard = button.closest('.comment-card');
-                commentCard.innerHTML = `<div class="card-body"><p class="card-text text-danger">Comentario eliminado, motivo: ${reason}</p></div>`;
-            } else {
-                alert('No se ha proporcionado un motivo para eliminar el comentario.');
-            }
-        }
+       function showDeleteForm(commentId) {
+        // Mostrar el formulario de eliminación
+        document.getElementById("deleteForm-" + commentId).style.display = "block";
+    }
+
+    function hideDeleteForm(commentId) {
+        // Ocultar el formulario de eliminación
+        document.getElementById("deleteForm-" + commentId).style.display = "none";
+    }
     </script>
 </body>
 </html>

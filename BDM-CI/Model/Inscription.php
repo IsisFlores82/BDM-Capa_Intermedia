@@ -143,6 +143,27 @@ class Inscription
         return false;
     }
     
+    public function getCertificadoPath($userId, $courseId)
+    {
+        $stmt = $this->con->getCon()->prepare("SELECT Certificado FROM Inscripciones WHERE ID_Usuario = :userId AND ID_Curso = :courseId");
+        $stmt->execute([
+            ':userId' => $userId,
+            ':courseId' => $courseId
+        ]);
+        return $stmt->fetchColumn(); // Devuelve el path si existe, o null si no
+    }
+
+    public function updateCertificadoPath($userId, $courseId, $path)
+    {
+        $stmt = $this->con->getCon()->prepare("UPDATE Inscripciones SET Certificado = :path WHERE ID_Usuario = :userId AND ID_Curso = :courseId");
+        $stmt->execute([
+            ':path' => $path,
+            ':userId' => $userId,
+            ':courseId' => $courseId
+        ]);
+    }
+
+
     public function getProgreso($userId, $courseId) {
         $sql = "SELECT CalcularProgresoCurso(:idUsuario, :idCurso) AS PorcentajeProgreso";
         $stmt = $this->con->getCon()->prepare($sql);

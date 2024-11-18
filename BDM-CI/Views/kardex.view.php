@@ -6,13 +6,41 @@
     <title>Kardex de Cursos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <!-- Bootstrap JS -->
+
+    <!-- Usar SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.min.js"></script> 
+
+    <!-- jQuery y Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
     <link rel="stylesheet" href="Views/dashboard.css">
     <link rel="stylesheet" href="Views/kardex.css">
 </head>
 <body>
     <?php require 'Components/headerStudent.php'; ?>
+
+    <?php
+if (isset($_SESSION['mensaje'])) {
+    $mensaje = $_SESSION['mensaje'];
+    $alertType = $mensaje['type'] == 'success' ? 'success' : 'error';
+    // Escapar los caracteres especiales del mensaje
+    $text = htmlspecialchars($mensaje['text'], ENT_QUOTES, 'UTF-8');
+    echo "<script>
+        Swal.fire({
+            title: '$alertType',
+            text: '$text',
+            icon: '$alertType',
+            confirmButtonText: 'OK'
+        }).then(function() {
+            window.location.href = '/BDM-CI/kardex';
+        });
+    </script>";
+    unset($_SESSION['mensaje']); // Elimina el mensaje después de mostrarlo
+}
+?>
+
     <!-- Filtros del Kardex -->
     <div class="container mt-4">
     <h1>Kardex de Cursos</h1>
@@ -41,7 +69,6 @@
                 <option value="todos">Todos</option>
                 <option value="completado">Solo cursos completados</option>
                 <option value="activo">Solo cursos activos</option>
-                <option value="inactivo">Solo cursos inactivos</option>
             </select>
         </div>
         <div class="col-md-12">
@@ -109,17 +136,21 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="commentForm" action="guardar_comentario.php" method="POST">
+                <form id="commentForm" action="/BDM-CI/kardex" method="POST">
+                    <!-- ID del Curso -->
                     <input type="hidden" id="commentCourseId" name="ID_Curso">
-                    <!-- Título del comentario -->
+                    <input type="hidden" id="userId" name="ID_Usuario" value="<?= $user['ID_Usuario']; ?>">
+                    
+                    <!-- Título del Comentario -->
                     <div class="mb-3">
                         <label for="commentTitle" class="form-label">Título del Comentario</label>
                         <input type="text" class="form-control" id="commentTitle" name="TituloComentario" placeholder="Escribe el título de tu comentario" required>
                     </div>
-                    <!-- Selección de Estrellas -->
+                    
+                    <!-- Calificación -->
                     <div class="mb-3">
                         <label class="form-label">Calificación (1 a 5 estrellas)</label>
-                        <select id="rating" name="Calificacion" class="form-select">
+                        <select id="rating" name="Calificacion" class="form-select" required>
                             <option value="1">1 Estrella</option>
                             <option value="2">2 Estrellas</option>
                             <option value="3">3 Estrellas</option>
@@ -127,11 +158,14 @@
                             <option value="5" selected>5 Estrellas</option>
                         </select>
                     </div>
-                    <!-- Descripción del comentario -->
+                    
+                    <!-- Descripción del Comentario -->
                     <div class="mb-3">
                         <label for="commentDescription" class="form-label">Descripción</label>
-                        <textarea class="form-control" id="commentDescription" name="DescripcionComentario" rows="4" placeholder="Escribe tus comentarios aquí" required></textarea>
+                        <textarea class="form-control" id="commentDescription" name="Comentario" rows="4" placeholder="Escribe tus comentarios aquí" required></textarea>
                     </div>
+                    
+                    <!-- Botón de Envío -->
                     <button type="submit" class="btn btn-primary">Enviar Comentario</button>
                 </form>
             </div>
@@ -141,13 +175,20 @@
 
 
 <script>
+    // Escucha el evento de mostrar el modal
     document.addEventListener('DOMContentLoaded', function () {
         const commentModal = document.getElementById('commentModal');
+        const commentCourseIdInput = document.getElementById('commentCourseId');
+
         commentModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget; // Botón que activó el modal
+            // Botón que activa el modal
+            const button = event.relatedTarget;
+
+            // Obtiene el valor de data-id-curso del botón
             const courseId = button.getAttribute('data-id-curso');
-            const courseIdInput = document.getElementById('commentCourseId');
-            courseIdInput.value = courseId; // Asigna el ID del curso al input oculto
+
+            // Asigna el valor al input oculto
+            commentCourseIdInput.value = courseId;
         });
     });
 </script>

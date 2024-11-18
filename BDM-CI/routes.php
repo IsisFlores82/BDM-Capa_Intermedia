@@ -41,12 +41,14 @@ $router->get('/BDM-CI/ventaDetallada','controller/ventaDetallada.controller.php'
 $router->get('/BDM-CI/crearCurso','controller/crearCurso.controller.php')->only('Instructor');
 $router->get('/BDM-CI/editarCurso','controller/editCourse.controller.php')->only('Instructor');
 $router->get('/BDM-CI/logOut','controller/logOut.controller.php');
+$router->get('/BDM-CI/generatePDF','controller/generatePDF.controller.php');
 
 $router->post('/BDM-CI/logIn','controller/logIn.controller.php')->only('guest');
 $router->post('/BDM-CI/signUp','controller/signUp.controller.php')->only('guest');
 
 $router->post('/BDM-CI/profile','controller/profile.controller.php')->only('Alumno');
 $router->patch('/BDM-CI/profile','controller/profile.controller.php')->only('Alumno');
+$router->post('/BDM-CI/kardex','controller/kardex.controller.php')->only('Alumno');
 
 $router->post('/BDM-CI/profileAdmin','controller/profileAdmin.controller.php')->only('Admin');
 $router->patch('/BDM-CI/profileAdmin','controller/profileAdmin.controller.php')->only('Admin');
@@ -57,10 +59,13 @@ $router->patch('/BDM-CI/profileInstructor','controller/profileInstructor.control
 $router->post('/BDM-CI/courseDetail','controller/courseDetail.controller.php')->only('NoInstructor');
 $router->post('/BDM-CI/carrito','controller/carrito.controller.php')->only('Alumno');
 $router->post('/BDM-CI/carrito/eliminarDelCarrito','controller/eliminarDelCarrito.controller.php')->only('Alumno');
-$router->post('/BDM-CI/cursarCurso/checkLevelProgress','controller/checkLevelProgress.controller.php')->only('Alumno');
+$router->post('/BDM-CI/cursarCurso/checkLevelProgress','controller/checkLevelProgress.controller.php')->only('NoInstructor');
+$router->delete('/BDM-CI/courseDetail','controller/courseDetail.controller.php')->only('Admin');
 
 $router->post('/BDM-CI/crearCurso','controller/crearCurso.controller.php')->only('Instructor');
 $router->post('/BDM-CI/editarCurso','controller/editCourse.controller.php')->only('Instructor');
 $router->patch('/BDM-CI/editarCurso','controller/editCourse.controller.php')->only('Instructor');
 $router->delete('/BDM-CI/editarCurso','controller/editCourse.controller.php')->only('Instructor');
 $router->post('/BDM-CI/profileInstructor/deleteCourse','controller/deleteCourse.controller.php')->only('Instructor');
+
+$router->post('/BDM-CI/generatePDF','controller/generatePDF.controller.php');

@@ -430,5 +430,30 @@ END$$
 
 DELIMITER ;
 
+DELIMITER $$
+
+CREATE TRIGGER prevent_duplicate_comments
+BEFORE INSERT ON Comentario
+FOR EACH ROW
+BEGIN
+    DECLARE activeComment INT;
+
+    -- Verificar si ya existe un comentario activo para el curso y usuario
+    SELECT COUNT(*) 
+    INTO activeComment
+    FROM Comentario
+    WHERE ID_Curso = NEW.ID_Curso 
+      AND ID_Usuario = NEW.ID_Usuario
+      AND Status = 1;
+
+    -- Si existe un comentario activo, lanza un error para evitar la inserción
+    IF activeComment > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Ya existe un comentario activo para este curso por este usuario.';
+    END IF;
+END$$
+
+DELIMITER ;
+
 
 

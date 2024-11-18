@@ -5,12 +5,14 @@ require "Model/Course.php";
 require "Model/Category.php";
 require "Model/Level.php";
 require "Model/Cart.php";
+require "Model/Comment.php";
 $config = require 'config.php';
 $userDb = new User($config['database']);
 $courseDb = new Course($config['database']);
 $categoryDb = new Category($config['database']);
 $levelDb = new Level($config['database']);
 $cartDb= new Cart($config['database']);
+$commentDb = new Comment($config['database']);
 if(isset($_SESSION['user'])){
     $id = $_SESSION['user']['ID_Usuario'];
     $user = $userDb->getUserById($id);
@@ -29,7 +31,26 @@ if(empty($course)){
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Obtener los datos enviados desde el formulario
+    // Verificar si estamos recibiendo datos para eliminar un comentario
+    if (isset($_POST['id_comentario']) && isset($_POST['_method']) && $_POST['_method'] === 'DELETE') {
+        // Eliminar un comentario
+        $id_comentario = $_POST['id_comentario'];
+        $motivo_eliminacion = $_POST['motivo_eliminacion'];
+        $id_curso = $_POST['id_curso'];
+        try {
+            $commentDb->deleteComment($id_comentario, $motivo_eliminacion);
+            $_SESSION['mensaje'] = ['text' => 'Comentario eliminado exitosamente.', 'type' => 'success'];
+        } catch (PDOException $e) {
+            $_SESSION['mensaje'] = ['text' => 'Error al eliminar el comentario.', 'type' => 'error'];
+        }
+
+        // Redirigir a la página de detalles del curso
+        $id_curso = $_POST['id_curso'];  // Obtener el ID del curso para redirigir
+        header('Location: /BDM-CI/courseDetail?id=' . $id_curso);
+        exit();
+    }
+
+    // Si es para agregar al carrito
     $id_usuario = $_POST['id_usuario'];  // ID del usuario
     $tipo = $_POST['tipo'];              // Tipo: 'curso' o 'nivel'
     $id_curso = $_POST['id_curso'];
@@ -56,6 +77,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['mensaje'] = ['text' => 'Error al agregar el curso al carrito.', 'type' => 'error'];
         }
     }
+
+    // Redirigir al curso después de agregar al carrito
     header('Location: /BDM-CI/courseDetail?id='. $id_curso);
     exit();
 }
@@ -65,8 +88,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $levels = $levelDb->getLevelsByCourse($courseId);
 
 // Obtener nombre de la categoría
-$category = $categoryDb->getCategoryById($course['ID_Categoria']);
+$categoryCourse = $categoryDb->getCategoryById($course['ID_Categoria']);
 
+// Obtener calificación del curso
+$calificacion = $courseDb->getCourseRating($courseId);
+// Obtener comentarios del curso    
+$comentarios = $commentDb->getCourseComments($courseId);
 // Obtener nombre completo del instructor
 $instructorUser = $userDb->getUserById($course['ID_Instructor']);
 $instructor= $instructorUser['Nombre'] . " " . $instructorUser['Apellidos'];

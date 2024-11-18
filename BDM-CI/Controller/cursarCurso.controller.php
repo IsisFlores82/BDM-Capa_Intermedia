@@ -43,6 +43,14 @@ $nivelesComprados = $cursoComprado
 $inscriptionDb->llenarProgresoNiveles($id);
 $result = $inscriptionDb->getProgreso($id, $cursoId);
 $progreso = $result['PorcentajeProgreso'] ?? 0;
+$certificadoExistente = $inscriptionDb->getCertificadoPath($id, $cursoId);
+
+$progreso = (float)$progreso; // Convierte el progreso a número
+if ($progreso === 100.00 && empty($certificadoExistente)) {
+    // Redirigir al controlador de generación de certificado
+    header("Location: /BDM-CI/generatePDF?id_curso=$cursoId");
+    exit;
+}
     if (!empty($user['Foto'])) {
         $finfo = new finfo(FILEINFO_MIME_TYPE);
         $mimeType = $finfo->buffer($user['Foto']);

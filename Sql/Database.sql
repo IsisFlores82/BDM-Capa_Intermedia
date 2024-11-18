@@ -94,6 +94,7 @@ select * from Inscripciones;
 ALTER TABLE Inscripciones
 ADD CONSTRAINT UNQ_Inscripcion UNIQUE (ID_Curso, ID_Usuario);
 
+                  
 CREATE TABLE if not exists Inscripciones_Niveles (
     ID_Inscripcion_Nivel INT AUTO_INCREMENT PRIMARY KEY,
     ID_Nivel INT NOT NULL,
@@ -110,7 +111,6 @@ select * from Inscripciones_Niveles;
 ALTER TABLE Inscripciones_Niveles
 ADD CONSTRAINT UNQ_Inscripcion_Nivel UNIQUE (ID_Nivel, ID_Usuario);
 
-describe Inscripciones_Niveles;
 CREATE TABLE if not exists Progreso_Niveles (
     ID_Progreso INT AUTO_INCREMENT PRIMARY KEY,
     ID_Usuario INT NOT NULL,
@@ -139,6 +139,7 @@ CREATE TABLE if not exists Comentario (
     ID_Curso INT,
     ID_Usuario INT,
     Calificacion INT,
+    Titulo varchar(30),
     Comentario TEXT,
     Fecha_Creacion  DATETIME DEFAULT CURRENT_TIMESTAMP,
     Status TINYINT(1) DEFAULT 1,
@@ -172,11 +173,11 @@ CREATE TABLE if not exists Nivel_Progreso_Log (
 );
 select * FROM Nivel_Progreso_Log;
 
-select * from View_Inscripciones_Niveles;
-select * from View_Inscripciones_Cursos;
+select * from CoursesWithInstructors;
+select * from VistaComentariosConUsuarios;
 select * from View_Inscripciones_Combinadas;
-select * from KardexUsuario;
-select * from KardexUsuario;
-select * from Resumen_Inscripciones_Cursos;
+select * from View_InstructoresEstadisticas;
+select * from View_AlumnosEstadisticas;
 select * from Ventas_Totales_Cursos;
+select * from Vista_Detallada_Ventas;
 

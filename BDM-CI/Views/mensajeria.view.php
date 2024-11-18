@@ -14,7 +14,13 @@
   
 </head>
 <body class="bg-body-secondary">
-<?php require 'Components/headerStudent.php'; ?>
+<?php
+if($_SESSION['user']['Rol']==='Alumno'){
+require 'Components/headerStudent.php';
+}else if($_SESSION['user']['Rol']==='Administrador'){
+require 'Components/headerAdmin.php';
+}
+?>
   
  
   <div class="container row-12 d-flex justify-content-center bg-body-secondary">

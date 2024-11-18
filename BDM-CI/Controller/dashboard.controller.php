@@ -8,6 +8,7 @@ $courseDb = new Course($config['database']);
 $categoryDb = new Category($config['database']);
 $coursesFav = $courseDb->getFavCourses();
 $generalCourses = $courseDb->getCoursesWithInstructorsFromView();
+$featuredCourses = $courseDb->getFeaturedCourses();
 $categories = $categoryDb->getCategories();
 
 if(isset($_SESSION['user'])){

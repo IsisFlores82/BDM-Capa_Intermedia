@@ -23,7 +23,6 @@ if(!$courseDb->validateCourseOwnership($courseId, $id)){
 $start_date = isset($_GET['startDate']) ? $_GET['startDate'] : null;
 $end_date = isset($_GET['endDate']) ? $_GET['endDate'] : null;
 $estado_curso = isset($_GET['statusFilter']) && $_GET['statusFilter'] != 'todos' ? $_GET['statusFilter'] : null;
-dd($estado_curso);
 $alumnos = $salesReportDb->getDetailedSales($courseId, $start_date, $end_date, $estado_curso);
 if (!empty($user['Foto'])) {
     $finfo = new finfo(FILEINFO_MIME_TYPE);

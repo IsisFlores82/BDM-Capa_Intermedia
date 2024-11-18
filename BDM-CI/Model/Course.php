@@ -35,6 +35,48 @@ class Course
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function searchCursos($filters) {
+        $sql = "
+            SELECT *
+            FROM CoursesWithInstructors
+            WHERE Status = 1
+        ";
+        
+        $params = [];
+        
+        // Filtros dinámicos
+        if (!empty($filters['title'])) {
+            $sql .= " AND Course_Title LIKE :title";
+            $params['title'] = '%' . $filters['title'] . '%';
+        }
+        
+        if (!empty($filters['category'])) {
+            $sql .= " AND ID_Categoria = :category";
+            $params['category'] = $filters['category'];
+        }
+        
+        if (!empty($filters['author'])) {
+            $sql .= " AND CONCAT(Instructor_Nombre, ' ', Instructor_Apellidos) LIKE :author";
+            $params['author'] = '%' . $filters['author'] . '%';
+        }
+        
+        if (!empty($filters['startDate'])) {
+            $sql .= " AND Fecha_Creacion >= :startDate";
+            $params['startDate'] = $filters['startDate'];
+        }
+        
+        if (!empty($filters['endDate'])) {
+            $sql .= " AND Fecha_Creacion <= :endDate";
+            $params['endDate'] = $filters['endDate'];
+        }
+        
+        $stmt = $this->con->getCon()->prepare($sql);
+        $stmt->execute($params);
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+
     public function getCoursesWithInstructorsFromViewById($id) {
         $query = "SELECT * FROM CoursesWithInstructors WHERE ID_Curso = :id AND Status = 1";
         $stmt = $this->con->getCon()->prepare($query);
@@ -56,7 +98,38 @@ class Course
         return $stmt->fetchColumn();
     }
 
+    public function getCourseRating($id) {
+        $query = "SELECT CalcularPromedioCurso(:id) AS CalificacionPromedio";
+        $stmt = $this->con->getCon()->prepare($query);
+        $stmt->execute(['id' => $id]);
+        $result = $stmt->fetchColumn();
+        
+        if ($result === false) {
+            return 0; // Devuelve 0 si el curso no existe o no tiene comentarios
+        }
+        return $result;
+    }
+
+    public function getTotalActiveCourses()
+    {
+        $query = "SELECT COUNT(*) AS TotalCursos FROM Curso WHERE Status = 1";
+        return $this->con->getCon()->query($query)->fetchColumn();
+    }
+
+    public function getTotalCategories()
+    {
+        $query = "SELECT COUNT(*) AS TotalCategorias FROM Categorias WHERE Status = 1";
+        return $this->con->getCon()->query($query)->fetchColumn();
+    }
+
     public function getFavCourses() {
+        $queryFav = "SELECT * FROM CoursesWithInstructors ORDER BY Average_Rating DESC LIMIT 2";
+        $stmtFav = $this->con->getCon()->prepare($queryFav);
+        $stmtFav->execute();
+        return $stmtFav->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getFeaturedCourses() {
         $query = "SELECT * FROM CoursesWithInstructors WHERE Status = 1 ORDER BY RAND() LIMIT 2";
         $stmt = $this->con->getCon()->prepare($query);
         $stmt->execute();

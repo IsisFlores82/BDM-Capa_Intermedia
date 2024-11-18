@@ -13,149 +13,84 @@
 </head>
 <body>
 <?php require 'Components/headerAdmin.php'; ?>
-    <!-- Filtros del Kardex -->
-    <h1 class="text-center">Reporte de Usuarios</h1>
-    <!-- resumen de Cursos -->
-  <div class="container">
+<h1 class="text-center">Reporte de Usuarios</h1>
 
-    <div class="row d-flex justify-content-around align-items-top">
+<!-- Instructores -->
+<div class="container mt-4">
+    <h2>Instructores</h2>
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Usuario</th>
+                <th>Nombre</th>
+                <th>Fecha ingreso</th>
+                <th>Cursos ofrecidos</th>
+                <th>Total de ganancias</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($instructores as $instructor): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($instructor['Usuario']); ?></td>
+                    <td><?php echo htmlspecialchars($instructor['Nombre']); ?></td>
+                    <td><?php echo htmlspecialchars(date('d/M/Y', strtotime($instructor['FechaIngreso']))); ?></td>
+                    <td><?php echo htmlspecialchars($instructor['CursosOfrecidos']); ?></td>
+                    <td>MX $<?php echo htmlspecialchars(number_format($instructor['Ganancias'], 2)); ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
 
-      <div class="col">
-        <h2>Instructores</h2>
-        <table class="table table-bordered table-striped">
-          <thead class="table-dark">
-              <tr>
-                  <th>Usuario</th>
-                  <th>Nombre</th>
-                  <th>Fecha ingreso</th>
-                  <th>Cursos ofrecidos</th>
-                  <th>Total de ganancias</th>
-              </tr>
-          </thead>
-          <tbody>
-              <!-- Ejemplo de curso incompleto -->
-              <tr>
-                  <td>Hatsune Miku</td>
-                  <td>Hatsune Miku</td>
-                  <td>31/Ago/2024</td>
-                  <td>2</td>
-                  <td>MX $242,757.00</td>
-              </tr>
-              <!-- Ejemplo de curso completado -->
-              <tr>
-                <td>Villareal</td>
-                <td>Juan Alejandro Villareal</td>
-                <td>05/02/2023</td>
-                <td>1</td>
-                <td>MX $31,450.00</td>
-              </tr>
-              <!-- Más cursos aquí -->
-          </tbody>
-        </table>
-      </div>
+<!-- Alumnos -->
+<div class="container mt-4">
+    <h2>Alumnos</h2>
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Usuario</th>
+                <th>Nombre</th>
+                <th>Fecha ingreso</th>
+                <th>Cursos Inscritos</th>
+                <th>% Cursos terminados</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($alumnos as $alumno): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($alumno['Usuario']); ?></td>
+                    <td><?php echo htmlspecialchars($alumno['Nombre']); ?></td>
+                    <td><?php echo htmlspecialchars(date('d/M/Y', strtotime($alumno['FechaIngreso']))); ?></td>
+                    <td><?php echo htmlspecialchars($alumno['CursosInscritos']); ?></td>
+                    <td><?php echo htmlspecialchars($alumno['PorcentajeCursosTerminados']); ?>%</td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
 
-
-      </div>
-
-
+<!-- Resumen -->
+<div class="container mt-4">
+    <h3>Resumen</h3>
+    <hr>
+    <div class="row">
+        <div class="col-lg-6">Total Alumnos:</div>
+        <div class="col-lg-6 text-end"><?php echo htmlspecialchars($totalAlumnos); ?></div>
     </div>
-    
-  </div>
+    <div class="row">
+        <div class="col-lg-6">Total Instructores:</div>
+        <div class="col-lg-6 text-end"><?php echo htmlspecialchars($totalInstructores); ?></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">Total cursos ofertados:</div>
+        <div class="col-lg-6 text-end"><?php echo htmlspecialchars($totalCursos); ?></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">Total categorias:</div>
+        <div class="col-lg-6 text-end"><?php echo htmlspecialchars($totalCategorias); ?></div>
+    </div>
+</div>
 
-  <div class="container">
-
-    <div class="row d-flex justify-content-around align-items-top">
-
-      <div class="col">
-        <h2>Alumnos</h2>
-        <table class="table table-bordered table-striped">
-          <thead class="table-dark">
-            <tr>
-              <th>Usuario</th>
-              <th>Nombre</th>
-              <th>Fecha ingreso</th>
-              <th>Cursos Inscritos</th>
-              <th>% Cursos terminados</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <!-- Ejemplo de curso incompleto -->
-            <tr>
-                <td>Isis</td>
-                <td>Isis Esmeralda Flores Montes</td>
-                <td>15/024/2024</td>
-                <td>3</td>
-                <td>72%</td>
-            </tr>
-            <!-- Ejemplo de curso completado -->
-            <tr>
-              <td>Pinkus</a></td>
-              <td>Carlos Daniel Pinkus Martinez</td>
-              <td>18/09/2024</td>
-              <td>2</td>
-              <td>92%</td>
-            </tr>
-            <!-- Más cursos aquí -->
-          </tbody>
-        </table>
-      </div>
-    </div>    
-  </div>
-
-
-  <div class="container mt-4">
-          
-      <div class="col ">
-        <div class="row">
-          <h3>Resumen</h3>
-          <hr>
-          
-          <div  class="row mt-1s">
-            <div class="col-lg-7 ">            
-              <p>Total Alumnos:</p>
-            </div>
-            <div class="col-lg-5">            
-              <p class="text-end">120</p>
-              </div>
-          </div>
-        
-          <div  class="row mt-1">
-            <div class="col-lg-7 ">            
-              <p>Total Instructores:</p>
-            </div>
-            <div class="col-lg-5">            
-              <p class="text-end">35 </p>
-              </div>
-          </div>
-        
-          <div  class="row mt-1">
-            <div class="col-lg-7 ">            
-              <p>Total cursos ofertados:</p>
-            </div>
-            <div class="col-lg-5">            
-              <p class="text-end">82 </p>
-              </div>
-          </div>
-
-          <div  class="row mt-1">
-            <div class="col-lg-7 ">            
-              <p>Total categorias:</p>
-            </div>
-            <div class="col-lg-5">            
-              <p class="text-end">7 </p>
-              </div>
-          </div>
-
-
-
-          </div>
-          
-        
-        </div>        
-      </div>
-  
-  </div>
 
 
 </body>

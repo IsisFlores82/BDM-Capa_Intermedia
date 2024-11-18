@@ -1,18 +1,24 @@
 <header class="d-flex justify-content-between align-items-center py-3">
         <div class="d-flex align-items-center">
             <a href="/BDM-CI/" class="btn"> 
-                <img src="Resources/logoPlacerHolder.png" alt="Logo" width="40" height="40"></img> 
+                <img src="Logo.png" alt="Logo" width="40" height="40"></img> 
             </a>  
             <div class="dropdown">
                 <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-bars"></i> Categorías
                 </button>
+                <?php 
+                require_once 'Model/Category.php';
+                    $config = require 'config.php';
+                    $category = new Category($config['database']);
+                    $categories = $category->getCategories();
+                    ?>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="/BDM-CI/search">Desarrollo</a></li>
-                    <li><a class="dropdown-item" href="/BDM-CI/search">Bases de Datos</a></li>
-                    <li><a class="dropdown-item" href="/BDM-CI/search">Marketing</a></li>
-                    <li><a class="dropdown-item" href="/BDM-CI/search">Diseño</a></li>
-                    <li><a class="dropdown-item" href="/BDM-CI/search">Unreal</a></li>
+                    <?php
+                foreach($categories as $category){
+                        echo '<li><a class="dropdown-item" href="/BDM-CI/search?category='.$category['ID_Categoria'].'">'.$category['Nombre'].'</a></li>';
+                    }
+                    ?>
                 </ul>
             </div>
         </div>

@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         foreach ($items as $tipo => $ids) {
             foreach ($ids as $index => $id) {
                 $monto_pagado = $pagado[$tipo][$index] ?? 0; // Monto pagado correspondiente
-
+                $monto_pagado = str_replace(',', '', $monto_pagado); // Elimina las comas
                 // Agregar el item a la base de datos dependiendo del tipo
                 $inserted = false;
                 if ($tipo === 'curso') {
@@ -124,8 +124,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
     } catch (PDOException $e) {
-        dd($e);
-        alert('aaa');
         // Manejar errores
         $_SESSION['mensaje'] = [
             'type' => 'error',

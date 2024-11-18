@@ -68,7 +68,19 @@ class User{
         return $blockedAccounts;
     }
     
+    public function getInstructorsWithStats()
+    {
+        $query = "SELECT * FROM View_InstructoresEstadisticas";
+        return $this->con->getCon()->query($query)->fetchAll(PDO::FETCH_ASSOC);
+    }
     
+    public function getStudentsWithStats()
+    {
+        $query = "SELECT * FROM View_AlumnosEstadisticas";
+        return $this->con->getCon()->query($query)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
     public function disableUser($email) {
         $query = "CALL disableUser(:email)";
         $stmt = $this->con->getCon()->prepare($query);

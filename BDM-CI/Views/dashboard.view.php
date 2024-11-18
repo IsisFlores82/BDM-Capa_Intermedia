@@ -73,6 +73,12 @@ require 'Components/headerAdmin.php';
                                             // Imagen de respaldo si no hay una imagen guardada en el curso
                                             $fotoSrc = "https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg";
                                         }
+
+                                        // Obtener calificación promedio
+                                        $calificacion = $course['Average_Rating'] ?? 0; // Predeterminado a 0 si no hay calificación
+                                        $fullStars = floor($calificacion);
+                                        $halfStar = ($calificacion - $fullStars) >= 0.5 ? 1 : 0;
+                                        $emptyStars = 5 - ($fullStars + $halfStar);
                                         ?>
                                         <img src="<?= $fotoSrc ?>" alt="Curso" class="img-fluid course-image">
                                     
@@ -81,13 +87,77 @@ require 'Components/headerAdmin.php';
                                         <p class="card-text"><?= htmlspecialchars($course['Instructor_Nombre']) . " " . htmlspecialchars($course['Instructor_Apellidos']) ?></p>
                                         <p class="card-text"><?= $course['Course_Price'] ?>$</p>
                                     
-                                        <!-- Reseñas de estrellas (puedes reemplazarlo si tienes datos de calificación) -->
                                         <div class="text-warning">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
+                                            <?php
+                                            // Renderizar estrellas dinámicamente
+                                            for ($i = 0; $i < $fullStars; $i++) {
+                                                echo '<i class="fas fa-star"></i>';
+                                            }
+                                            if ($halfStar) {
+                                                echo '<i class="fas fa-star-half-alt"></i>';
+                                            }
+                                            for ($i = 0; $i < $emptyStars; $i++) {
+                                                echo '<i class="far fa-star"></i>';
+                                            }
+                                            ?>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </section>
+
+             <!-- Favorites section -->
+             <section>
+                <h2 class="h5 mt-4">Recomendados</h2>
+                <div class="row">
+                    <?php foreach ($featuredCourses as $course): ?>
+                        <div class="col-md-6">
+                            <a href="/BDM-CI/courseDetail?id=<?= $course['ID_Curso'] ?>" class="card-link">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <?php
+                                        // Procesamiento del BLOB de imagen para mostrarla correctamente
+                                        if (!empty($course['Course_Image'])) {
+                                            $finfo = new finfo(FILEINFO_MIME_TYPE);
+                                            $mimeType = $finfo->buffer($course['Course_Image']); // Detecta el tipo MIME
+                                            $fotoBase64 = base64_encode($course['Course_Image']); // Codifica la imagen en base64
+                                            $fotoSrc = "data:" . $mimeType . ";base64," . $fotoBase64;
+                                        } else {
+                                            // Imagen de respaldo si no hay una imagen guardada en el curso
+                                            $fotoSrc = "https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg";
+                                        }
+
+                                        // Obtener calificación promedio
+                                        $calificacion = $course['Average_Rating'] ?? 0; // Predeterminado a 0 si no hay calificación
+                                        $fullStars = floor($calificacion);
+                                        $halfStar = ($calificacion - $fullStars) >= 0.5 ? 1 : 0;
+                                        $emptyStars = 5 - ($fullStars + $halfStar);
+                                        ?>
+                                        <img src="<?= $fotoSrc ?>" alt="Curso" class="img-fluid course-image">
+                                    
+                                        <!-- Título, Autor y costo del curso -->
+                                        <h5 class="card-title"><?= htmlspecialchars($course['Course_Title']) ?></h5>
+                                        <p class="card-text"><?= htmlspecialchars($course['Instructor_Nombre']) . " " . htmlspecialchars($course['Instructor_Apellidos']) ?></p>
+                                        <p class="card-text"><?= $course['Course_Price'] ?>$</p>
+                                    
+                                        <div class="text-warning">
+                                            <?php
+                                            // Renderizar estrellas dinámicamente
+                                            for ($i = 0; $i < $fullStars; $i++) {
+                                                echo '<i class="fas fa-star"></i>';
+                                            }
+                                            if ($halfStar) {
+                                                echo '<i class="fas fa-star-half-alt"></i>';
+                                            }
+                                            for ($i = 0; $i < $emptyStars; $i++) {
+                                                echo '<i class="far fa-star"></i>';
+                                            }
+                                            ?>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -116,17 +186,31 @@ require 'Components/headerAdmin.php';
                                         } else {
                                             $fotoSrc = "https://miro.medium.com/v2/resize:fit:698/1*0jjdu52m0MO4SjLWiCVOlg.jpeg";
                                         }
+                                    
+                                        // Obtener calificación promedio
+                                        $calificacion = $course['Average_Rating'] ?? 0; // Predeterminado a 0 si no hay calificación
+                                        $fullStars = floor($calificacion);
+                                        $halfStar = ($calificacion - $fullStars) >= 0.5 ? 1 : 0;
+                                        $emptyStars = 5 - ($fullStars + $halfStar);
                                         ?>
                                         <img src="<?= $fotoSrc ?>" alt="Curso" class="img-fluid course-image">
                                         <h5 class="card-title"><?= htmlspecialchars($course['Course_Title']) ?></h5>
                                         <p class="card-text"><?= htmlspecialchars($course['Instructor_Nombre']) . " " . htmlspecialchars($course['Instructor_Apellidos']) ?></p>
                                         <p class="card-text"><?= htmlspecialchars($course['Course_Price']) ?>$</p>
                                         <div class="text-warning">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
+                                            <?php
+                                            // Renderizar estrellas dinámicamente
+                                            for ($i = 0; $i < $fullStars; $i++) {
+                                                echo '<i class="fas fa-star"></i>';
+                                            }
+                                            if ($halfStar) {
+                                                echo '<i class="fas fa-star-half-alt"></i>';
+                                            }
+                                            for ($i = 0; $i < $emptyStars; $i++) {
+                                                echo '<i class="far fa-star"></i>';
+                                            }
+                                            ?>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -135,6 +219,7 @@ require 'Components/headerAdmin.php';
                     <?php endforeach; ?>
                 </div>
             </section>
+
 
         </main>
     </div>
