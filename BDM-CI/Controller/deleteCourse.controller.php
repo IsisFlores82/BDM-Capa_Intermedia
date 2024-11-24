@@ -16,9 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $id = $_POST['ID_Curso'];
     $instructorId = $userId;
 
-    dd($id);
-    dd($instructorId);
-
     if ($courseDb->deleteCourse($id, $instructorId)) {
         $_SESSION['mensaje'] = ['text' => 'Curso eliminado exitosamente.', 'type' => 'success'];
     } else {

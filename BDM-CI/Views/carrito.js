@@ -47,7 +47,6 @@ document.getElementById("submitPayment").addEventListener("click", function (e) 
 
     // If all validations pass
     if (isValid) {
-        alert("Compra exitosa");
         $('#exampleModal').modal('hide');
     }
   });

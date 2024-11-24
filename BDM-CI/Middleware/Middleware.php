@@ -4,6 +4,7 @@ require 'Alumno.php';
 require 'Admin.php';
 require 'AdminAlumno.php';
 require 'NoInstructor.php';
+require 'AlumnoInstructor.php';
 
 class Middleware{
     public const MAP= [
@@ -11,7 +12,8 @@ class Middleware{
         'Alumno'=>Alumno::class,
         'Admin'=>Admin::class,
         'AdminAlumno'=>AdminAlumno::class,
-        'NoInstructor'=>NoInstructor::class
+        'NoInstructor'=>NoInstructor::class,
+        'AlumnoInstructor'=>AlumnoInstructor::class
     ];
 
     public static function resolve($role){

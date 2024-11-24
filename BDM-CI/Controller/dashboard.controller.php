@@ -4,6 +4,7 @@ require "Model/Course.php";
 require "Model/Category.php";
 $config = require 'config.php';
 $userDb = new User($config['database']);
+
 $courseDb = new Course($config['database']);
 $categoryDb = new Category($config['database']);
 $coursesFav = $courseDb->getFavCourses();

@@ -17,8 +17,8 @@
 <?php
 if($_SESSION['user']['Rol']==='Alumno'){
 require 'Components/headerStudent.php';
-}else if($_SESSION['user']['Rol']==='Administrador'){
-require 'Components/headerAdmin.php';
+}else if($_SESSION['user']['Rol']==='Instructor'){
+require 'Components/headerInstructor.php';
 }
 ?>
   
@@ -34,123 +34,115 @@ require 'Components/headerAdmin.php';
         </div>
       </nav>
 
-      <div class="row-12 message-div d-flex align-text-center pb-0" type="button" >
-       <p>Mateo Zamora Grajeda</p>
-      </div>
-      <div class="row-12 message-div d-flex align-text-center pb-0"  type="button">
-        <p>Carlos Daniel Pinkus Martinez</p>
-       </div>
-       <div class="row-12 message-div d-flex align-text-center pb-0"  type="button">
-        <p>Oscar Fabian Vasquez Soto</p>
-       </div>
-       <div class="row-12 message-div d-flex align-text-center pb-0"  type="button">
-        <p> Roberto Carlos Dominguez Espinoza </p>
-       </div>
+      <!-- Lista de usuarios con los que se puede chatear -->
+        <?php if (!empty($chatUsers)): ?>
+            <?php foreach ($chatUsers as $chatUser): ?>
+                <div class="row-12 message-div d-flex align-text-center pb-0" type="button" 
+                     onclick="window.location.href='/BDM-CI/mensajeria?receiver_id=<?= htmlspecialchars($chatUser['ID_Usuario']) ?>'">
+                    <p><?= htmlspecialchars($chatUser['Nombre'] . " " . $chatUser['Apellidos']) ?></p>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div class="row-12 message-div d-flex align-text-center pb-0">
+                <p>No hay usuarios disponibles para chatear.</p>
+            </div>
+        <?php endif; ?>
     </div>
 
-    <div class="col-10">
-      <nav class="navbar bg-body-tertiary  border">
+
+   <div class="col-10">
+    <nav class="navbar bg-body-tertiary border">
         <div class="container-fluid">
-          <a class="navbar-brand" >  
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCNM52XKceg1vqlOVhINMtDKT-pAw9EncJLg&s" alt="Logo" width="40" height="40" class="d-inline-block align-text-center rounded-circle"> 
-            <b>CARLOS DANIEL PINKUS MARTINEZ</b>
-          </a>
+            <a class="navbar-brand">
+                <img src="<?= htmlspecialchars($fotoSrcR) ?>" 
+                     alt="ImgPerfil" width="40" height="40" class="d-inline-block align-text-center rounded-circle"> 
+<b>Chat con <?= htmlspecialchars($receiverUser['Nombre'] . ' ' . $receiverUser['Apellidos']) ?></b>
+        </a>            </a>
         </div>
-      </nav>
-      <div class="chat-container">
-            
-        <div class="d-flex justify-content-end align-items-center text-break text-wrap me-2 mt-2" style="height: 100px;">           
-          <div class="message-container-me">
-            <p class="mb-0 text-secondary text-end">15/04/2024 | 9:30hrs</p>
-            <div class="p-2 bg-info-subtle rounded">
-              Mensaje de isis
-            </div>  
-          </div>                          
-        </div>
+    </nav>
 
-        <div class="d-flex justify-content-end align-items-center text-break text-wrap me-2 mt-2">           
-          <div class="message-container-me">
-            <p class="mb-0 text-secondary text-end">15/04/2024 | 9:30hrs</p>
-            <div class="p-2 bg-info-subtle rounded">
-              esto se seupone q debe de ser un mensaje largo largo largo para que ver como funiona el romper la linea en el mensaje, sin que se rompa preferentemente y que tampoco se panse de lanza y se vaya a de vacaiones de lejos
-            </div>  
-          </div>                          
-        </div>
+<div class="chat-container">
+    <div class="chat-container-messages" id="chat-container">
+       <!-- Aquí se cargarán los mensajes dinámicamente -->
+    </div>
 
-        <div class="row-12 d-flex justify-content-start align-items-center text-break text-wrap ms-1  mt-2">
-          <div class="message-container col-7">
-            <p class="mb-0 text-secondary"> 15/04/2024 | 9:30hrs</p>
-            <div class="p-2 bg-light text-grap rounded message-container">
-              Mensaje de pinkus omg sera qe finalmente funconan los mensajes con la fecha y si son largo y aunqeu eno lo sean pls dimeq si qp ya me queiro ir a mimirrrr aa
-            </div>
-          </div>          
-        </div>
+    <!-- Zona de envío de mensajes -->
 
-        <div class="row-12 d-flex justify-content-start align-items-center text-break text-wrap ms-1 mt-2">
-          <div class="message-container col-7">
-            <p class="mb-0 text-secondary"> 15/04/2024 | 9:30hrs</p>
-            <div class="p-2 bg-light text-grap rounded message-container">Mensaje de pinkus que muy muy muuuuuuuy largo para ver si si esta funcionando el brak y el grap text omg y que pasa di lo hago aun maaaaaaaaaaaaaaaas largo? hmmmmmmmmmmmmmmm me da que eso ya es mucho texto, deberia de romperse mucho antes no te parece surioso?</div>
-          </div>          
-        </div>
-
-        <div class="d-flex justify-content-end align-items-center text-break text-wrap me-2 mt-2">           
-          <div class="message-container-me">
-            <p class="mb-0 text-secondary text-end">15/04/2024 | 9:30hrs</p>
-            <div class="p-2 bg-info-subtle rounded">
-              Mensaje de isis
-            </div>  
-          </div>                          
-        </div>
-
-        
-        <div class="row-12 d-flex justify-content-start align-items-center text-break text-wrap ms-1 mt-1">
-          <div class="message-container col-7">
-            <p class="mb-0 text-secondary"> 15/04/2024 | 9:30hrs</p>
-            <div class="mt-0 p-2 bg-light text-grap rounded message-container">Mensaje de pinkus</div>
-          </div>          
-        </div>
-
-        <div class="d-flex justify-content-end align-items-center text-break text-wrap me-2 mt-2">           
-          <div class="message-container-me">
-            <p class="mb-0 text-secondary text-end">15/04/2024 | 9:30hrs</p>
-            <div class="p-2 bg-info-subtle rounded">
-              Mensaje de isis
-            </div>  
-          </div>                          
-        </div>
-
-        <div class="d-flex justify-content-end align-items-center text-break text-wrap me-2 mt-2">           
-          <div class="message-container-me">
-            <p class="mb-0 text-secondary text-end">15/04/2024 | 9:30hrs</p>
-            <div class="p-2 bg-info-subtle rounded">
-              Mensaje de isis
-            </div>  
-          </div>                          
-        </div>
-
-        <div class="row-12 d-flex justify-content-start align-items-center text-break text-wrap ms-1 mt-1">
-          <div class="message-container col-7">
-            <p class="mb-0 text-secondary"> 15/04/2024 | 9:30hrs</p>
-            <div class="mt-0 p-2 bg-light text-grap rounded message-container">Mensaje de pinkus</div>
-          </div>          
-        </div>
-        
-      </div>
-
-      <div class="row">
+</div>
+    <div class="row">
         <div class="container col-10 bg-body-secondary mt-2">
-          <div class="row bg-light-subtle rounded">
-            <textarea name="" id="" class="hacer-mensaje rounded col-11"></textarea>
-            <button class="btn col-1 d-flex justify-content-center align-items-center">
-              <i class="bi bi-send fs-4 text"></i>
-            </button>
-          </div>
-          <br>
-        </div>
-      </div>
-      
+<form id="send-message-form" class="row bg-light-subtle rounded">
+    <textarea name="message" id="message" class="hacer-mensaje rounded col-11" required></textarea>
+    <input type="hidden" id="sender" name="id_emisor" value="<?= $id?>">
+    <input type="hidden" id="receiver"name="id_receptor" value="<?= $id_receptor ?>">
+    <button type="submit" class="btn col-1 d-flex justify-content-center align-items-center">
+        <i class="bi bi-send fs-4 text"></i>
+    </button>
+</form>
+
+           <br>
+       </div>
     </div>
   </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+function fetchMessages() {
+    var sender = $('#sender').val();
+    var receiver = $('#receiver').val();
+
+    $.ajax({
+        url: '/BDM-CI/fetchMessages',
+        type: 'POST',
+        data: {sender: sender, receiver: receiver},
+        success: function(data) {
+            console.log(data); // Verifica que se reciban los mensajes correctamente
+            $('#chat-container').html(data);
+            scrollChatToBottom(); // Desplaza hacia abajo automáticamente
+        },
+        error: function(err) {
+            console.error('Error fetching messages:', err);
+        }
+    });
+}
+
+
+        // Function to scroll the chat box to the bottom
+        function scrollChatToBottom() {
+            var chatBox = $('#chat-container');
+            chatBox.scrollTop(chatBox.prop("scrollHeight"));
+        }
+
  
+        
+        $(document).ready(function() {
+            // Fetch messages every 3 seconds
+            
+            fetchMessages();
+            setInterval(fetchMessages, 3000);
+        });
+
+            // Submit the chat message
+            $('#send-message-form').submit(function(e) {
+            e.preventDefault();
+            var sender = $('#sender').val();
+            var receiver = $('#receiver').val();
+            var message = $('#message').val();
+
+            $.ajax({
+                url: '/BDM-CI/sendMessage',
+                type: 'POST',
+                data: {sender: sender, receiver: receiver, message: message},
+                success: function() {
+                    console.log($('#message').val()); // Esto debería mostrar el mensaje enviado
+$('#message').val(''); // Asegúrate de que el campo se vacíe
+                    fetchMessages(); // Fetch messages after submitting
+                }
+            });
+
+            });
+</script>
+
+
+
 </body>
 </html>

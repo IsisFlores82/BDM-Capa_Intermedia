@@ -27,6 +27,13 @@ class User{
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    
+    public function getChatableUsers($rol){
+        $query = "SELECT * FROM Usuario WHERE Rol = :rol AND Status = 1";
+        $stmt = $this->con->getCon()->prepare($query);
+        $stmt->execute(['rol' => $rol]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public function getUserByEmail($email) {
         $query = "SELECT * FROM Usuario WHERE Email = :email";

@@ -161,15 +161,69 @@ if (isset($_SESSION['mensaje'])) {
           </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary" id="submitPayment">Realizar Pago</button>
+            <button type="button" class="btn btn-primary" id="submitPayment">Realizar Pago</button>
+            <?php
+              $api = "https://www.sandbox.paypal.com/cgi-bin/webscr";
+              $paypal_return_url='https://www.mikuacademy.fun/BDM-CI/carrito';
+              $paypal_shopping_url='https://www.mikuacademy.fun/BDM-CI/carrito';
+              $paypal_notify_url='https://www.mikuacademy.fun/BDM-CI/carrito';
+              $paypal_business="sb-be01f34251525@facilitator.example.com";
+              ?>
               <!-- Botón de PayPal -->
-              <button type="button" class="btn btn-outline-primary d-flex align-items-center" id="payWithPayPal">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/1200px-PayPal.svg.png" alt="PayPal" style="width: 80px; height: 24px; margin-right: 8px;">
-              </button>
+              <form action="<?=$api?>" method="POST">
+    <input type="hidden" name="cmd" value="_xclick">
+    <input type="hidden" name="business" value="<?= $paypal_business?>">
+    <input type="hidden" name="item_name" value="Compra de cursos/niveles">
+    <input type="hidden" name="amount" value="<?= number_format($totalAmount, 2, '.', ''); ?>"> <!-- Total en pesos -->
+    <input type="hidden" name="currency_code" value="MXN"> <!-- Moneda en pesos mexicanos -->
+    <input type="hidden" name="return" value="<?=$paypal_return_url?>">
+    <input type="hidden" name="cancel_return" value="<?=$paypal_shopping_url?>">
+    <input type="hidden" name="notify_url" value="<?=$paypal_notify_url?>">
+    <input type="hidden" name="custom" value="<?= $id ?>"> <!-- ID de usuario -->
+    <input type="hidden" name="items" value='<?= json_encode($carritoEnriquecido); ?>'>
+    <button type="submit" class="btn btn-outline-primary d-flex align-items-center" id="payWithPayPal">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/1200px-PayPal.svg.png" alt="PayPal" style="width: 80px; height: 24px; margin-right: 8px;">
+</button>
+            </form> 
           </div>
       </div>
   </div>
 </div>
+<?php if ($paypalCompleted): ?>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "/BDM-CI/carrito";
+
+        <?php foreach ($carritoEnriquecido as $index => $item): ?>
+            // Agregar datos del carrito al formulario
+            const inputTipo<?= $index ?> = document.createElement("input");
+            inputTipo<?= $index ?>.type = "hidden";
+            inputTipo<?= $index ?>.name = "items[<?= $item["Tipo"] ?>][]";
+            inputTipo<?= $index ?>.value = "<?= $item["Tipo"] === "curso" ? $item["ID_Curso"] : $item["ID_Nivel"] ?>";
+            form.appendChild(inputTipo<?= $index ?>);
+
+            const inputTotal<?= $index ?> = document.createElement("input");
+            inputTotal<?= $index ?>.type = "hidden";
+            inputTotal<?= $index ?>.name = "Pagado[<?= $item["Tipo"] ?>][]";
+            inputTotal<?= $index ?>.value = "<?= number_format($item["Tipo"] === "curso" ? $item["Course_Price"] : $item["Level_Price"], 2) ?>";
+            form.appendChild(inputTotal<?= $index ?>);
+        <?php endforeach; ?>
+
+        // Agregar ID del usuario
+        const user_id = document.createElement("input");
+        user_id.type = "hidden";
+        user_id.name = "user_id";
+        user_id.value = "<?= $id ?>";
+        form.appendChild(user_id);
+
+        document.body.appendChild(form);
+        form.submit(); // Enviar formulario automáticamente
+    });
+</script>
+<?php endif; ?>
+
 <script>
         document.querySelectorAll('.delete-btn').forEach(button => {
             button.addEventListener('click', function (event) {
@@ -193,35 +247,86 @@ if (isset($_SESSION['mensaje'])) {
             });
         });
 
-        document.getElementById('submitPayment').addEventListener('click', function () {
-    // Crear un formulario oculto
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = '/BDM-CI/carrito';
+document.getElementById("submitPayment").addEventListener("click", function (e) {
+    e.preventDefault(); // Evita el envío predeterminado
 
-    // Agregar los datos de los cursos y niveles
-    <?php foreach ($carritoEnriquecido as $index => $item): ?>
-        const inputTipo<?= $index ?> = document.createElement('input');
-        inputTipo<?= $index ?>.type = 'hidden';
-        inputTipo<?= $index ?>.name = 'items[<?= $item["Tipo"] ?>][]';
-        inputTipo<?= $index ?>.value = '<?= $item["Tipo"] === "curso" ? $item["ID_Curso"] : $item["ID_Nivel"] ?>';
-        form.appendChild(inputTipo<?= $index ?>);
+    const cardHolder = document.getElementById("cardHolderName").value.trim();
+    const cardNumber = document.getElementById("cardNumber").value.trim();
+    const expirationMonth = document.getElementById("expirationMonth").value.trim();
+    const expirationYear = document.getElementById("expirationYear").value.trim();
+    const cvv = document.getElementById("cvv").value.trim();
+    let isValid = true;
 
-        const inputTotal<?= $index ?> = document.createElement('input');
-        inputTotal<?= $index ?>.type = 'hidden';
-        inputTotal<?= $index ?>.name = 'Pagado[<?= $item["Tipo"] ?>][]';
-        inputTotal<?= $index ?>.value = '<?= number_format($item["Tipo"] === "curso" ? $item["Course_Price"] : $item["Level_Price"], 2) ?>';
-        form.appendChild(inputTotal<?= $index ?>);
-    <?php endforeach; ?>
+    // Regex patterns
+    const cardNumberPattern = /^\d{16}$/; // 16 digits
+    const monthPattern = /^(0[1-9]|1[0-2])$/; // 01-12 for months
+    const yearPattern = /^\d{2}$/; // 2 digits for year
+    const cvvPattern = /^\d{3}$/; // 3 digits for CVV
+    const cardHolderPattern = /^[A-Za-z\s]+$/; // Solo letras y espacios
 
-    const user_id = document.createElement('input');
-    user_id.type = 'hidden';
-    user_id.name = 'user_id';
-    user_id.value = '<?= $id ?>';
-    form.appendChild(user_id);
-    // Agregar el formulario al body y enviarlo
-    document.body.appendChild(form);
-    form.submit();
+    // Card Holder name validation
+    if (cardHolder === "" || !cardHolderPattern.test(cardHolder)) {
+        document.getElementById("cardNameError").style.display = "block";
+        isValid = false;
+    } else {
+        document.getElementById("cardNameError").style.display = "none";
+    }
+
+    // Card number validation
+    if (!cardNumberPattern.test(cardNumber)) {
+        document.getElementById("cardNumberError").style.display = "block";
+        isValid = false;
+    } else {
+        document.getElementById("cardNumberError").style.display = "none";
+    }
+
+    // Expiration month and year validation
+    if (!monthPattern.test(expirationMonth) || !yearPattern.test(expirationYear)) {
+        document.getElementById("expirationError").style.display = "block";
+        isValid = false;
+    } else {
+        document.getElementById("expirationError").style.display = "none";
+    }
+
+    // CVV validation
+    if (!cvvPattern.test(cvv)) {
+        document.getElementById("cvvError").style.display = "block";
+        isValid = false;
+    } else {
+        document.getElementById("cvvError").style.display = "none";
+    }
+
+    // If all validations pass
+    if (isValid) {
+
+        // Crear y enviar formulario dinámicamente
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "/BDM-CI/carrito";
+
+        <?php foreach ($carritoEnriquecido as $index => $item): ?>
+            const inputTipo<?= $index ?> = document.createElement("input");
+            inputTipo<?= $index ?>.type = "hidden";
+            inputTipo<?= $index ?>.name = "items[<?= $item["Tipo"] ?>][]";
+            inputTipo<?= $index ?>.value = "<?= $item["Tipo"] === "curso" ? $item["ID_Curso"] : $item["ID_Nivel"] ?>";
+            form.appendChild(inputTipo<?= $index ?>);
+
+            const inputTotal<?= $index ?> = document.createElement("input");
+            inputTotal<?= $index ?>.type = "hidden";
+            inputTotal<?= $index ?>.name = "Pagado[<?= $item["Tipo"] ?>][]";
+            inputTotal<?= $index ?>.value = "<?= number_format($item["Tipo"] === "curso" ? $item["Course_Price"] : $item["Level_Price"], 2) ?>";
+            form.appendChild(inputTotal<?= $index ?>);
+        <?php endforeach; ?>
+
+        const user_id = document.createElement("input");
+        user_id.type = "hidden";
+        user_id.name = "user_id";
+        user_id.value = "<?= $id ?>";
+        form.appendChild(user_id);
+
+        document.body.appendChild(form);
+        form.submit(); // Enviar formulario
+    }
 });
 
 

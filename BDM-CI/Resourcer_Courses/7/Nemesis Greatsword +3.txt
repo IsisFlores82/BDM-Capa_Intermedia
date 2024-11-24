@@ -1,0 +1,5 @@
+Nemesis Greatsword +3 Legendary
+This weapon damage is magical
+If you have both Swords you gain 3 charges of Gravity each day at dawn you may spent them in 2 ways:
+-You may use a charge and a reaction to move up to 10 feet and make an attack or the other way around.
+-You may use 2 charges to make all creatures in a 20-foot radius centere on you, take a dc 17 Strength Saving Throw or be pulled 15 feet straight to you and take 3d8 force damage. If you use 3 charges, you can slam the greatsword down, generating a gravitational explosion, each creature within the radious must suceed on a DC 17 Dexterity Save or take 3d12 bludgeoning damage be pushed back 15 feet and knocked prone on a failure, on a success a creature takes half as much damage an isn't pushed back nor knocked prone.

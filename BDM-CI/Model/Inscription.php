@@ -68,6 +68,12 @@ class Inscription
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function procesarLog(){
+        $sql= "CALL procesarNivelProgresoLogs()";
+        $stmt = $this->con->getCon()->prepare($sql);
+        return $stmt->execute();
+    }
+
     public function obtenerNivelesPoseidos($userId) {
         $sql = "
             SELECT ID_Nivel, NivelTitulo, ID_Curso, CursoTitulo

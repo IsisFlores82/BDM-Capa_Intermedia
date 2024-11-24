@@ -55,7 +55,7 @@ if (isset($_SESSION['mensaje'])) {
                 
                 <div class="mb-4">
                     <h1>Curso: <?= htmlspecialchars($course['Titulo']) ?></h1>
-                    <a href="/BDM-CI/mensajeria">Instructor: <?= htmlspecialchars($instructor) ?></a>
+                    <a href="/BDM-CI/mensajeria?receiver_id=<?= htmlspecialchars($instructorUser['ID_Usuario']) ?>">Instructor: <?= htmlspecialchars($instructor) ?></a>
                     <div class="rating">
                         <?php
                         // Número de estrellas llenas, medias y vacías basado en la calificación

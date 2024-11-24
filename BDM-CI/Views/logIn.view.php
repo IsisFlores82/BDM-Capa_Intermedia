@@ -17,6 +17,78 @@
   
 </head>
 <body>
+    <?php
+// Cargar la configuración de Facebook desde el archivo config.php
+$config = require('config.php');
+$facebookConfig = $config['facebook'];
+?>
+    <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '<?php echo $facebookConfig['id']; ?>',
+      cookie     : true,
+      xfbml      : true,
+      version    : '<?php echo $facebookConfig['version']; ?>'
+    });
+      
+    FB.AppEvents.logPageView();   
+      
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+   
+   
+FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+});
+
+
+function checkLoginState() {
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+  });
+}
+
+function statusChangeCallback(response) {
+  console.log('Facebook login status:', response);
+
+  // Verifica el estado de la conexión
+  if (response.status === 'connected') {
+    // El usuario está conectado a Facebook y tiene un token de acceso válido
+    console.log('Conectado a Facebook con el token:', response.authResponse.accessToken);
+    // Puedes hacer una llamada para obtener información del usuario aquí
+    obtenerInfoUsuario();
+  } else {
+    // El usuario no está conectado
+    console.log('No está conectado a Facebook');
+    // Puedes mostrar un mensaje de error o redirigir al usuario para que se loguee
+  }
+}
+
+// Función para obtener información del usuario después de iniciar sesión
+function obtenerInfoUsuario() {
+  FB.api('/me', { fields: 'id,name,email' }, function(response) {
+    console.log('Información del usuario:', response);
+ // Extraer nombre completo y separar en nombre y apellido
+    var fullName = response.name; // El nombre completo (nombre y apellido)
+    var nameParts = fullName.split(" "); // Divide el nombre completo por el espacio
+    var firstName = nameParts[0]; // El primer nombre
+    var lastName = nameParts.slice(1).join(" "); // El apellido (puede contener más de una palabra)
+
+    // Rellenar los campos del formulario con los datos
+    document.getElementById('Nombre').value = firstName;
+    document.getElementById('Apellido').value = lastName;
+    document.getElementById('Email').value = response.email;
+  });
+}
+
+</script>
 
 <?php
 if (isset($_SESSION['mensaje'])) {
@@ -54,13 +126,7 @@ if (isset($_SESSION['mensaje'])) {
 }
 ?>
 
-<?php // for each de testeo para ver que jale los datos de la bd
-  foreach ($users as $user): ?>
-        
-  <p class="">
-    <?= htmlspecialchars($user['Email']) ?> / <?= htmlspecialchars($user['Nombre']) ?>
-  </p>
-<?php endforeach; ?> 
+
 
 
   <div class="d-flex flex-column w-100 vh-100 align-items-center justify-content-center bg-light-subtle">
@@ -171,6 +237,12 @@ if (isset($_SESSION['mensaje'])) {
             <div class="col-12 align-items-center justify-content-center d-flex">
             <a href="/BDM-CI/signUp" class="btn btn-outline-secondary"> Ya tengo cuenta</a>
             </div>
+            <div class="col-12 align-items-center justify-content-center d-flex">
+                              <fb:login-button 
+  scope="public_profile,email"
+  onlogin="checkLoginState();"> Rellenar con Datos Facebook
+</fb:login-button>
+            </div>
           </form>
         </div>
   
@@ -247,6 +319,7 @@ $(document).ready(function() {
 
     // Validar fecha de nacimiento (no en el futuro)
     const today = new Date();
+    console.log(today);
     const birthdate = new Date(birthdateInput.val());
     if (birthdate > today || isNaN(birthdate.getTime())) {
       birthdateInput.addClass("is-invalid");

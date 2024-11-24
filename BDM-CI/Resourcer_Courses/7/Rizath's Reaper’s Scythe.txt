@@ -1,0 +1,10 @@
+Rizath's Reaper’s Scythe
+Weapon (scythe), very rare (forceful attunement)
+
+Once you touch this item, you can't un-attunement from it, unless you die in witch case tis item attunes to the next creature that touches it. This item was obtained with a deal with Rizath, being attuned to this items means you accept the deal with Rizath.
+
+You gain a +1 bonus to attack and damage rolls made with this magic weapon. All damage dealt by this weapon is necrotic damage. While attuned to this weapon, you can use a bonus action to target a creature you can see within 60 feet. You learn the creature’s current hit points and hit point maximum.
+
+The scythe has 3 charges. While wielding this weapon, you can use your action to expend 1 charge to target a creature within 60 feet of you that is below half of its hit point maximum and force it to succeed on a DC 15 Constitution saving throw or take 33 (6d10) necrotic damage. This ability has no effect on undead or constructs.
+
+The scythe can only regain expended charges from Rizath.

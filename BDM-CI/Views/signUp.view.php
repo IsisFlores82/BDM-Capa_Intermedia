@@ -50,6 +50,8 @@ if (isset($_SESSION['mensaje'])) {
     unset($_SESSION['mensaje']); // Elimina el mensaje después de mostrarlo
 }
 ?>
+
+
   <div class="d-flex flex-column w-100 vh-100 align-items-center justify-content-center bg-light-subtle">
 
     <div class="container bg-info-subtle text-primary-emphasis rounded p-5">

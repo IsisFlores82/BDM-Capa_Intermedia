@@ -26,8 +26,8 @@ $courseId = $_GET['id'] ?? null;
 // Obtener detalles del curso
 $course = $courseDb->getCourseById($courseId);
 if(empty($course)){
-    // header("Location: /BDM-CI/dashboard");
-    // exit;
+    header("Location: /BDM-CI/dashboard");
+    exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

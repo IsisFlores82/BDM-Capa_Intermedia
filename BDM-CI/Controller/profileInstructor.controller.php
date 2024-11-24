@@ -25,7 +25,7 @@ function handleImageUpload($file, $maxFileSize = 5242880) { // 5MB default
     $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
     $detectedType = finfo_file($fileInfo, $file['tmp_name']);
     finfo_close($fileInfo);
-
+    dd($detectedType);
     if (!in_array($detectedType, $allowedTypes)) {
         return ['error' => 'Tipo de archivo no permitido. Solo se permiten JPEG y PNG.'];
     }

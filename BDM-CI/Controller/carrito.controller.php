@@ -78,6 +78,15 @@ foreach ($carrito as $item) {
 
 $total = $cartDb->getTotal($id);
 $totalAmount = $total['Total']; // Acceso más directo
+
+
+// Verificar si PayerID está presente en el GET
+if (isset($_GET['PayerID']) && !empty($_GET['PayerID'])) {
+    $paypalCompleted = true;
+} else {
+    $paypalCompleted = false;
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $items = $_POST['items'] ?? [];
     $pagado = $_POST['Pagado'] ?? [];
@@ -119,6 +128,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             // Si es gratuito, asignar un estado especial "gratuito"
                             $cartDb->updateStatusByLevelId($id, 2);  // Ejemplo: 2 puede ser el estado para "gratuito"
                         }
+                        $inscripcionesDB->procesarLog();
+
                     }
                 }
             }
